@@ -74,8 +74,10 @@ gunShadowOpacityTexture.flipY = false
 */
 const interactionObjects = {}
 let pointerInstancedMesh  = null
+const pointerColor = new THREE.Color(0x7E1E00)
 const roomModelGroup = new THREE.Group()
 scene.add(roomModelGroup)
+
 
 /**
  * 여러개의 mesh로 이루어진 그룹의 요소를 객체 {name: Mesh} 형태로 정리
@@ -102,7 +104,6 @@ const setObjectGroup = (object, children) =>
 	}
 }
 
-
 gltfLoader.load(
 	'/gltf/model.gltf',
 	(gltf) =>
@@ -125,6 +126,15 @@ gltfLoader.load(
 		// pointer instanced mesh 저장
 		pointerInstancedMesh = model.children.find((child) => child.name === 'PointerGroup')
 		pointerInstancedMesh.material.transparent = true
+
+		for(let i = 0; i < pointerInstancedMesh.count; i++)
+		{
+			pointerInstancedMesh.setColorAt(i, pointerColor)
+		}
+		pointerInstancedMesh.instanceColor.needsUpdate = true;
+
+		gui.add(pointerInstancedMesh, 'visible').name('pointer 보이기')
+
 
 		// can, gun shadow texture 적용
 		interactionObjects.gunShadow.material = new THREE.MeshStandardMaterial({
@@ -162,6 +172,23 @@ gltfLoader.load(
 	}
 )
 
+
+/**
+ * Mouse
+ */
+const mouse = new THREE.Vector2()
+
+window.addEventListener('mousemove', (event) =>
+{
+	mouse.x = event.clientX / sizes.width * 2 - 1
+	mouse.y = - (event.clientY / sizes.height) * 2 + 1
+})
+
+/**
+ * Raycaster
+ */
+const raycaster = new THREE.Raycaster()
+
 /**
  * Renderer
  */
@@ -174,12 +201,71 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.render(scene, camera)
 
+
 /**
  * Update
  */
 const clock = new THREE.Clock()
+const pointerActivateColor = new THREE.Color(0xec4a38)
+let prevPointerInstancedId = null
+const pointerMatrix = new THREE.Matrix4()
+const scaleAmount = 1.5
+const scaleUpMatrix = new THREE.Matrix4().makeScale(scaleAmount, scaleAmount, scaleAmount)
+const scaleDownMatrix = new THREE.Matrix4().makeScale(1/scaleAmount, 1/scaleAmount, 1/scaleAmount)
+let isMouseIn = false
 const tick = () =>
 {
+	raycaster.setFromCamera(mouse, camera)
+
+	if(pointerInstancedMesh)
+	{
+		const intersection = raycaster.intersectObject(pointerInstancedMesh)
+
+		if(intersection.length > 0)
+		{
+			const instancedId = intersection[ 0 ].instanceId
+
+			// Color
+			pointerInstancedMesh.setColorAt( instancedId, pointerActivateColor )
+			pointerInstancedMesh.instanceColor.needsUpdate = true;
+
+			// Matrix
+			if(!isMouseIn)
+			{
+				pointerInstancedMesh.getMatrixAt(instancedId, pointerMatrix)
+				pointerMatrix.multiply(scaleUpMatrix)
+				pointerInstancedMesh.setMatrixAt(instancedId, pointerMatrix)
+				pointerInstancedMesh.instanceMatrix.needsUpdate = true
+			}
+
+			isMouseIn = true
+			document.body.style.cursor = 'pointer'
+			prevPointerInstancedId = instancedId
+		}
+		else
+		{
+			if(prevPointerInstancedId !== null)
+			{
+				// Color
+				pointerInstancedMesh.instanceColor.needsUpdate = true;
+				pointerInstancedMesh.setColorAt( prevPointerInstancedId, pointerColor )
+				pointerInstancedMesh.instanceColor.needsUpdate = true;
+
+				// Matrix
+				if(isMouseIn)
+				{
+					pointerInstancedMesh.getMatrixAt(prevPointerInstancedId, pointerMatrix)
+					pointerMatrix.multiply(scaleDownMatrix)
+					pointerInstancedMesh.setMatrixAt(prevPointerInstancedId, pointerMatrix)
+					pointerInstancedMesh.instanceMatrix.needsUpdate = true
+				}
+
+				isMouseIn = false
+				document.body.style.cursor = 'default'
+				prevPointerInstancedId = null
+			}
+		}
+	}
 	orbitControl.update()
 	renderer.render(scene, camera)
 	window.requestAnimationFrame(tick)

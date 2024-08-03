@@ -388,9 +388,9 @@
 			"name":"Pointer",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
-					0.20816290378570557,
-					0.01278642937541008,
-					0,
+					1,
+					1,
+					1,
 					0.75
 				],
 				"metallicFactor":0,
@@ -1480,14 +1480,14 @@
 			"componentType":5126,
 			"count":15,
 			"max":[
-				0.12499043345451355,
-				0.12499043345451355,
-				0.024897560477256775
+				0.1910574585199356,
+				0.1910574585199356,
+				0.038057830184698105
 			],
 			"min":[
-				-0.12499043345451355,
-				-0.07481249421834946,
-				-0.022789981216192245
+				-0.1910574585199356,
+				-0.114356629550457,
+				-0.03483623266220093
 			],
 			"type":"VEC3"
 		},
@@ -1509,19 +1509,19 @@
 		{
 			"bufferView":19,
 			"componentType":5126,
-			"count":9,
+			"count":8,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":20,
 			"componentType":5126,
-			"count":9,
+			"count":8,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":21,
 			"componentType":5126,
-			"count":9,
+			"count":8,
 			"type":"VEC3"
 		}
 	],
@@ -1623,18 +1623,18 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":108,
+			"byteLength":96,
 			"byteOffset":804244
 		},
 		{
 			"buffer":0,
-			"byteLength":144,
-			"byteOffset":804352
+			"byteLength":128,
+			"byteOffset":804340
 		},
 		{
 			"buffer":0,
-			"byteLength":108,
-			"byteOffset":804496
+			"byteLength":96,
+			"byteOffset":804468
 		}
 	],
 	"samplers":[
@@ -1651,7 +1651,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":804604,
+			"byteLength":804564,
 			"uri":"model.bin"
 		}
 	]
