@@ -130,6 +130,11 @@ gltfLoader.load(
 		setObjectGroup(interactionObjects, interactionGroup.children)
 		console.log('interaction objects', interactionObjects)
 
+		// wind bell rotation speed 저장
+		interactionObjects.WindBellGroup.windBell01.rotationSpeed = Math.random() * 2
+		interactionObjects.WindBellGroup.windBell02.rotationSpeed = Math.random() * 2
+		interactionObjects.WindBellGroup.windBell03.rotationSpeed = Math.random() * 2
+
 		// pointer instanced mesh 저장
 		pointerInstancedMesh = model.children.find((child) => child.name === 'PointerGroup')
 		pointerInstancedMesh.material.transparent = true
@@ -208,31 +213,10 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.render(scene, camera)
 
-
-// 상태 로그 함수
-function logCameraState() {
-	console.log("Camera position:", camera.position);
-	console.log("Camera zoom:", camera.zoom);
-	console.log("Polar angle:", orbitControl.getPolarAngle());
-	console.log("Azimuthal angle:", orbitControl.getAzimuthalAngle());
-	console.log("Target:", orbitControl.target);
-}
-
-// 키보드 이벤트로 상태 출력
-window.addEventListener('keydown', (event) => {
-if (event.key === 's') { // 's' 키를 누르면 상태를 출력
-	logCameraState();
-	//camera.position.set(...pointerIndex[0].camera.position)
-	//orbitControl.target.set(...pointerIndex[0].camera.target)
-}
-});
-
-
 const pointerCameraFocus = (index) =>
 {
 	return (e) =>
 	{
-		console.log('허허')
 		camera.position.set(...pointerIndex[ index ].cameraPosition)
 		orbitControl.target.set(...pointerIndex[ index ].controlTarget)
 	}
@@ -250,11 +234,25 @@ const scaleUpMatrix = new THREE.Matrix4().makeScale(scaleAmount, scaleAmount, sc
 const scaleDownMatrix = new THREE.Matrix4().makeScale(1/scaleAmount, 1/scaleAmount, 1/scaleAmount)
 let isMouseIn = false
 let pointerClickEventFunction
-let testFunction = () => { console.log('윈도우가 클릭 되었습니다.')}
 
 const tick = () =>
 {
+	const elapsedTime = clock.getElapsedTime()
+
+	/**
+	 * Wind bell rotation
+	 */
+	for(let key in interactionObjects.WindBellGroup)
+	{
+		const windbell = interactionObjects.WindBellGroup[key]
+		windbell.rotation.y = Math.sin(elapsedTime * windbell.rotationSpeed) * 0.5
+	}
+
+	/**
+	 * Raycaster
+	 */
 	raycaster.setFromCamera(mouse, camera)
+
 	/**
 	 * pointer interaction
 	 */
