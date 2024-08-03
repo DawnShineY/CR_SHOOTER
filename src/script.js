@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { DRACOLoader, GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js'
 import GUI from 'lil-gui'
+import pointerIndex from './pointerIndex'
 
 /**
  * Debug
@@ -208,6 +209,35 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.render(scene, camera)
 
 
+// 상태 로그 함수
+function logCameraState() {
+	console.log("Camera position:", camera.position);
+	console.log("Camera zoom:", camera.zoom);
+	console.log("Polar angle:", orbitControl.getPolarAngle());
+	console.log("Azimuthal angle:", orbitControl.getAzimuthalAngle());
+	console.log("Target:", orbitControl.target);
+}
+
+// 키보드 이벤트로 상태 출력
+window.addEventListener('keydown', (event) => {
+if (event.key === 's') { // 's' 키를 누르면 상태를 출력
+	logCameraState();
+	//camera.position.set(...pointerIndex[0].camera.position)
+	//orbitControl.target.set(...pointerIndex[0].camera.target)
+}
+});
+
+
+const pointerCameraFocus = (index) =>
+{
+	return (e) =>
+	{
+		console.log('허허')
+		camera.position.set(...pointerIndex[ index ].cameraPosition)
+		orbitControl.target.set(...pointerIndex[ index ].controlTarget)
+	}
+}
+
 /**
  * Update
  */
@@ -219,10 +249,15 @@ const scaleAmount = 1.5
 const scaleUpMatrix = new THREE.Matrix4().makeScale(scaleAmount, scaleAmount, scaleAmount)
 const scaleDownMatrix = new THREE.Matrix4().makeScale(1/scaleAmount, 1/scaleAmount, 1/scaleAmount)
 let isMouseIn = false
+let pointerClickEventFunction
+let testFunction = () => { console.log('윈도우가 클릭 되었습니다.')}
+
 const tick = () =>
 {
 	raycaster.setFromCamera(mouse, camera)
-
+	/**
+	 * pointer interaction
+	 */
 	if(pointerInstancedMesh)
 	{
 		const intersection = raycaster.intersectObject(pointerInstancedMesh)
@@ -230,18 +265,22 @@ const tick = () =>
 		if(intersection.length > 0)
 		{
 			const instancedId = intersection[ 0 ].instanceId
-
+			
 			// Color
 			pointerInstancedMesh.setColorAt( instancedId, pointerActivateColor )
 			pointerInstancedMesh.instanceColor.needsUpdate = true;
 
-			// Matrix
 			if(!isMouseIn)
 			{
+				// Matrix
 				pointerInstancedMesh.getMatrixAt(instancedId, pointerMatrix)
 				pointerMatrix.multiply(scaleUpMatrix)
 				pointerInstancedMesh.setMatrixAt(instancedId, pointerMatrix)
 				pointerInstancedMesh.instanceMatrix.needsUpdate = true
+
+				// Click Eventlistener
+				pointerClickEventFunction = pointerCameraFocus(instancedId)
+				window.addEventListener('click', pointerClickEventFunction)
 			}
 
 			isMouseIn = true
@@ -252,18 +291,22 @@ const tick = () =>
 		{
 			if(prevPointerInstancedId !== null)
 			{
+
 				// Color
 				pointerInstancedMesh.instanceColor.needsUpdate = true;
 				pointerInstancedMesh.setColorAt( prevPointerInstancedId, pointerColor )
 				pointerInstancedMesh.instanceColor.needsUpdate = true;
 
-				// Matrix
 				if(isMouseIn)
 				{
+					// Matrix
 					pointerInstancedMesh.getMatrixAt(prevPointerInstancedId, pointerMatrix)
 					pointerMatrix.multiply(scaleDownMatrix)
 					pointerInstancedMesh.setMatrixAt(prevPointerInstancedId, pointerMatrix)
 					pointerInstancedMesh.instanceMatrix.needsUpdate = true
+
+					// Click Eventlistener
+					window.removeEventListener('click', pointerClickEventFunction)
 				}
 
 				isMouseIn = false
@@ -271,6 +314,7 @@ const tick = () =>
 				prevPointerInstancedId = null
 			}
 		}
+
 	}
 	orbitControl.update()
 	renderer.render(scene, camera)
