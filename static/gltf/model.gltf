@@ -21,8 +21,8 @@
 			"name":"Scene",
 			"nodes":[
 				2,
-				21,
-				22
+				29,
+				30
 			]
 		}
 	],
@@ -208,6 +208,74 @@
 			]
 		},
 		{
+			"name":"candle1Position",
+			"translation":[
+				-1.2549550533294678,
+				3.43212890625,
+				-3.2926836013793945
+			]
+		},
+		{
+			"name":"candle2Position",
+			"translation":[
+				0.9218579530715942,
+				3.316770315170288,
+				-3.300868034362793
+			]
+		},
+		{
+			"name":"fireplacePosition",
+			"translation":[
+				-0.15801358222961426,
+				1.5339301824569702,
+				-2.3175153732299805
+			]
+		},
+		{
+			"name":"lamp1Position",
+			"translation":[
+				-3.5584373474121094,
+				2.964851140975952,
+				-1.243614912033081
+			]
+		},
+		{
+			"name":"lamp2Position",
+			"translation":[
+				2.900613307952881,
+				2.2907724380493164,
+				3.1668872833251953
+			]
+		},
+		{
+			"name":"lightPosition",
+			"translation":[
+				4.455787658691406,
+				3.301124334335327,
+				-2.422978639602661
+			]
+		},
+		{
+			"name":"standPosition",
+			"translation":[
+				-3.8580994606018066,
+				3.222862958908081,
+				0.8957540392875671
+			]
+		},
+		{
+			"children":[
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21
+			],
+			"name":"LightsPositionGroup"
+		},
+		{
 			"mesh":13,
 			"name":"lockerDoor",
 			"translation":[
@@ -254,9 +322,9 @@
 		},
 		{
 			"children":[
-				17,
-				18,
-				19
+				25,
+				26,
+				27
 			],
 			"name":"WindBellGroup"
 		},
@@ -269,9 +337,10 @@
 				11,
 				12,
 				14,
-				15,
-				16,
-				20
+				22,
+				23,
+				24,
+				28
 			],
 			"name":"InteractionGroup"
 		},
@@ -1528,113 +1597,113 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":483831,
+			"byteLength":483838,
 			"byteOffset":0
 		},
 		{
 			"buffer":0,
 			"byteLength":144012,
-			"byteOffset":483832
+			"byteOffset":483840
 		},
 		{
 			"buffer":0,
 			"byteLength":209,
-			"byteOffset":627844
+			"byteOffset":627852
 		},
 		{
 			"buffer":0,
 			"byteLength":218,
-			"byteOffset":628056
+			"byteOffset":628064
 		},
 		{
 			"buffer":0,
 			"byteLength":206,
-			"byteOffset":628276
+			"byteOffset":628284
 		},
 		{
 			"buffer":0,
 			"byteLength":5710,
-			"byteOffset":628484
+			"byteOffset":628492
 		},
 		{
 			"buffer":0,
 			"byteLength":177,
-			"byteOffset":634196
+			"byteOffset":634204
 		},
 		{
 			"buffer":0,
 			"byteLength":214,
-			"byteOffset":634376
+			"byteOffset":634384
 		},
 		{
 			"buffer":0,
 			"byteLength":1767,
-			"byteOffset":634592
+			"byteOffset":634600
 		},
 		{
 			"buffer":0,
 			"byteLength":121997,
-			"byteOffset":636360
+			"byteOffset":636368
 		},
 		{
 			"buffer":0,
 			"byteLength":183,
-			"byteOffset":758360
+			"byteOffset":758368
 		},
 		{
 			"buffer":0,
 			"byteLength":185,
-			"byteOffset":758544
+			"byteOffset":758552
 		},
 		{
 			"buffer":0,
 			"byteLength":12067,
-			"byteOffset":758732
+			"byteOffset":758740
 		},
 		{
 			"buffer":0,
 			"byteLength":23145,
-			"byteOffset":770800
+			"byteOffset":770808
 		},
 		{
 			"buffer":0,
 			"byteLength":628,
-			"byteOffset":793948
+			"byteOffset":793956
 		},
 		{
 			"buffer":0,
 			"byteLength":2595,
-			"byteOffset":794576
+			"byteOffset":794584
 		},
 		{
 			"buffer":0,
 			"byteLength":4206,
-			"byteOffset":797172
+			"byteOffset":797180
 		},
 		{
 			"buffer":0,
 			"byteLength":2603,
-			"byteOffset":801380
+			"byteOffset":801388
 		},
 		{
 			"buffer":0,
 			"byteLength":259,
-			"byteOffset":803984
+			"byteOffset":803992
 		},
 		{
 			"buffer":0,
 			"byteLength":96,
-			"byteOffset":804244
+			"byteOffset":804252
 		},
 		{
 			"buffer":0,
 			"byteLength":128,
-			"byteOffset":804340
+			"byteOffset":804348
 		},
 		{
 			"buffer":0,
 			"byteLength":96,
-			"byteOffset":804468
+			"byteOffset":804476
 		}
 	],
 	"samplers":[
@@ -1651,7 +1720,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":804564,
+			"byteLength":804572,
 			"uri":"model.bin"
 		}
 	]

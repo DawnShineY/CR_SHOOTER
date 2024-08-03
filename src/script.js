@@ -34,11 +34,17 @@ window.addEventListener('resize', () =>
 /**
  * Camera
  */
-const camera = new THREE.PerspectiveCamera(20    , sizes.width / sizes.height, 0.1, 100)
-camera.position.set(4, 2, 4)
+const camera = new THREE.PerspectiveCamera(15, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(4, 1, 4)
 scene.add(camera)
 
+/**
+ * Control
+ */
 const orbitControl = new OrbitControls(camera, canvas)
+orbitControl.maxPolarAngle = Math.PI / 2
+orbitControl.minAzimuthAngle = 0
+orbitControl.maxAzimuthAngle = Math.PI / 2
 orbitControl.enableDamping = true
 
 /**
@@ -110,7 +116,7 @@ gltfLoader.load(
 	{
 		// 모델 로딩, scene 추가
 		const model = gltf.scene
-		model.scale.set(0.12, 0.12, 0.12)
+		model.scale.set(0.13, 0.13, 0.13)
 		const boundingBox = new THREE.Box3().setFromObject(model)
 		const boundingBoxSize = new THREE.Vector3()
 		boundingBox.getSize(boundingBoxSize)
