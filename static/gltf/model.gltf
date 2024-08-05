@@ -187,24 +187,32 @@
 		},
 		{
 			"mesh":11,
-			"name":"laptopScreen"
-		},
-		{
-			"children":[
-				13
-			],
-			"mesh":12,
 			"name":"laptopCover",
 			"rotation":[
-				0,
-				0,
-				0.7948373556137085,
-				0.6068225502967834
+				-0.09229596704244614,
+				0.7010573744773865,
+				0.09229596704244614,
+				0.7010574340820312
 			],
 			"translation":[
 				-3.529123067855835,
 				1.9881885051727295,
 				1.3587896823883057
+			]
+		},
+		{
+			"mesh":12,
+			"name":"laptopScreen",
+			"rotation":[
+				0,
+				0,
+				0.7933533787727356,
+				0.6087614297866821
+			],
+			"translation":[
+				-3.636382818222046,
+				2.3858132362365723,
+				1.3587892055511475
 			]
 		},
 		{
@@ -336,6 +344,7 @@
 				10,
 				11,
 				12,
+				13,
 				14,
 				22,
 				23,
@@ -742,7 +751,7 @@
 			]
 		},
 		{
-			"name":"Plane.010",
+			"name":"Plane.052",
 			"primitives":[
 				{
 					"attributes":{
@@ -761,12 +770,13 @@
 						}
 					},
 					"indices":46,
+					"material":0,
 					"mode":4
 				}
 			]
 		},
 		{
-			"name":"Plane.052",
+			"name":"Plane.010",
 			"primitives":[
 				{
 					"attributes":{
@@ -785,7 +795,6 @@
 						}
 					},
 					"indices":50,
-					"material":0,
 					"mode":4
 				}
 			]
@@ -1337,46 +1346,16 @@
 		},
 		{
 			"componentType":5126,
-			"count":4,
-			"max":[
-				0.7298293709754944,
-				0.0006923070177435875,
-				0.45952385663986206
-			],
-			"min":[
-				0.0938447117805481,
-				0.0006923051550984383,
-				-0.45952409505844116
-			],
-			"type":"VEC3"
-		},
-		{
-			"componentType":5126,
-			"count":4,
-			"type":"VEC3"
-		},
-		{
-			"componentType":5126,
-			"count":4,
-			"type":"VEC2"
-		},
-		{
-			"componentType":5123,
-			"count":6,
-			"type":"SCALAR"
-		},
-		{
-			"componentType":5126,
 			"count":1997,
 			"max":[
+				0.49896055459976196,
 				0.789853036403656,
-				0.02684107795357704,
-				0.49896055459976196
+				0.024335790425539017
 			],
 			"min":[
+				-0.49896055459976196,
 				-0.01883569359779358,
-				-0.02433580718934536,
-				-0.49896055459976196
+				-0.026841094717383385
 			],
 			"type":"VEC3"
 		},
@@ -1393,6 +1372,36 @@
 		{
 			"componentType":5123,
 			"count":3762,
+			"type":"SCALAR"
+		},
+		{
+			"componentType":5126,
+			"count":4,
+			"max":[
+				0.31799232959747314,
+				9.313225746154785e-10,
+				0.4595239758491516
+			],
+			"min":[
+				-0.31799232959747314,
+				-9.313225746154785e-10,
+				-0.4595239758491516
+			],
+			"type":"VEC3"
+		},
+		{
+			"componentType":5126,
+			"count":4,
+			"type":"VEC3"
+		},
+		{
+			"componentType":5126,
+			"count":4,
+			"type":"VEC2"
+		},
+		{
+			"componentType":5123,
+			"count":6,
 			"type":"SCALAR"
 		},
 		{
@@ -1597,7 +1606,7 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":483838,
+			"byteLength":483839,
 			"byteOffset":0
 		},
 		{
@@ -1652,58 +1661,58 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":185,
+			"byteLength":12079,
 			"byteOffset":758552
 		},
 		{
 			"buffer":0,
-			"byteLength":12067,
-			"byteOffset":758740
+			"byteLength":185,
+			"byteOffset":770632
 		},
 		{
 			"buffer":0,
 			"byteLength":23145,
-			"byteOffset":770808
+			"byteOffset":770820
 		},
 		{
 			"buffer":0,
 			"byteLength":628,
-			"byteOffset":793956
+			"byteOffset":793968
 		},
 		{
 			"buffer":0,
 			"byteLength":2595,
-			"byteOffset":794584
+			"byteOffset":794596
 		},
 		{
 			"buffer":0,
 			"byteLength":4206,
-			"byteOffset":797180
+			"byteOffset":797192
 		},
 		{
 			"buffer":0,
 			"byteLength":2603,
-			"byteOffset":801388
+			"byteOffset":801400
 		},
 		{
 			"buffer":0,
 			"byteLength":259,
-			"byteOffset":803992
+			"byteOffset":804004
 		},
 		{
 			"buffer":0,
 			"byteLength":96,
-			"byteOffset":804252
+			"byteOffset":804264
 		},
 		{
 			"buffer":0,
 			"byteLength":128,
-			"byteOffset":804348
+			"byteOffset":804360
 		},
 		{
 			"buffer":0,
 			"byteLength":96,
-			"byteOffset":804476
+			"byteOffset":804488
 		}
 	],
 	"samplers":[
@@ -1720,7 +1729,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":804572,
+			"byteLength":804584,
 			"uri":"model.bin"
 		}
 	]

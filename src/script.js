@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { DRACOLoader, GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js'
+import { CSS3DObject, CSS3DRenderer, DRACOLoader, GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js'
 import GUI from 'lil-gui'
 import pointerIndex from './pointerIndex'
 
@@ -30,23 +30,59 @@ window.addEventListener('resize', () =>
 
 	renderer.setSize(sizes.width, sizes.height)
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+	renderer2.setSize(sizes.width, sizes.height)
 })
+
+
+/**
+ * css3D rendering
+ */
+const scene2 = new THREE.Scene()
+
+const element = document.createElement( 'div' );
+element.style.width = 0.9190479516983032 * 1000 + 'px';
+element.style.height = 0.6359846591949463  * 1000 + 'px';
+element.style.opacity = 0.75;
+element.style.background = 'black';
+element.innerHTML = `
+	<div
+		onclick="console.log('hello world')"
+		style="padding: 4px 2px; display: flex; background: red; border-radius: 12px; margin: 3px; align-items: center; justify-content: center; font-weight: bold; cursor: pointer;"
+		>
+		button
+	</div>
+`
+const htmlGroup = new THREE.Group()
+const htmlObject = new CSS3DObject( element );
+htmlObject.scale.set(0.001, 0.001, 0.001)
+htmlGroup.add(htmlObject)
+scene2.add( htmlGroup );
+
+const renderer2 = new CSS3DRenderer()
+renderer2.setSize(sizes.width, sizes.height)
+renderer2.domElement.style.position = 'absolute';
+renderer2.domElement.style.top = 0;
+document.body.appendChild( renderer2.domElement );
+
 
 /**
  * Camera
  */
-const camera = new THREE.PerspectiveCamera(15, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(4, 1, 4)
+const camera = new THREE.PerspectiveCamera(15, sizes.width / sizes.height, 1, 100)
+camera.position.set(38, 13, 35)
 scene.add(camera)
 
 /**
  * Control
  */
-const orbitControl = new OrbitControls(camera, canvas)
+const orbitControl = new OrbitControls(camera, renderer2.domElement)
 orbitControl.maxPolarAngle = Math.PI / 2
 orbitControl.minAzimuthAngle = 0
 orbitControl.maxAzimuthAngle = Math.PI / 2
 orbitControl.enableDamping = true
+orbitControl.maxDistance = 80
+
 
 /**
  * Lights
@@ -117,7 +153,6 @@ gltfLoader.load(
 	{
 		// 모델 로딩, scene 추가
 		const model = gltf.scene
-		model.scale.set(0.13, 0.13, 0.13)
 		const boundingBox = new THREE.Box3().setFromObject(model)
 		const boundingBoxSize = new THREE.Vector3()
 		boundingBox.getSize(boundingBoxSize)
@@ -129,6 +164,14 @@ gltfLoader.load(
 		const interactionGroup = model.children.find((child) => child.name === 'InteractionGroup')
 		setObjectGroup(interactionObjects, interactionGroup.children)
 		console.log('interaction objects', interactionObjects)
+
+		htmlGroup.position.set(
+			interactionObjects.laptopScreen.position.x,
+			interactionObjects.laptopScreen.position.y,
+			interactionObjects.laptopScreen.position.z,
+		);
+		htmlGroup.position.y -= boundingBoxSize.y * 0.4
+		htmlGroup.rotation.copy( interactionObjects.laptopCover.rotation );
 
 		// wind bell rotation speed 저장
 		interactionObjects.WindBellGroup.windBell01.rotationSpeed = Math.random() * 2
@@ -222,6 +265,28 @@ const pointerCameraFocus = (index) =>
 	}
 }
 
+
+
+
+// 상태 로그 함수
+function logCameraState() {
+	console.log("Camera position:", camera.position);
+	console.log("Camera zoom:", camera.zoom);
+	console.log("Polar angle:", orbitControl.getPolarAngle());
+	console.log("Azimuthal angle:", orbitControl.getAzimuthalAngle());
+	console.log("Target:", orbitControl.target);
+}
+
+// 키보드 이벤트로 상태 출력
+window.addEventListener('keydown', (event) => {
+if (event.key === 's') { // 's' 키를 누르면 상태를 출력
+	logCameraState();
+	//camera.position.set(...pointerIndex[0].camera.position)
+	//orbitControl.target.set(...pointerIndex[0].camera.target)
+}
+});
+
+
 /**
  * Update
  */
@@ -234,6 +299,7 @@ const scaleUpMatrix = new THREE.Matrix4().makeScale(scaleAmount, scaleAmount, sc
 const scaleDownMatrix = new THREE.Matrix4().makeScale(1/scaleAmount, 1/scaleAmount, 1/scaleAmount)
 let isMouseIn = false
 let pointerClickEventFunction
+
 
 const tick = () =>
 {
@@ -316,6 +382,7 @@ const tick = () =>
 	}
 	orbitControl.update()
 	renderer.render(scene, camera)
+	renderer2.render(scene2, camera)
 	window.requestAnimationFrame(tick)
 }
 
