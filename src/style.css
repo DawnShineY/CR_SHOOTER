@@ -1,7 +1,11 @@
 html, body{
 	margin: 0;
 	padding: 0;
-	background-color: #bdbdbd
+	background-color: #b4b4b4
+}
+canvas{
+	position: fixed;
+	top: 0
 }
 
 .test{

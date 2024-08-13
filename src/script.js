@@ -1,7 +1,16 @@
 import * as THREE from 'three'
 import { CSS3DObject, CSS3DRenderer, DRACOLoader, GLTFLoader, OrbitControls } from 'three/examples/jsm/Addons.js'
 import GUI from 'lil-gui'
+import Stats from 'stats.js'
 import pointerIndex from './pointerIndex'
+import LaptopScreen from './renderTarget.js'
+
+/**
+ * Performance
+ */
+const stats = new Stats()
+stats.showPanel(0)
+document.body.append(stats.dom)
 
 /**
  * Debug
@@ -9,10 +18,20 @@ import pointerIndex from './pointerIndex'
 const gui = new GUI()
 
 /**
+ * Loaders
+ */
+const textureLoader = new THREE.TextureLoader()
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('/draco/')
+const gltfLoader = new GLTFLoader()
+gltfLoader.setDRACOLoader(dracoLoader)
+
+/**
  * Base
 */
 const canvas = document.getElementById('webgl')
 const scene = new THREE.Scene()
+
 
 // sizes
 const sizes =
@@ -63,7 +82,7 @@ const renderer2 = new CSS3DRenderer()
 renderer2.setSize(sizes.width, sizes.height)
 renderer2.domElement.style.position = 'absolute';
 renderer2.domElement.style.top = 0;
-document.body.appendChild( renderer2.domElement );
+//document.body.appendChild( renderer2.domElement );
 
 
 /**
@@ -71,16 +90,18 @@ document.body.appendChild( renderer2.domElement );
  */
 const camera = new THREE.PerspectiveCamera(15, sizes.width / sizes.height, 1, 100)
 camera.position.set(38, 13, 35)
+//camera.position.set(37, 18.67, 33.56)
+
 scene.add(camera)
 
 /**
  * Control
  */
-const orbitControl = new OrbitControls(camera, renderer2.domElement)
+const orbitControl = new OrbitControls(camera, canvas)
+orbitControl.enableDamping = true
 orbitControl.maxPolarAngle = Math.PI / 2
 orbitControl.minAzimuthAngle = 0
 orbitControl.maxAzimuthAngle = Math.PI / 2
-orbitControl.enableDamping = true
 orbitControl.maxDistance = 80
 
 
@@ -94,14 +115,6 @@ const directionalLight = new THREE.DirectionalLight('#ffffff', 0.8)
 directionalLight.position.set(1, 2, 3)
 scene.add(directionalLight)
 
-/**
- * Loaders
- */
-const textureLoader = new THREE.TextureLoader()
-const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath('/draco/')
-const gltfLoader = new GLTFLoader()
-gltfLoader.setDRACOLoader(dracoLoader)
 
 /**
  * Texture
@@ -131,7 +144,7 @@ const setObjectGroup = (object, children) =>
 {
 	for(let child of children)
 	{
-		if(child.children.length && !child.isMesh) // 자식이 있는 empty의 경우
+		if(child.children.length && child.type === 'Object3D') // 자식이 있는 empty의 경우
 		{
 			object[child.name] = {}
 			setObjectGroup(object[child.name], child.children)
@@ -146,6 +159,12 @@ const setObjectGroup = (object, children) =>
 		}
 	}
 }
+
+/**
+ * RenderTarget
+ */
+const laptopScreen = new LaptopScreen({textureLoader, gltfLoader}, setObjectGroup)
+
 
 gltfLoader.load(
 	'/gltf/model.gltf',
@@ -165,6 +184,10 @@ gltfLoader.load(
 		setObjectGroup(interactionObjects, interactionGroup.children)
 		console.log('interaction objects', interactionObjects)
 
+		//camera.position.set(...pointerIndex[ 0 ].cameraPosition)
+		//orbitControl.target.set(...pointerIndex[ 0 ].controlTarget)
+
+		// laptop css3d group 위치, 회전 설정
 		htmlGroup.position.set(
 			interactionObjects.laptopScreen.position.x,
 			interactionObjects.laptopScreen.position.y,
@@ -173,6 +196,11 @@ gltfLoader.load(
 		htmlGroup.position.y -= boundingBoxSize.y * 0.4
 		htmlGroup.rotation.copy( interactionObjects.laptopCover.rotation );
 
+		// laptop renderTarget texture 적용
+		interactionObjects.laptopScreen.material =  new THREE.MeshBasicMaterial({
+			map: laptopScreen.renderTarget.texture
+		})
+		console.log()
 		// wind bell rotation speed 저장
 		interactionObjects.WindBellGroup.windBell01.rotationSpeed = Math.random() * 2
 		interactionObjects.WindBellGroup.windBell02.rotationSpeed = Math.random() * 2
@@ -206,18 +234,18 @@ gltfLoader.load(
 		// calendar date 가져오기
 		const fullDate = new Date()
 		const date = fullDate.getDate() // 일
-		const day  = fullDate.getDay() // 요일
-		const month = fullDate.getMonth() // 월
+		const day  = fullDate.getDay() + 1 // 요일
+		const month = fullDate.getMonth() + 1 // 월
 
 		// calendar texture 적용
+		interactionObjects.CalendarGroup.calendarDay.material.map.offset.y += 0.125 * day
 		interactionObjects.CalendarGroup.calendarDate.material.map.offset.x += 0.2468 * ( Math.floor(date / 10) )
 		interactionObjects.CalendarGroup.calendarDate.material.map.offset.y += 0.094 * ( date % 10 )
-		interactionObjects.CalendarGroup.calendarDay.material.map.offset.y += 0.133 * day
-		interactionObjects.CalendarGroup.calendarMonth.material.map.offset.y += 0.082 * ( month - 1 )
+		interactionObjects.CalendarGroup.calendarMonth.material.map.offset.y += 0.077 * month
 
 		// debug
 		gui.add(pointerInstancedMesh.material, 'opacity').name('pointer 투명도').min(0).max(1).step(0.01)
-		gui.add(interactionObjects.laptopCover.rotation, 'z').name('노트북 커버 회전').min(0).max(Math.PI * 0.8).step(0.01)
+		gui.add(interactionObjects.laptopCover.rotation, 'y').name('노트북 커버 회전').min(Math.PI * 0.3).max(Math.PI).step(0.01)
 		gui.add(interactionObjects.lockerDoor.rotation, 'y').name('락카 문 회전').min(-Math.PI * 0.4).max(0).step(0.01)
 		gui.add(interactionObjects.drawer.position, 'x').name('서랍').min(-3.4015002250671387).max(-2.8).step(0.01)
 		gui.add(interactionObjects.gun.position, 'x').name('총 x').min(1.4246635437011719).max(10).step(0.01)
@@ -266,8 +294,6 @@ const pointerCameraFocus = (index) =>
 }
 
 
-
-
 // 상태 로그 함수
 function logCameraState() {
 	console.log("Camera position:", camera.position);
@@ -286,6 +312,24 @@ if (event.key === 's') { // 's' 키를 누르면 상태를 출력
 }
 });
 
+/**
+ * Event 함수
+ */
+const laptopWheelEvent = (event) =>
+	{
+		const wheel = event.wheelDeltaY
+		const offsetY = 0.02
+
+		if(wheel > 0)
+		{
+			laptopScreen.camera.position.y += offsetY
+		}
+		if(wheel < 0)
+		{
+			laptopScreen.camera.position.y -= offsetY
+
+		}
+	}
 
 /**
  * Update
@@ -300,9 +344,11 @@ const scaleDownMatrix = new THREE.Matrix4().makeScale(1/scaleAmount, 1/scaleAmou
 let isMouseIn = false
 let pointerClickEventFunction
 
+const testRaycaster = new THREE.Raycaster()
 
 const tick = () =>
 {
+	stats.begin()
 	const elapsedTime = clock.getElapsedTime()
 
 	/**
@@ -320,6 +366,86 @@ const tick = () =>
 	raycaster.setFromCamera(mouse, camera)
 
 	/**
+	 * Laptop Screen Interaction
+	 */
+	if(interactionObjects.laptopScreen)
+	{
+		const intersection = raycaster.intersectObject(interactionObjects.laptopScreen)
+		if(intersection.length > 0)
+		{
+			const uv = intersection[0].uv
+			const uvCoord = {
+				x: ((uv.x - 0.5) * 2),
+				y: ((uv.y - 0.5) * 2),
+			}
+
+			laptopScreen.model.position.x += (- uvCoord.x * 0.2 - laptopScreen.model.position.x) * 0.05
+			laptopScreen.model.position.y += (- uvCoord.y * 0.2 - laptopScreen.model.position.y) * 0.05
+
+			laptopScreen.model.rotation.y += (- uvCoord.x * 0.3 - laptopScreen.model.rotation.y) * 0.04
+			laptopScreen.model.rotation.x += (uvCoord.y * 0.2 - laptopScreen.model.rotation.x) * 0.02
+
+			testRaycaster.setFromCamera(uvCoord, laptopScreen.camera)
+
+			const testIntersections = testRaycaster.intersectObjects([
+				laptopScreen.intersectObjects.SectionGroup.section_appearance,
+				laptopScreen.intersectObjects.SectionGroup.section_event,
+				laptopScreen.intersectObjects.SectionGroup.section_profile,
+				laptopScreen.intersectObjects.textMission,
+
+			])
+			if(testIntersections.length > 0)
+			{
+				//laptopScreen.intersectObjects.TextBoxGroup.textBox_appearance.visible = true
+				for(let key in laptopScreen.intersectObjects.TextBoxGroup)
+				{
+					laptopScreen.intersectObjects.TextBoxGroup[key].visible = true
+				}
+
+				document.body.style.cursor = 'pointer'
+			}
+			else{
+				//laptopScreen.intersectObjects.TextBoxGroup.textBox_appearance.visible = false
+				for(let key in laptopScreen.intersectObjects.TextBoxGroup)
+				{
+					laptopScreen.intersectObjects.TextBoxGroup[key].visible = false
+				}
+				document.body.style.cursor = 'default'
+
+			}
+
+			orbitControl.enableRotate = false
+			//orbitControl.enableZoom = false
+			//window.addEventListener('wheel', laptopWheelEvent)
+		}
+		else{
+			laptopScreen.model.position.x += (0 - laptopScreen.model.position.x) * 0.05
+			laptopScreen.model.position.y += (0 - laptopScreen.model.position.y) * 0.05
+			laptopScreen.model.rotation.y += (0 - laptopScreen.model.rotation.y) * 0.04
+			laptopScreen.model.rotation.x += (0 - laptopScreen.model.rotation.x) * 0.02
+
+			orbitControl.enableRotate = true
+			//orbitControl.enableZoom = true
+			//window.removeEventListener('wheel', laptopWheelEvent )
+		}
+	}
+
+	/**
+	 * laptop screen animation
+	 */
+	if(Object.keys(laptopScreen.model).length != 0)
+	{
+		laptopScreen.intersectObjects.man.rotation.y = elapsedTime
+		laptopScreen.intersectObjects.earth.geometry.rotateY(0.01)
+		laptopScreen.intersectObjects.textMission.rotation.y = Math.sin(elapsedTime) * 0.1
+		laptopScreen.intersectObjects.textMission.rotation.x = Math.sin(elapsedTime) * 0.1
+
+		laptopScreen.intersectObjects.BarGroup.bar1.scale.x = Math.abs( Math.sin(elapsedTime*0.3 + 0) * Math.abs(Math.cos(elapsedTime * 0.5)) )
+		laptopScreen.intersectObjects.BarGroup.bar2.scale.x = Math.abs( Math.sin(elapsedTime*0.2 + 1) * Math.abs(Math.cos(elapsedTime * 0.2 + 3)))
+		laptopScreen.intersectObjects.BarGroup.bar3.scale.x = Math.abs( Math.sin(elapsedTime*0.5 + 2)) * 0.5 + 0.5
+	}
+
+	/**
 	 * pointer interaction
 	 */
 	if(pointerInstancedMesh)
@@ -329,7 +455,7 @@ const tick = () =>
 		if(intersection.length > 0)
 		{
 			const instancedId = intersection[ 0 ].instanceId
-			
+
 			// Color
 			pointerInstancedMesh.setColorAt( instancedId, pointerActivateColor )
 			pointerInstancedMesh.instanceColor.needsUpdate = true;
@@ -381,8 +507,14 @@ const tick = () =>
 
 	}
 	orbitControl.update()
+
+	renderer.setRenderTarget(laptopScreen.renderTarget)
+	renderer.render(laptopScreen.scene, laptopScreen.camera)
+	//laptopScreen.effectComposer.render()
+	renderer.setRenderTarget(null)
 	renderer.render(scene, camera)
-	renderer2.render(scene2, camera)
+	//renderer2.render(scene2, camera)
+	stats.end()
 	window.requestAnimationFrame(tick)
 }
 

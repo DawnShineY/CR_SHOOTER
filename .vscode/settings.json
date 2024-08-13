@@ -1,7 +1,12 @@
 {
 	"cSpell.ignoreWords": [
+		"Mipmaps",
+		"Phong",
 		"Raycaster",
 		"gltf",
-		"windbell"
+		"linewidth",
+		"matcap",
+		"windbell",
+		"wireframe"
 	]
 }

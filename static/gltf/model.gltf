@@ -187,6 +187,24 @@
 		},
 		{
 			"mesh":11,
+			"name":"laptopScreen",
+			"rotation":[
+				0.5,
+				-0.5,
+				-0.5,
+				0.5
+			],
+			"translation":[
+				0,
+				0.4118369519710541,
+				-0.0006920673185959458
+			]
+		},
+		{
+			"children":[
+				13
+			],
+			"mesh":12,
 			"name":"laptopCover",
 			"rotation":[
 				-0.09229596704244614,
@@ -198,21 +216,6 @@
 				-3.529123067855835,
 				1.9881885051727295,
 				1.3587896823883057
-			]
-		},
-		{
-			"mesh":12,
-			"name":"laptopScreen",
-			"rotation":[
-				0,
-				0,
-				0.7933533787727356,
-				0.6087614297866821
-			],
-			"translation":[
-				-3.636382818222046,
-				2.3858132362365723,
-				1.3587892055511475
 			]
 		},
 		{
@@ -344,7 +347,6 @@
 				10,
 				11,
 				12,
-				13,
 				14,
 				22,
 				23,
@@ -424,11 +426,11 @@
 					"extensions":{
 						"KHR_texture_transform":{
 							"offset":[
-								0.2199999988079071,
-								7.450580596923828e-09
+								0.1899999976158142,
+								1
 							],
 							"scale":[
-								0.550000011920929,
+								0.6100000143051147,
 								0.054999999701976776
 							]
 						}
@@ -751,7 +753,7 @@
 			]
 		},
 		{
-			"name":"Plane.052",
+			"name":"Plane.010",
 			"primitives":[
 				{
 					"attributes":{
@@ -770,13 +772,12 @@
 						}
 					},
 					"indices":46,
-					"material":0,
 					"mode":4
 				}
 			]
 		},
 		{
-			"name":"Plane.010",
+			"name":"Plane.052",
 			"primitives":[
 				{
 					"attributes":{
@@ -795,6 +796,7 @@
 						}
 					},
 					"indices":50,
+					"material":0,
 					"mode":4
 				}
 			]
@@ -1004,18 +1006,18 @@
 		},
 		{
 			"mimeType":"image/webp",
-			"name":"calendar_date",
-			"uri":"calendar_date.webp"
+			"name":"date",
+			"uri":"date.webp"
 		},
 		{
 			"mimeType":"image/webp",
-			"name":"calendar_month",
-			"uri":"calendar_month.webp"
+			"name":"month",
+			"uri":"month.webp"
 		},
 		{
 			"mimeType":"image/webp",
-			"name":"calendar_day",
-			"uri":"calendar_day.webp"
+			"name":"day",
+			"uri":"day.webp"
 		}
 	],
 	"accessors":[
@@ -1346,36 +1348,6 @@
 		},
 		{
 			"componentType":5126,
-			"count":1997,
-			"max":[
-				0.49896055459976196,
-				0.789853036403656,
-				0.024335790425539017
-			],
-			"min":[
-				-0.49896055459976196,
-				-0.01883569359779358,
-				-0.026841094717383385
-			],
-			"type":"VEC3"
-		},
-		{
-			"componentType":5126,
-			"count":1997,
-			"type":"VEC3"
-		},
-		{
-			"componentType":5126,
-			"count":1997,
-			"type":"VEC2"
-		},
-		{
-			"componentType":5123,
-			"count":3762,
-			"type":"SCALAR"
-		},
-		{
-			"componentType":5126,
 			"count":4,
 			"max":[
 				0.31799232959747314,
@@ -1402,6 +1374,36 @@
 		{
 			"componentType":5123,
 			"count":6,
+			"type":"SCALAR"
+		},
+		{
+			"componentType":5126,
+			"count":1997,
+			"max":[
+				0.49896055459976196,
+				0.789853036403656,
+				0.024335790425539017
+			],
+			"min":[
+				-0.49896055459976196,
+				-0.01883569359779358,
+				-0.026841094717383385
+			],
+			"type":"VEC3"
+		},
+		{
+			"componentType":5126,
+			"count":1997,
+			"type":"VEC3"
+		},
+		{
+			"componentType":5126,
+			"count":1997,
+			"type":"VEC2"
+		},
+		{
+			"componentType":5123,
+			"count":3762,
 			"type":"SCALAR"
 		},
 		{
@@ -1661,13 +1663,13 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":12079,
+			"byteLength":187,
 			"byteOffset":758552
 		},
 		{
 			"buffer":0,
-			"byteLength":185,
-			"byteOffset":770632
+			"byteLength":12079,
+			"byteOffset":758740
 		},
 		{
 			"buffer":0,
@@ -1676,7 +1678,7 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":628,
+			"byteLength":627,
 			"byteOffset":793968
 		},
 		{
