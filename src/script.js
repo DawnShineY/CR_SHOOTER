@@ -4,6 +4,7 @@ import GUI from 'lil-gui'
 import Stats from 'stats.js'
 import pointerIndex from './pointerIndex'
 import LaptopScreen from './renderTarget.js'
+import videoTexture from './videoTexture.js'
 
 /**
  * Performance
@@ -16,6 +17,9 @@ document.body.append(stats.dom)
  * Debug
  */
 const gui = new GUI()
+const debugObject = {
+	lightMode: 'day'
+}
 
 /**
  * Loaders
@@ -31,6 +35,9 @@ gltfLoader.setDRACOLoader(dracoLoader)
 */
 const canvas = document.getElementById('webgl')
 const scene = new THREE.Scene()
+scene.background = new THREE.Color('#292420')
+const roomModelGroup = new THREE.Group()
+scene.add(roomModelGroup)
 
 
 // sizes
@@ -110,10 +117,83 @@ orbitControl.maxDistance = 80
  */
 const ambientLight = new THREE.AmbientLight('#ffffff', 5)
 scene.add(ambientLight)
+gui.add(ambientLight, 'intensity').name('주변광').min(0).max(20).step(1)
 
 const directionalLight = new THREE.DirectionalLight('#ffffff', 0.8)
 directionalLight.position.set(1, 2, 3)
 scene.add(directionalLight)
+
+
+// additional Lights
+const candleLight1 = new THREE.PointLight('#ff7a5c', 2, 0.5, 1)
+const pointLightHelper1 = new THREE.PointLightHelper(candleLight1)
+roomModelGroup.add(candleLight1, pointLightHelper1)
+
+const candleLight2 = new THREE.PointLight('#ff7a5c', 2, 0.5, 1)
+const pointLightHelper2 = new THREE.PointLightHelper(candleLight2)
+roomModelGroup.add(candleLight2, pointLightHelper2)
+
+
+const standLight = new THREE.SpotLight('#ffceb0', 70, 1.5, Math.PI * 0.25, 1, 0.01)
+const spotLightHelper = new THREE.SpotLightHelper(standLight)
+roomModelGroup.add(standLight, standLight.target, spotLightHelper)
+
+const standLight2 = new THREE.SpotLight('#ffceb0', 100, 5, Math.PI * 0.2, 1, 1)
+const spotLightHelper2 = new THREE.SpotLightHelper(standLight2)
+roomModelGroup.add(standLight2, standLight2.target, spotLightHelper2)
+
+const fireplaceLight = new THREE.PointLight('#de0000', 10, 1, 1)
+const pointLightHelper3 = new THREE.PointLightHelper(fireplaceLight)
+roomModelGroup.add(fireplaceLight, pointLightHelper3)
+
+const lampLight1 = new THREE.PointLight('#ffceb0', 10, 2, 1)
+const pointLightHelper4 = new THREE.PointLightHelper(lampLight1)
+roomModelGroup.add(lampLight1, pointLightHelper4)
+
+const lampLight2 = new THREE.PointLight('#ffceb0', 10, 2, 1)
+const pointLightHelper5 = new THREE.PointLightHelper(lampLight2)
+roomModelGroup.add(lampLight2, pointLightHelper5)
+
+const additionalLights = [
+	candleLight1, candleLight2, standLight,  standLight2,  fireplaceLight,  lampLight1, lampLight2,
+	pointLightHelper1, pointLightHelper2, spotLightHelper, spotLightHelper2, pointLightHelper3, pointLightHelper4, pointLightHelper5,
+]
+
+for(let object of additionalLights)
+{
+	object.visible = false
+}
+
+gui.add(debugObject, 'lightMode', {
+	day: 'day',
+	night: 'night'
+}).name('light mode').onChange((value) =>
+{
+	if(value === 'day')
+	{
+		for(let object of additionalLights)
+		{
+			object.visible = false
+		}
+		ambientLight.intensity = 5
+		scene.background = new THREE.Color('#292420')
+
+	}
+	else
+	{
+		for(let object of additionalLights)
+		{
+			if(object.isLight)
+			{
+				object.visible = true
+			}
+		}
+		ambientLight.intensity = 0.5
+		scene.background = new THREE.Color('#000000')
+
+	}
+})
+
 
 
 /**
@@ -131,8 +211,6 @@ gunShadowOpacityTexture.flipY = false
 const interactionObjects = {}
 let pointerInstancedMesh  = null
 const pointerColor = new THREE.Color(0x7E1E00)
-const roomModelGroup = new THREE.Group()
-scene.add(roomModelGroup)
 
 
 /**
@@ -160,6 +238,7 @@ const setObjectGroup = (object, children) =>
 	}
 }
 
+
 /**
  * RenderTarget
  */
@@ -177,7 +256,6 @@ gltfLoader.load(
 		boundingBox.getSize(boundingBoxSize)
 		roomModelGroup.position.y -= boundingBoxSize.y * 0.4
 		roomModelGroup.add(model)
-		console.log(model)
 
 		// interaction group 저장
 		const interactionGroup = model.children.find((child) => child.name === 'InteractionGroup')
@@ -186,6 +264,46 @@ gltfLoader.load(
 
 		//camera.position.set(...pointerIndex[ 0 ].cameraPosition)
 		//orbitControl.target.set(...pointerIndex[ 0 ].controlTarget)
+
+		// lights
+		candleLight1.position.copy(interactionObjects.LightsPositionGroup.candle1Position.position)
+		pointLightHelper1.update()
+
+		candleLight2.position.copy(interactionObjects.LightsPositionGroup.candle2Position.position)
+		pointLightHelper2.update()
+
+		standLight.position.copy(interactionObjects.LightsPositionGroup.standPosition.position)
+		standLight.target.position.copy(interactionObjects.LightsPositionGroup.standPosition.position)
+		standLight.target.position.y -= 3
+		standLight.target.position.z += 0.3
+		spotLightHelper.update()
+
+		standLight2.position.copy(interactionObjects.LightsPositionGroup.lightPosition.position)
+		standLight2.target.position.copy(interactionObjects.LightsPositionGroup.lightPosition.position)
+		standLight2.target.position.x -= 1
+		standLight2.target.position.y -= 5
+		standLight2.target.position.z += 3
+		spotLightHelper2.update()
+
+		fireplaceLight.position.copy(interactionObjects.LightsPositionGroup.fireplacePosition.position)
+		pointLightHelper3.update()
+
+		lampLight1.position.copy(interactionObjects.LightsPositionGroup.lamp1Position.position)
+		pointLightHelper4.update()
+
+		lampLight2.position.copy(interactionObjects.LightsPositionGroup.lamp2Position.position)
+		pointLightHelper5.update()
+
+		// tvScreen
+		interactionObjects.tvScreen.material = new THREE.MeshPhongMaterial(
+			{
+				color: '#e1e1e1',
+				map: videoTexture,
+				shininess: 100,
+				specular: '#505050',
+				emissive: '#171717'
+			}
+		)
 
 		// laptop css3d group 위치, 회전 설정
 		htmlGroup.position.set(
@@ -198,7 +316,10 @@ gltfLoader.load(
 
 		// laptop renderTarget texture 적용
 		interactionObjects.laptopScreen.material =  new THREE.MeshBasicMaterial({
-			map: laptopScreen.renderTarget.texture
+			//color: 'green'
+			map: laptopScreen.renderTarget.texture,
+			//shininess: 100,
+			//specular: '#808080'
 		})
 		console.log()
 		// wind bell rotation speed 저장
