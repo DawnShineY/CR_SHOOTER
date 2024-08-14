@@ -177,6 +177,9 @@ gui.add(debugObject, 'lightMode', {
 		}
 		ambientLight.intensity = 5
 		scene.background = new THREE.Color('#292420')
+		pointerInstancedMesh.material.emissive.set('black')
+		pointerInstancedMesh.material.opacity = 0.75
+
 
 	}
 	else
@@ -190,6 +193,9 @@ gui.add(debugObject, 'lightMode', {
 		}
 		ambientLight.intensity = 0.5
 		scene.background = new THREE.Color('#000000')
+		pointerInstancedMesh.material.emissive.set('#992805')
+		pointerInstancedMesh.material.opacity = 0.6
+
 
 	}
 })
@@ -321,7 +327,6 @@ gltfLoader.load(
 			//shininess: 100,
 			//specular: '#808080'
 		})
-		console.log()
 		// wind bell rotation speed 저장
 		interactionObjects.WindBellGroup.windBell01.rotationSpeed = Math.random() * 2
 		interactionObjects.WindBellGroup.windBell02.rotationSpeed = Math.random() * 2

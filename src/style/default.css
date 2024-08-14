@@ -1,7 +1,6 @@
-html, body{
-	margin: 0;
-	padding: 0;
-	background-color: #b4b4b4
+body {
+	font-family: "Poppins";
+	font-weight: 400;
 }
 canvas{
 	position: fixed;
