@@ -32,8 +32,7 @@ renderer.setSize(sizes.width, sizes.height)
 //renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 document.body.appendChild(renderer.domElement)
 
-const control = new OrbitControls(camera, renderer.domElement)
-control.enableDamping = true
+
 const ambientLight = new THREE.AmbientLight(0xffffff, 2)
 const light = new THREE.PointLight(0xffffff, 0.5)
 light.position.set(0, 10, 0)
@@ -48,40 +47,25 @@ const floor = new THREE.Mesh(floorGeometry, floorMaterial)
 floor.rotation.x = Math.PI / 2
 scene.add(floor)
 
-const planeMaterial = new THREE.MeshBasicMaterial({
-	color: 0x000000,
-	opacity: 0.1,
-	side: THREE.DoubleSide,
-	transparent: true
-})
-const planeWidth = 8
-const planeHeight = 4
-const planeGeometry = new THREE.PlaneGeometry( planeWidth, planeHeight )
-const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
-planeMesh.position.y = 2
-scene.add(planeMesh)
-
 
 /**
  * CSS
  */
 const cssScene = new THREE.Scene()
-const element = document.createElement('iframe')
-element.src = 'https://threejs.org/'
-const elementWidth = 1024
-const aspectRatio = 8 / 4
-const elementHeight = elementWidth * aspectRatio
+const element = document.createElement('div')
+element.style.width = '100px'
+element.style.height = '100px'
+element.style.background = 'red'
+element.innerHTML = `
+	<input />
+	가나다라마바사아
+`
 
-element.style.width = elementWidth + 'px'
-element.style.height = elementHeight + 'px'
 
 const cssObject = new CSS3DObject( element )
-cssObject.position.copy(planeMesh.position)
-cssObject.rotation.copy(planeMesh.rotation)
+cssObject.scale.set(0.01, 0.01, 0.01)
 
-const percentBorder = 0.05
-cssObject.scale.x /= (1 + percentBorder) * (elementWidth / planeWidth)
-cssObject.scale.y /= (1 + percentBorder) * (elementWidth / planeWidth)
+
 cssScene.add(cssObject)
 
 const rendererCss = new CSS3DRenderer()
@@ -96,10 +80,11 @@ renderer.domElement.style.position = 'absolute'
 //renderer.domElement.style.top = 0
 
 //rendererCss.domElement.style.zIndex = 1
-rendererCss.domElement.appendChild( renderer.domElement )
+//document.body.appendChild( renderer.domElement )
 
 
-
+const control = new OrbitControls(camera, rendererCss.domElement)
+control.enableDamping = true
 
 const tick = () =>
 {

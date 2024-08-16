@@ -6,6 +6,8 @@ import pointerIndex from './pointerIndex'
 import LaptopScreen from './renderTarget.js'
 import videoTexture from './videoTexture.js'
 
+import { cssRenderer, cssScene, profileTopObject, profileBottomObject } from './profile.js'
+
 /**
  * Performance
  */
@@ -98,19 +100,21 @@ renderer2.domElement.style.top = 0;
 const camera = new THREE.PerspectiveCamera(15, sizes.width / sizes.height, 1, 100)
 camera.position.set(38, 13, 35)
 //camera.position.set(37, 18.67, 33.56)
+//camera.position.set(9.907700572126535, 22.489126821953278, 8.921002535939648)
+//camera.lookAt(0.2400238477258802, 0.4597983888988159, -0.8870255989981622)
 
 scene.add(camera)
 
 /**
  * Control
  */
-const orbitControl = new OrbitControls(camera, canvas)
+const orbitControl = new OrbitControls(camera, cssRenderer.domElement)
 orbitControl.enableDamping = true
-orbitControl.maxPolarAngle = Math.PI / 2
-orbitControl.minAzimuthAngle = 0
-orbitControl.maxAzimuthAngle = Math.PI / 2
+//orbitControl.maxPolarAngle = Math.PI / 2
+//orbitControl.minAzimuthAngle = 0
+//orbitControl.maxAzimuthAngle = Math.PI / 2
 orbitControl.maxDistance = 80
-
+//orbitControl.enabled = false
 
 /**
  * Lights
@@ -192,11 +196,9 @@ gui.add(debugObject, 'lightMode', {
 			}
 		}
 		ambientLight.intensity = 0.5
-		scene.background = new THREE.Color('#000000')
+		scene.background = new THREE.Color('#262721')
 		pointerInstancedMesh.material.emissive.set('#992805')
 		pointerInstancedMesh.material.opacity = 0.6
-
-
 	}
 })
 
@@ -492,6 +494,19 @@ const tick = () =>
 	raycaster.setFromCamera(mouse, camera)
 
 	/**
+	 * cssObject
+	 */
+	//const cssObjectIntersection = raycaster.intersectObjects([profileTopObject, profileBottomObject])
+	//if(cssObjectIntersection.length > 0)
+	//{
+	//	orbitControl.enabled = false
+	//}
+	//else
+	//{
+	//	orbitControl.enabled = true
+	//}
+
+	/**
 	 * Laptop Screen Interaction
 	 */
 	if(interactionObjects.laptopScreen)
@@ -633,12 +648,14 @@ const tick = () =>
 
 	}
 	orbitControl.update()
+	console.log()
 
 	renderer.setRenderTarget(laptopScreen.renderTarget)
 	renderer.render(laptopScreen.scene, laptopScreen.camera)
 	//laptopScreen.effectComposer.render()
 	renderer.setRenderTarget(null)
 	renderer.render(scene, camera)
+	//cssRenderer.render(cssScene, camera)
 	//renderer2.render(scene2, camera)
 	stats.end()
 	window.requestAnimationFrame(tick)

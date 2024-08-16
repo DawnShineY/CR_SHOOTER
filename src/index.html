@@ -7,150 +7,174 @@
 	<link rel="stylesheet" href="/style/reset.css">
 	<link rel="stylesheet" href="/style/default.css">
 	<link rel="stylesheet" href="/style/profile.css">
-	<!--<script type="module" src="script.js"></script>-->
-
+	<script type="module" src="script.js"></script>
+	<!--<script type="module" src="test/css3Drender-2.js"></script>-->
 </head>
 <body>
-	<!-- Profile -->
-	<div class="profile profile-top">
-		<div class="profile__summary">Creative frontend developer specializing in 3D technologies,committed to building immersive and interactive user experiences</div>
-		<div class="profile__container">
-			<div class="profile__version">
-				<div class="profile__version_row">
-					<div class="profile__version_tit">VERSION</div>
-					<div class="profile__version_text">1</div>
-				</div>
-				<div class="profile__version_row">
-					<div class="profile__version_tit">FIRST UPDATED</div>
-					<div class="profile__version_text">27.06.2024</div>
-				</div>
-				<div class="profile__version_row">
-					<div class="profile__version_tit">LATEST UPDATED</div>
-					<div class="profile__version_text">27.06.2024</div>
-				</div>
-			</div>
+	<canvas class="webgl" id="webgl"></canvas>
 
-			<div class="profile__main_tit"></div>
-			<div class="profile__key_info">
-				<div class="profile__avatar"></div>
-				<div class="profile__info">
-					<div class="profile__info_table">
-						<div class="profile__info_row">
-							<div class="profile__info_tit">NAME</div>
-							<div class="profile__info_text">SEOYOUNG YOON</div>
+	<!-- Profile -->
+	<div style="display: none;" >
+		<div class="profile" id="profile_top">
+			<div class="profile__outer">
+				<div class="profile__front profile__front-top" >
+					<div class="profile__summary">Creative frontend developer specializing in 3D technologies,committed to building immersive and interactive user experiences</div>
+					<div class="profile__container">
+						<div class="profile__version">
+							<div class="profile__version_row">
+								<div class="profile__version_tit">VERSION</div>
+								<div class="profile__version_text">1</div>
+							</div>
+							<div class="profile__version_row">
+								<div class="profile__version_tit">FIRST UPDATED</div>
+								<div class="profile__version_text">27.06.2024</div>
+							</div>
+							<div class="profile__version_row">
+								<div class="profile__version_tit">LATEST UPDATED</div>
+								<div class="profile__version_text">27.06.2024</div>
+							</div>
 						</div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">NICKNAME</div>
-							<div class="profile__info_text">DAWNSHINE</div>
+						<img class="profile__main_tit" src="/images/text_profile.png" alt="PROFILE">
+						<div class="profile__key_info">
+							<img class="profile__avatar" src="/images/img_avatar.png" alt="avatar">
+							<div class="profile__info">
+								<div class="profile__info_table">
+									<div class="profile__info_row">
+										<div class="profile__info_tit">NAME</div>
+										<div class="profile__info_text">SEOYOUNG YOON</div>
+									</div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">NICKNAME</div>
+										<div class="profile__info_text">DAWNSHINE</div>
+									</div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">COUNTRY</div>
+										<div class="profile__info_text">REPUBLIC OF KOREA</div>
+									</div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">BIRTH Year</div>
+										<div class="profile__info_text">1995</div>
+									</div>
+									<div class="profile__info_line"></div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">ROLE</div>
+										<div class="profile__info_text">PUPLISHER | FRONTEND DEVELOPER</div>
+									</div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">CERTIFICATIONS</div>
+										<div class="profile__info_text">Engineer Information Processing</div>
+									</div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">EDUCATION</div>
+										<div class="profile__info_text">SAFFY 2th (2021~2022)</div>
+									</div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">AWARDS</div>
+										<div class="profile__info_text">sAFFY 1st grade (2021)</div>
+									</div>
+									<div class="profile__info_row">
+										<div class="profile__info_tit">Projects</div>
+										<div class="profile__info_text">
+											<a class="profile__info_link">THE ROOM OF MOVIE HERO (SHOOTER)</a>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">COUNTRY</div>
-							<div class="profile__info_text">REPUBLIC OF KOREA</div>
+					</div>
+			
+				</div>
+				<div class="profile__back"></div>
+			</div>
+		</div>
+		<div class="profile" id="profile_bottom">
+			<div class="profile__outer">
+				<div class="profile__front profile__front-bottom">
+					<div class="profile__social_buttons">
+						<a class="profile__social_button profile__social_button-github"></a>
+						<a class="profile__social_button profile__social_button-instagram"></a>
+						<a class="profile__social_button profile__social_button-tweeter"></a>
+					</div>
+					<div class="profile__auth_mark">
+						<div class="profile__auth_text">AUTHENTIC</div>
+					</div>
+					<div class="profile__container">
+						<div class="profile__sub_info">
+							<img class="profile__sub_tit" src="/images/text_hobbies_and_favorites.png" alt="HOBBIES & FAVORITES">
+							<div class="profile__sub_icon profile__sub_icon-hobby">
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-drawing"></div>
+									<div class="profile__icon_text">DRAWING</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-pingpong"></div>
+									<div class="profile__icon_text">PING PONG</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-sweets"></div>
+									<div class="profile__icon_text">SWEETS</div>
+								</div>
+							</div>
 						</div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">BIRTH Year</div>
-							<div class="profile__info_text">1995</div>
-						</div>
-						<div class="profile__info_line"></div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">ROLE</div>
-							<div class="profile__info_text">PUPLISHER | FRONTEND DEVELOPER</div>
-						</div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">CERTIFICATIONS</div>
-							<div class="profile__info_text">Engineer Information Processing</div>
-						</div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">EDUCATION</div>
-							<div class="profile__info_text">SAFFY 2th (2021~2022)</div>
-						</div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">AWARDS</div>
-							<div class="profile__info_text">sAFFY 1st grade (2021)</div>
-						</div>
-						<div class="profile__info_row">
-							<div class="profile__info_tit">Projects</div>
-							<div class="profile__info_text">THE ROOM OF MOVIE HERO (SHOOTER)</div>
+						<div class="profile__sub_info">
+							<img class="profile__sub_tit" src="/images/text_skills.png" alt="SKILLS">
+			
+							<div class="profile__sub_icon profile__sub_icon-skills">
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-html5"></div>
+									<div class="profile__icon_text">HTML5</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-css3"></div>
+									<div class="profile__icon_text">CSS3</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-js"></div>
+									<div class="profile__icon_text">JS</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-react"></div>
+									<div class="profile__icon_text">REACT</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-threejs"></div>
+									<div class="profile__icon_text">THREE.JS</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-storybook"></div>
+									<div class="profile__icon_text">STORY BOOK</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-xd"></div>
+									<div class="profile__icon_text">XD</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-blender"></div>
+									<div class="profile__icon_text">BLENDER</div>
+								</div>
+								<div class="profile__icon_wrap">
+									<div class="profile__icon profile__icon-figma"></div>
+									<div class="profile__icon_text">FIGMA</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+				<div class="profile__back"></div>
 			</div>
 		</div>
-
-	 </div>
-
-	 <div class="profile profile-bottom">
-		<div class="profile__social_buttons">
-			<div class="profile__social_button"></div>
-			<div class="profile__social_button"></div>
-			<div class="profile__social_button"></div>
-		</div>
-		<div class="profile__container">
-			<div class="profile__sub_info">
-				<div class="profile__sub_tit"></div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">DRAWING</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">PING PONG</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">SWEETS</div>
-				</div>
-			</div>
-			<div class="profile__sub_info">
-				<div class="profile__sub_tit"></div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">HTML5</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">CSS3</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">JS</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">REACT</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">THREE.JS</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">STORY BOOK</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">XD</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">BLENDER</div>
-				</div>
-				<div class="profile__icon_wrap">
-					<div class="profile__icon"></div>
-					<div class="profile__icon_text">FIGMA</div>
-				</div>
-			</div>
-		</div>
-	 </div>
+	</div>
 
 
 
 
 
-	<canvas class="webgl" id="webgl"></canvas>
+	<!--src="/video/clip.mp4"-->
 	<video
 		id="video"
 		style="display: none;"
 		controls="" autoplay="true" name="media" crossOrigin="anonymous" type="video/mp4"></video>
+
+
 </body>
 </html>
