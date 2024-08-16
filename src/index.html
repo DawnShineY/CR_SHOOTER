@@ -6,12 +6,35 @@
 	<title>Cinematic Room : SHOOTER</title>
 	<link rel="stylesheet" href="/style/reset.css">
 	<link rel="stylesheet" href="/style/default.css">
+
 	<link rel="stylesheet" href="/style/profile.css">
+	<link rel="stylesheet" href="/style/landing.css">
+
 	<script type="module" src="script.js"></script>
 	<!--<script type="module" src="test/css3Drender-2.js"></script>-->
 </head>
 <body>
 	<canvas class="webgl" id="webgl"></canvas>
+
+	<!-- Landing -->
+	<div class="landing">
+		<div class="landing__opening landing__opening-top"></div>
+		<div class="landing__opening landing__opening-bottom"></div>
+		<div class="landing__bullet"></div>
+		<div class="landing__box">
+			<div class="landing__content">
+				<div class="landing__area landing__area-left">
+					<div class="landing__gun"></div>
+					<div class="landing__rock"></div>
+				</div>
+				<div class="landing__area landing__area-right">
+					<div class="landing__can"></div>
+					<div class="landing__rock"></div>
+				</div>
+				<div class="landing__subtitle">[ loading... ]</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Profile -->
 	<div style="display: none;" >
@@ -34,9 +57,9 @@
 								<div class="profile__version_text">27.06.2024</div>
 							</div>
 						</div>
-						<img class="profile__main_tit" src="/images/text_profile.png" alt="PROFILE">
+						<img class="profile__main_tit" src="/images/profile/text_profile.png" alt="PROFILE">
 						<div class="profile__key_info">
-							<img class="profile__avatar" src="/images/img_avatar.png" alt="avatar">
+							<img class="profile__avatar" src="/images/profile/img_avatar.png" alt="avatar">
 							<div class="profile__info">
 								<div class="profile__info_table">
 									<div class="profile__info_row">
@@ -100,7 +123,7 @@
 					</div>
 					<div class="profile__container">
 						<div class="profile__sub_info">
-							<img class="profile__sub_tit" src="/images/text_hobbies_and_favorites.png" alt="HOBBIES & FAVORITES">
+							<img class="profile__sub_tit" src="/images/profile/text_hobbies_and_favorites.png" alt="HOBBIES & FAVORITES">
 							<div class="profile__sub_icon profile__sub_icon-hobby">
 								<div class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-drawing"></div>
@@ -117,7 +140,7 @@
 							</div>
 						</div>
 						<div class="profile__sub_info">
-							<img class="profile__sub_tit" src="/images/text_skills.png" alt="SKILLS">
+							<img class="profile__sub_tit" src="/images/profile/text_skills.png" alt="SKILLS">
 			
 							<div class="profile__sub_icon profile__sub_icon-skills">
 								<div class="profile__icon_wrap">

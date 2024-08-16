@@ -175,7 +175,7 @@
 	cursor: pointer;
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-image: url("/images/icon_sprite_social.png");
+	background-image: url("/images/profile/icon_sprite_social.png");
 }
 .profile__social_button-github{
 	background-position: 0 0;
@@ -226,7 +226,7 @@
 	background-repeat: no-repeat;
 }
 .profile__sub_icon-hobby .profile__icon{
-	background-image: url("/images/icon_sprite_hobbies_and_favorites.png");
+	background-image: url("/images/profile/icon_sprite_hobbies_and_favorites.png");
 }
 .profile__icon-drawing{
 	background-position: 0 0;
@@ -238,7 +238,7 @@
 	background-position: -120px 0;
 }
 .profile__sub_icon-skills .profile__icon{
-	background-image: url("/images/icon_sprite_skills.png");
+	background-image: url("/images/profile/icon_sprite_skills.png");
 }
 .profile__icon-html5{
 	background-position: 0 0;

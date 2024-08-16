@@ -1,0 +1,125 @@
+.landing{
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 100vh;
+	z-index: 10;
+	background-color: #000000;
+	transition: 1s cubic-bezier(0, 0.55, 0.45, 1) 2.5s;
+}
+
+.landing__opening{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	z-index: 2;
+	transition: 1.5s ease-in 1s;
+}
+
+.landing__opening-top{
+	transform: translateY(-100%);
+}
+.landing__opening-bottom{
+	transform: translateY(100%);
+
+}
+.landing__box{
+	overflow: hidden;
+	width: 100%;
+	height: 70%;
+}
+
+.landing__content{
+	position: relative;
+	height: 100%;
+	background: linear-gradient(#3B3B34, #1B1C17) ;
+}
+.landing__area{
+	position: absolute;
+	bottom: 0;
+
+}
+.landing__area-left{
+	left: 0;
+}
+.landing__rock{
+	position: relative;
+}
+.landing__area-left .landing__rock{
+	width: 500px;
+	height: 310px;
+	background: url('/images/landing/img_rock_left.png') center no-repeat;
+	background-size: cover;
+}
+.landing__area-right{
+	right: 0;
+}
+.landing__area-right .landing__rock{
+	width: 575px;
+	height: 315px;
+	background: url('/images/landing/img_rock_right.png') center no-repeat;
+	background-size: cover;
+}
+.landing__gun{
+	position: absolute;
+	top: -24px;
+	left: 70px;
+	width: 200px;
+	height: 60px;
+	background: url('/images/landing/img_gun.png') center no-repeat;
+	background-size: cover;
+}
+.landing__bullet{
+	position: absolute;
+	bottom: calc(15% + 312px);
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	height: 6px;
+	background: url('/images/landing/img_bullet.png') no-repeat;
+	background-position: 0 center;
+	background-size: auto 100%;
+	transform: translateX(280px);
+	transition: 1s ease-out;
+
+	/*animation: bulletMove 5s linear both;*/
+}
+
+.landing__can{
+	position: absolute;
+	top: -20px;
+	right: 100px;
+	width: 40px;
+	height: 40px;
+	background-image: url('/images/landing/img_can.png');
+	background-position:center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	transition: 0.2s 0.8s ease-out;
+}
+.landing__subtitle{
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 38px;
+	font-style: italic;
+	font-weight: 500;
+	color: #B4B4B4;
+	animation: fadeIn 0.5s ease-in both;
+	white-space: nowrap;
+}
+@keyframes fadeIn {
+	0%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 1;
+	}
+}

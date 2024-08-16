@@ -24,14 +24,45 @@ const debugObject = {
 }
 
 /**
+ * Loading
+ */
+const landingElement = document.querySelector('.landing')
+const bulletElement = document.querySelector('.landing__bullet')
+const canElement = document.querySelector('.landing__can')
+const subtitleElement = document.querySelector('.landing__subtitle')
+const openingTopElement = document.querySelector('.landing__opening-top')
+const openingBottomElement = document.querySelector('.landing__opening-bottom')
+
+
+/**
  * Loaders
  */
-const textureLoader = new THREE.TextureLoader()
+const loadingManager = new THREE.LoadingManager()
+const textureLoader = new THREE.TextureLoader(loadingManager)
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('/draco/')
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader(loadingManager)
 gltfLoader.setDRACOLoader(dracoLoader)
 
+loadingManager.onLoad = () =>
+{
+	canElement.style.backgroundImage = `url('/images/landing/img_can_active.png')`
+	window.setTimeout(() =>
+	{
+		subtitleElement.innerHTML = '[ complete ]'
+	}, 1000)
+	openingTopElement.style.transform = 'translateY(-49%)'
+	openingBottomElement.style.transform = 'translateY(49%)'
+	landingElement.style.opacity = 0
+	window.setTimeout(() =>
+	{
+		landingElement.style.display = 'none'
+	}, 4000)
+}
+loadingManager.onProgress  = ( url, itemLoaded, itemsTotal ) =>
+{
+	bulletElement.style.transform = `translateX(calc((100% - 160px) / ${itemsTotal} * ${itemLoaded}))`
+}
 /**
  * Base
 */
@@ -183,8 +214,6 @@ gui.add(debugObject, 'lightMode', {
 		scene.background = new THREE.Color('#292420')
 		pointerInstancedMesh.material.emissive.set('black')
 		pointerInstancedMesh.material.opacity = 0.75
-
-
 	}
 	else
 	{
@@ -201,7 +230,6 @@ gui.add(debugObject, 'lightMode', {
 		pointerInstancedMesh.material.opacity = 0.6
 	}
 })
-
 
 
 /**
