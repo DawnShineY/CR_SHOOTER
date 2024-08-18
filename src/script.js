@@ -57,7 +57,7 @@ loadingManager.onLoad = () =>
 	window.setTimeout(() =>
 	{
 		landingElement.style.display = 'none'
-	}, 4000)
+	}, 5000)
 }
 loadingManager.onProgress  = ( url, itemLoaded, itemsTotal ) =>
 {
@@ -173,7 +173,7 @@ const standLight = new THREE.SpotLight('#ffceb0', 70, 1.5, Math.PI * 0.25, 1, 0.
 const spotLightHelper = new THREE.SpotLightHelper(standLight)
 roomModelGroup.add(standLight, standLight.target, spotLightHelper)
 
-const standLight2 = new THREE.SpotLight('#ffceb0', 100, 5, Math.PI * 0.2, 1, 1)
+const standLight2 = new THREE.SpotLight('#ffceb0', 100, 5, Math.PI * 0.25, 1, 1)
 const spotLightHelper2 = new THREE.SpotLightHelper(standLight2)
 roomModelGroup.add(standLight2, standLight2.target, spotLightHelper2)
 
@@ -224,8 +224,8 @@ gui.add(debugObject, 'lightMode', {
 				object.visible = true
 			}
 		}
-		ambientLight.intensity = 0.5
-		scene.background = new THREE.Color('#262721')
+		ambientLight.intensity = 0.2
+		scene.background = new THREE.Color('#1C1D19')
 		pointerInstancedMesh.material.emissive.set('#992805')
 		pointerInstancedMesh.material.opacity = 0.6
 	}

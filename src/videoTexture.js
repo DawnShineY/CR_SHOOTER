@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 const videoElement = document.getElementById('video')
-videoElement.volume = 0.2
+videoElement.volume = 0.5
 videoElement.play()
 
 const videoTexture = new THREE.VideoTexture( videoElement )
