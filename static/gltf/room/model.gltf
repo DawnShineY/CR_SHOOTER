@@ -21,7 +21,6 @@
 			"name":"Scene",
 			"nodes":[
 				2,
-				29,
 				30
 			]
 		}
@@ -109,7 +108,7 @@
 				4,
 				5
 			],
-			"name":"CalendarGroup"
+			"name":"calendarGroup"
 		},
 		{
 			"mesh":5,
@@ -284,7 +283,7 @@
 				20,
 				21
 			],
-			"name":"LightsPositionGroup"
+			"name":"lightsPositionGroup"
 		},
 		{
 			"mesh":13,
@@ -296,7 +295,25 @@
 			]
 		},
 		{
+			"extensions":{
+				"EXT_mesh_gpu_instancing":{
+					"attributes":{
+						"TRANSLATION":75,
+						"ROTATION":76,
+						"SCALE":77
+					}
+				}
+			},
 			"mesh":14,
+			"name":"pointerGroup",
+			"translation":[
+				-1.3462802171707153,
+				1.3201379776000977,
+				-3.844961166381836
+			]
+		},
+		{
+			"mesh":15,
 			"name":"tvScreen",
 			"translation":[
 				2.984687566757202,
@@ -305,7 +322,7 @@
 			]
 		},
 		{
-			"mesh":15,
+			"mesh":16,
 			"name":"windBell01",
 			"translation":[
 				-4.2443132400512695,
@@ -314,7 +331,7 @@
 			]
 		},
 		{
-			"mesh":16,
+			"mesh":17,
 			"name":"windBell02",
 			"translation":[
 				-4.2443132400512695,
@@ -323,7 +340,7 @@
 			]
 		},
 		{
-			"mesh":17,
+			"mesh":18,
 			"name":"windBell03",
 			"translation":[
 				-4.2443132400512695,
@@ -333,11 +350,11 @@
 		},
 		{
 			"children":[
-				25,
 				26,
-				27
+				27,
+				28
 			],
-			"name":"WindBellGroup"
+			"name":"windBellGroup"
 		},
 		{
 			"children":[
@@ -351,27 +368,10 @@
 				22,
 				23,
 				24,
-				28
+				25,
+				29
 			],
 			"name":"InteractionGroup"
-		},
-		{
-			"extensions":{
-				"EXT_mesh_gpu_instancing":{
-					"attributes":{
-						"TRANSLATION":75,
-						"ROTATION":76,
-						"SCALE":77
-					}
-				}
-			},
-			"mesh":18,
-			"name":"PointerGroup",
-			"translation":[
-				-1.3462802171707153,
-				1.3201379776000977,
-				-3.844961166381836
-			]
 		}
 	],
 	"materials":[
@@ -827,7 +827,7 @@
 			]
 		},
 		{
-			"name":"Cube.174",
+			"name":"Plane",
 			"primitives":[
 				{
 					"attributes":{
@@ -846,12 +846,13 @@
 						}
 					},
 					"indices":58,
+					"material":5,
 					"mode":4
 				}
 			]
 		},
 		{
-			"name":"Sphere",
+			"name":"Cube.174",
 			"primitives":[
 				{
 					"attributes":{
@@ -870,13 +871,12 @@
 						}
 					},
 					"indices":62,
-					"material":0,
 					"mode":4
 				}
 			]
 		},
 		{
-			"name":"Sphere.001",
+			"name":"Sphere",
 			"primitives":[
 				{
 					"attributes":{
@@ -901,7 +901,7 @@
 			]
 		},
 		{
-			"name":"Sphere.004",
+			"name":"Sphere.001",
 			"primitives":[
 				{
 					"attributes":{
@@ -926,7 +926,7 @@
 			]
 		},
 		{
-			"name":"Plane",
+			"name":"Sphere.004",
 			"primitives":[
 				{
 					"attributes":{
@@ -945,7 +945,7 @@
 						}
 					},
 					"indices":74,
-					"material":5,
+					"material":0,
 					"mode":4
 				}
 			]
@@ -1438,6 +1438,36 @@
 		},
 		{
 			"componentType":5126,
+			"count":15,
+			"max":[
+				0.1910574585199356,
+				0.1910574585199356,
+				0.038057830184698105
+			],
+			"min":[
+				-0.1910574585199356,
+				-0.114356629550457,
+				-0.03483623266220093
+			],
+			"type":"VEC3"
+		},
+		{
+			"componentType":5126,
+			"count":15,
+			"type":"VEC3"
+		},
+		{
+			"componentType":5126,
+			"count":15,
+			"type":"VEC2"
+		},
+		{
+			"componentType":5123,
+			"count":21,
+			"type":"SCALAR"
+		},
+		{
+			"componentType":5126,
 			"count":64,
 			"max":[
 				0.8958563208580017,
@@ -1557,36 +1587,6 @@
 			"type":"SCALAR"
 		},
 		{
-			"componentType":5126,
-			"count":15,
-			"max":[
-				0.1910574585199356,
-				0.1910574585199356,
-				0.038057830184698105
-			],
-			"min":[
-				-0.1910574585199356,
-				-0.114356629550457,
-				-0.03483623266220093
-			],
-			"type":"VEC3"
-		},
-		{
-			"componentType":5126,
-			"count":15,
-			"type":"VEC3"
-		},
-		{
-			"componentType":5126,
-			"count":15,
-			"type":"VEC2"
-		},
-		{
-			"componentType":5123,
-			"count":21,
-			"type":"SCALAR"
-		},
-		{
 			"bufferView":19,
 			"componentType":5126,
 			"count":8,
@@ -1678,28 +1678,28 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":627,
+			"byteLength":259,
 			"byteOffset":793968
 		},
 		{
 			"buffer":0,
+			"byteLength":627,
+			"byteOffset":794228
+		},
+		{
+			"buffer":0,
 			"byteLength":2595,
-			"byteOffset":794596
+			"byteOffset":794856
 		},
 		{
 			"buffer":0,
 			"byteLength":4206,
-			"byteOffset":797192
+			"byteOffset":797452
 		},
 		{
 			"buffer":0,
 			"byteLength":2603,
-			"byteOffset":801400
-		},
-		{
-			"buffer":0,
-			"byteLength":259,
-			"byteOffset":804004
+			"byteOffset":801660
 		},
 		{
 			"buffer":0,

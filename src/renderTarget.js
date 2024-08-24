@@ -32,15 +32,15 @@ class LaptopScreen {
 		/**
 		 * Textures
 		 */
-		const matcapTexture = loaders.textureLoader.load('/texture/matcap/3.png')
+		const matcapTexture = loaders.textureLoader.load('/texture/laptopScreen/matcap.png')
 		matcapTexture.colorSpace = THREE.SRGBColorSpace
-		const textBoxBriefTexture = loaders.textureLoader.load('./texture/web/web-brief.png')
+		const textBoxBriefTexture = loaders.textureLoader.load('./texture/laptopScreen/textBrief.png')
 		textBoxBriefTexture.flipY = false
-		const textBoxAppearanceTexture = loaders.textureLoader.load('./texture/web/web-appearance.png')
+		const textBoxAppearanceTexture = loaders.textureLoader.load('./texture/laptopScreen/textAppearance.png')
 		textBoxAppearanceTexture.flipY = false
-		const textBoxProfileTexture = loaders.textureLoader.load('./texture/web/web-profile.png')
+		const textBoxProfileTexture = loaders.textureLoader.load('./texture/laptopScreen/textProfile.png')
 		textBoxProfileTexture.flipY = false
-		const textBoxEventTexture = loaders.textureLoader.load('./texture/web/web-event.png')
+		const textBoxEventTexture = loaders.textureLoader.load('./texture/laptopScreen/textEvent.png')
 		textBoxEventTexture.flipY = false
 
 		/**
@@ -83,7 +83,7 @@ class LaptopScreen {
 		 * Models
 		 */
 		loaders.gltfLoader.load(
-			'/gltf-web/model.gltf',
+			'/gltf/laptopScreen/model.gltf',
 			(gltf) =>
 			{
 				this.model = gltf.scene
@@ -104,7 +104,7 @@ class LaptopScreen {
 					}
 				})
 
-				this.intersectionGroup = this.model.children.find((child) => child.name === 'IntersectionGroup')
+				this.intersectionGroup = this.model.children.find((child) => child.name === 'InteractionGroup')
 				setObjectGroup(this.intersectObjects, this.intersectionGroup.children)
 				console.log(this.intersectObjects)
 
@@ -113,15 +113,15 @@ class LaptopScreen {
 					this.intersectObjects.SectionGroup[key].material = sectionMaterial
 				}
 
-				for(let key in this.intersectObjects.TextBoxGroup)
+				for(let key in this.intersectObjects.textBoxGroup)
 				{
-					this.intersectObjects.TextBoxGroup[key].visible = false
+					this.intersectObjects.textBoxGroup[key].visible = false
 				}
 
-				this.intersectObjects.TextBoxGroup.textBox_appearance.material = textBoxAppearanceMatcapMaterial
-				this.intersectObjects.TextBoxGroup.textBox_brief.material = textBoxBriefMatcapMaterial
-				this.intersectObjects.TextBoxGroup.textBox_event.material = textBoxEventMatcapMaterial
-				this.intersectObjects.TextBoxGroup.textBox_profile.material = textBoxProfileMatcapMaterial
+				this.intersectObjects.textBoxGroup.textBoxAppearance.material = textBoxAppearanceMatcapMaterial
+				this.intersectObjects.textBoxGroup.textBoxMission.material = textBoxBriefMatcapMaterial
+				this.intersectObjects.textBoxGroup.textBoxEvent.material = textBoxEventMatcapMaterial
+				this.intersectObjects.textBoxGroup.textBoxProfile.material = textBoxProfileMatcapMaterial
 
 
 				this.model.position.set(0, 0, 0)

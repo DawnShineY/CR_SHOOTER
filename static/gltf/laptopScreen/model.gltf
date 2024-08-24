@@ -63,7 +63,7 @@
 				2,
 				3
 			],
-			"name":"BarGroup",
+			"name":"barGroup",
 			"translation":[
 				1.2371439933776855,
 				0.5035886168479919,
@@ -105,7 +105,7 @@
 		},
 		{
 			"mesh":5,
-			"name":"section_appearance",
+			"name":"sectionAppearance",
 			"scale":[
 				4.008087158203125,
 				4.008087158203125,
@@ -119,7 +119,7 @@
 		},
 		{
 			"mesh":6,
-			"name":"section_event",
+			"name":"sectionEvent",
 			"scale":[
 				4.008087158203125,
 				4.008087158203125,
@@ -133,7 +133,7 @@
 		},
 		{
 			"mesh":7,
-			"name":"section_profile",
+			"name":"sectionProfile",
 			"scale":[
 				4.008087158203125,
 				4.008087158203125,
@@ -151,7 +151,7 @@
 				9,
 				10
 			],
-			"name":"SectionGroup",
+			"name":"sectionGroup",
 			"scale":[
 				0.24949556589126587,
 				0.24949556589126587,
@@ -165,7 +165,7 @@
 		},
 		{
 			"mesh":8,
-			"name":"textBox_appearance",
+			"name":"textBoxAppearance",
 			"translation":[
 				-3.3596994876861572,
 				-2.846834421157837,
@@ -174,16 +174,7 @@
 		},
 		{
 			"mesh":9,
-			"name":"textBox_brief",
-			"translation":[
-				0.06502844393253326,
-				0.016257047653198242,
-				-0.13005860149860382
-			]
-		},
-		{
-			"mesh":10,
-			"name":"textBox_event",
+			"name":"textBoxEvent",
 			"translation":[
 				3.2058494091033936,
 				-4.718863487243652,
@@ -191,8 +182,17 @@
 			]
 		},
 		{
+			"mesh":10,
+			"name":"textBoxMission",
+			"translation":[
+				0.06502844393253326,
+				0.016257047653198242,
+				-0.13005860149860382
+			]
+		},
+		{
 			"mesh":11,
-			"name":"textBox_profile",
+			"name":"textBoxProfile",
 			"translation":[
 				3.3033933639526367,
 				-2.398674726486206,
@@ -206,7 +206,7 @@
 				14,
 				15
 			],
-			"name":"TextBoxGroup",
+			"name":"textBoxGroup",
 			"translation":[
 				0,
 				2.7936851978302,
@@ -232,7 +232,7 @@
 				16,
 				17
 			],
-			"name":"IntersectionGroup",
+			"name":"InteractionGroup",
 			"translation":[
 				0.006768926978111267,
 				0.003920614719390869,
@@ -421,7 +421,7 @@
 			]
 		},
 		{
-			"name":"Plane.005",
+			"name":"Plane.008",
 			"primitives":[
 				{
 					"attributes":{
@@ -445,7 +445,7 @@
 			]
 		},
 		{
-			"name":"Plane.008",
+			"name":"Plane.005",
 			"primitives":[
 				{
 					"attributes":{
@@ -758,13 +758,13 @@
 			"componentType":5126,
 			"count":4,
 			"max":[
-				3.2840442657470703,
-				0.48862966895103455,
+				1.0340765714645386,
+				1.3522539138793945,
 				1.4355013888689427e-07
 			],
 			"min":[
-				-3.2840442657470703,
-				-0.48862966895103455,
+				-1.0340765714645386,
+				-1.3522539138793945,
 				-1.4355013888689427e-07
 			],
 			"type":"VEC3"
@@ -783,13 +783,13 @@
 			"componentType":5126,
 			"count":4,
 			"max":[
-				1.0340765714645386,
-				1.3522539138793945,
+				3.2840442657470703,
+				0.48862966895103455,
 				1.4355013888689427e-07
 			],
 			"min":[
-				-1.0340765714645386,
-				-1.3522539138793945,
+				-3.2840442657470703,
+				-0.48862966895103455,
 				-1.4355013888689427e-07
 			],
 			"type":"VEC3"
@@ -936,12 +936,12 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":173,
+			"byteLength":175,
 			"byteOffset":14408
 		},
 		{
 			"buffer":0,
-			"byteLength":175,
+			"byteLength":173,
 			"byteOffset":14584
 		},
 		{
