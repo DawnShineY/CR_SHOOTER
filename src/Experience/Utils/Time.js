@@ -26,9 +26,9 @@ export default class Time extends EventEmitter
     {
 		this.stats.begin()
         const currentTime = Date.now()
-        this.delta = currentTime - this.current
+        this.delta = ( currentTime - this.current ) * 0.001
+        this.elapsed = ( this.current - this.start ) * 0.001
         this.current = currentTime
-        this.elapsed = this.current - this.start
 
         this.trigger( 'tick' )
 

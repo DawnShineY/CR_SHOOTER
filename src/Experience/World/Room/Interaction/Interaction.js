@@ -70,43 +70,15 @@ export default class Interaction
 		this.windbell = new Windbell( this.roomInteractionObjects )
 
 	}
-
-	//setInteractionGroup()
-	//{
-	//	const interactionGroup = this.roomModel.children.find(( child ) =>
-	//	{
-	//		return child.name === 'InteractionGroup'
-	//	})
-	//	this.makeInteractionGroup( this.roomInteractionObjects, interactionGroup.children )
-	//	console.log( this.roomInteractionObjects )
-	//}
-
-
-	//makeInteractionGroup( object, children )
-	//{
-	//	for(let child of children)
-	//	{
-	//		if(child.children.length && child.type === 'Object3D') // 자식이 있는 빈 객체
-	//		{
-	//			object[ child.name ] = {}
-	//			this.makeInteractionGroup( object[ child.name ], child.children )
-	//		}
-	//		else if( child.inInstancedMesh ) // instanced mesh
-	//		{
-	//			object[ child.name ] = child
-	//		}
-	//		else if(child.isMesh || child.type === 'Object3D') // mesh 이거나 자식이 없는 빈 객체
-	//		{
-	//			if(child.children.length)
-	//				this.makeInteractionGroup( object, child.children )
-
-	//			object[child.name] = child
-	//		}
-	//	}
-	//}
+	resize()
+	{
+		this.memo.resize()
+	}
 	update()
 	{
 		this.windbell.update()
 		this.laptopScreen.update()
+		this.pointer.update()
+		this.memo.update()
 	}
 }

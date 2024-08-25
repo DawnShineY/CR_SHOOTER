@@ -31,7 +31,6 @@ window.addEventListener('resize', () =>
 	sizes.height = window.innerHeight
 
 	cssRenderer.setSize(sizes.width, sizes.height)
-	cssRenderer.setSize(sizes.width, sizes.height)
 })
 const cssRenderer = new CSS3DRenderer()
 cssRenderer.setSize(sizes.width, sizes.height)

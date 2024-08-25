@@ -6,7 +6,7 @@ import World from './World/World.js'
 import Camera from './Camera.js'
 import Renderer from './Renderer.js'
 import Debug from './Utils/Debug.js'
-import Raycaster from './Utils/Raycaster.js'
+import Raycaster from './Raycaster.js'
 import Scene from './Scene.js'
 
 let instance = null
@@ -47,14 +47,15 @@ export default class Experience
 
 	update()
 	{
-		this.world.update()
 		this.camera.update()
-		this.renderer.update()
 		this.raycaster.update()
+		this.renderer.update()
+		this.world.update() // css3DRenderer가 webGLRenderer보다 나중에 실행되어야함
 	}
 	resize()
 	{
 		this.camera.resize()
 		this.renderer.resize()
+		this.world.resize()
 	}
 }

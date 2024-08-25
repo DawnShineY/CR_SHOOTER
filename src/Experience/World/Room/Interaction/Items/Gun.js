@@ -5,10 +5,12 @@ export default class Gun
 {
 	constructor(_interactionObjects)
 	{
+		this.interactionObjects = _interactionObjects
+		this.model = this.interactionObjects.gun
+		this.modelShadow = this.interactionObjects.gunShadow
+
 		this.experience = new Experience()
 		this.resources = this.experience.resources
-		this.interactionObjects = _interactionObjects
-		this.mesh = this.interactionObjects.gun
 
 		this.setShadow()
 	}
@@ -18,8 +20,7 @@ export default class Gun
 		this.shadowOpacityTexture = this.resources.items.gunShadowOpacityTexture
 		this.shadowOpacityTexture.flipY = false
 
-		this.shadowMesh = this.interactionObjects.gunShadow
-		this.shadowMesh.material = new THREE.MeshBasicMaterial({
+		this.modelShadow.material = new THREE.MeshBasicMaterial({
 			color: '#000000',
 			transparent: true,
 			alphaMap: this.shadowOpacityTexture

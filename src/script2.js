@@ -683,7 +683,7 @@ const tick = () =>
 	//laptopScreen.effectComposer.render()
 	renderer.setRenderTarget(null)
 	renderer.render(scene, camera)
-	//cssRenderer.render(cssScene, camera)
+	cssRenderer.render(cssScene, camera)
 	//renderer2.render(scene2, camera)
 	stats.end()
 	window.requestAnimationFrame(tick)

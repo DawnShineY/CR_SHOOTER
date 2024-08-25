@@ -1,12 +1,9 @@
 import * as THREE from 'three'
-import EventEmitter from "./EventEmitter";
-import Experience from '../Experience';
+import Experience from './Experience';
 
-export default class Raycaster extends EventEmitter{
+export default class Raycaster{
 	constructor()
 	{
-		super()
-
 		this.experience = new Experience()
 		this.time = this.experience.time
 		this.sizes = this.experience.sizes
@@ -30,7 +27,5 @@ export default class Raycaster extends EventEmitter{
 	{
 		// Default mouse setting
 		this.instance.setFromCamera( this.mouse, this.camera )
-
-		this.trigger( 'tick' )
 	}
 }

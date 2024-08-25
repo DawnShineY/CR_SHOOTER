@@ -22,4 +22,11 @@ export default class World
 			this.room.update()
 		}
 	}
+	resize()
+	{
+		if(this.room)
+		{
+			this.room.resize()
+		}
+	}
 }

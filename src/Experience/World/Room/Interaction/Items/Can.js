@@ -5,10 +5,12 @@ export default class Can
 {
 	constructor(_interactionObjects)
 	{
+		this.interactionObjects = _interactionObjects
+		this.model = this.interactionObjects.can
+		this.modelShadow = this.interactionObjects.canShadow
+
 		this.experience = new Experience()
 		this.resources = this.experience.resources
-		this.interactionObjects = _interactionObjects
-		this.mesh = this.interactionObjects.can
 
 		this.setShadow()
 	}
@@ -18,8 +20,7 @@ export default class Can
 		this.shadowOpacityTexture = this.resources.items.canShadowOpacityTexture
 		this.shadowOpacityTexture.flipY = false
 
-		this.shadowMesh = this.interactionObjects.canShadow
-		this.shadowMesh.material = new THREE.MeshBasicMaterial({
+		this.modelShadow.material = new THREE.MeshBasicMaterial({
 			color: '#000000',
 			transparent: true,
 			alphaMap: this.shadowOpacityTexture

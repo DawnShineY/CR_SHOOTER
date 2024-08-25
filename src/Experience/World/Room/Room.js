@@ -27,6 +27,10 @@ export default class Room
 
 		this.modelGroup.add( this.model)
 	}
+	resize()
+	{
+		this.interaction.resize()
+	}
 	update()
 	{
 		this.interaction.update()
