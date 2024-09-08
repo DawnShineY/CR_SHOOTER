@@ -79,6 +79,6 @@ export default class Interaction
 		this.windbell.update()
 		this.laptopScreen.update()
 		this.pointer.update()
-		this.memo.update()
+		//this.memo.update()
 	}
 }

@@ -8,6 +8,7 @@ import Renderer from './Renderer.js'
 import Debug from './Utils/Debug.js'
 import Raycaster from './Raycaster.js'
 import Scene from './Scene.js'
+import Landing from './Landing.js'
 
 let instance = null
 
@@ -29,6 +30,7 @@ export default class Experience
 		this.sizes = new Sizes()
 		this.time = new Time()
 		this.resources = new Resources()
+		this.landing = new Landing()
 		this.scene = new Scene().instance
 		this.camera = new Camera()
 		this.renderer = new Renderer()

@@ -30,6 +30,7 @@
 
 }
 .landing__box{
+	position: relative;
 	overflow: hidden;
 	width: 100%;
 	height: 70%;
@@ -77,18 +78,14 @@
 }
 .landing__bullet{
 	position: absolute;
-	bottom: calc(15% + 312px);
-	left: 0;
+	opacity: 0;
 	z-index: 1;
-	width: 100%;
+	width: 26px;
 	height: 6px;
 	background: url('/images/landing/img_bullet.png') no-repeat;
 	background-position: 0 center;
 	background-size: auto 100%;
-	transform: translateX(280px);
-	transition: 1s ease-out;
-
-	/*animation: bulletMove 5s linear both;*/
+	transition: transform 1s ease-out, opacity 0.3s ease-out;
 }
 
 .landing__can{
@@ -105,7 +102,7 @@
 }
 .landing__subtitle{
 	position: absolute;
-	bottom: 20px;
+	bottom: 4%;
 	left: 50%;
 	transform: translateX(-50%);
 	font-size: 38px;
@@ -121,5 +118,26 @@
 	}
 	100%{
 		opacity: 1;
+	}
+}
+
+@media screen and (max-width : 1400px) {
+	.landing__subtitle{
+		font-size: 20px;
+	}
+	.landing__box{
+		height: 33%;
+	}
+	.landing__area-left{
+		transform-origin: left bottom;
+		transform: scale(40%);
+	}
+	.landing__area-right{
+		transform-origin: right bottom;
+		transform: scale(40%);
+	}
+	.landing__bullet{
+		width: 10.4px;
+		height: 2.4px;
 	}
 }
