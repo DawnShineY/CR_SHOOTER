@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { DRACOLoader, GLTFLoader } from 'three/examples/jsm/Addons.js'
 import sources from '../Data/sources.js'
 import EventEmitter from './EventEmitter.js'
+import setInteractionGroup from '../Helpers/setInteractionGroup.js'
 
 export default class Resources extends EventEmitter
 {
@@ -12,12 +13,23 @@ export default class Resources extends EventEmitter
 		this.sources = sources
 
 		this.items = {}
-		this.toLoad = this.sources.length
-		this.loaded = 0
+		this.interactionItems = {}
 
 		this.setLoadingManager()
 		this.setLoaders()
 		this.startLoading()
+	}
+
+	setInteractionItems(model, targetGroupName)
+	{
+		if(this.interactionItems[targetGroupName])
+		{
+			console.warn( 'Item group name is already exist. Change the name' )
+		}
+		else{
+			const interactionObject = setInteractionGroup(model, targetGroupName)
+			this.interactionItems[targetGroupName] = interactionObject
+		}
 	}
 
 	setLoadingManager()

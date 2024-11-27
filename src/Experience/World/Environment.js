@@ -8,22 +8,32 @@ export default class Environment
 		this.experience = new Experience()
 		this.scene = this.experience.scene
 
-		this.setAmbientLight()
-		this.setDirectionalLight()
+		this.setLightMode()
 	}
-	setSceneBackground()
+	setLightMode()
 	{
 		this.scene.background = new THREE.Color( '#292420' )
-	}
-	setAmbientLight()
-	{
 		this.ambientLight = new THREE.AmbientLight( '#ffffff', 5 )
 		this.scene.add( this.ambientLight )
-	}
-	setDirectionalLight()
-	{
 		this.directionalLight = new THREE.DirectionalLight( '#ffffff', 0.8 )
 		this.directionalLight.position.set( 1, 2, 3 )
 		this.scene.add( this.directionalLight )
+	}
+	setDarkMode()
+	{
+		this.scene.background = new THREE.Color( '#1C1D19' )
+
+	}
+	changeMode(mode)
+	{
+		if(mode === 'light')
+		{
+			console.log('light mode')
+			this.setLightMode()
+		}
+		else if(mode === 'dark')
+		{
+			console.log('dark mode')
+		}
 	}
 }

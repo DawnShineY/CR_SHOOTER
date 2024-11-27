@@ -5,7 +5,6 @@ import Drawer from './Items/Drawer.js'
 import Fireplace from './Items/Fireplace.js'
 import Gun from './Items/Gun.js'
 import LaptopScreen from './Items/LaptopScreen.js'
-import LightMode from './Items/LightMode.js'
 import Locker from './Items/Locker.js'
 import Memo from './Items/Memo.js'
 import Pointer from './Items/Pointer.js'
@@ -23,7 +22,10 @@ export default class Interaction
 		this.resources = this.experience.resources
 		this.roomModel = this.resources.items.roomModel.scene
 		this.pointerInstancedMesh = null
-		this.roomInteractionObjects = setInteractionGroup(this.roomModel, 'InteractionGroup')
+		//this.roomInteractionObjects = setInteractionGroup(this.roomModel, 'InteractionGroup')
+		this.resources.setInteractionItems(this.roomModel, 'InteractionGroup')
+		this.roomInteractionObjects = this.resources.interactionItems['InteractionGroup']
+		console.log('test', this.resources.interactionItems)
 
 		this.activateInteractions()
 	}
@@ -47,9 +49,6 @@ export default class Interaction
 
 		// LaptopScreen
 		this.laptopScreen = new LaptopScreen( this.roomInteractionObjects )
-
-		// LightMode
-		this.lightMode = new LightMode( this.roomInteractionObjects )
 
 		// Locker
 		this.locker = new Locker( this.roomInteractionObjects )
