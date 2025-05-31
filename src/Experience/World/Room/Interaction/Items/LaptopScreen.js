@@ -8,10 +8,12 @@ export default class LaptopScreen
 	{
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.laptopScreen
+		this.laptopCoverModel = this.interactionObjects.laptopCover
 
 		this.experience = new Experience()
 		this.resources = this.experience.resources
 		this.time = this.experience.time
+		this.debug =this.experience.debug
 		this.raycaster = this.experience.raycaster
 		this.renderer = this.experience.renderer
 		this.laptopScreenModel = this.resources.items.laptopScreenModel.scene // laptop screen inner model
@@ -21,6 +23,13 @@ export default class LaptopScreen
 
 		this.setRenderTargetTexture()
 		this.setLaptopModel()
+
+		// debug
+		if(this.debug.active)
+		{
+			this.debugFolder = this.debug.ui.addFolder('노트북')
+			this.debugFolder.add(this.laptopCoverModel.rotation, 'y').name('노트북 커버 회전').min(Math.PI * 0.3).max(Math.PI).step(0.01) 
+		}
 	}
 
 	setRenderTargetTexture()

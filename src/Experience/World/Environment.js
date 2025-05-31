@@ -13,9 +13,9 @@ export default class Environment
 	setLightMode()
 	{
 		this.scene.background = new THREE.Color( '#292420' )
-		this.ambientLight = new THREE.AmbientLight( '#ffffff', 5 )
+		this.ambientLight = new THREE.AmbientLight( '#ffffff', 4 )
 		this.scene.add( this.ambientLight )
-		this.directionalLight = new THREE.DirectionalLight( '#ffffff', 0.8 )
+		this.directionalLight = new THREE.DirectionalLight( '#ffffff', 0. )
 		this.directionalLight.position.set( 1, 2, 3 )
 		this.scene.add( this.directionalLight )
 	}
