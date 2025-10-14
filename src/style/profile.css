@@ -135,6 +135,7 @@
 	background-color: #202020;
 }
 .profile__avatar_wrap{
+	transition: 0.3s;
 	cursor: pointer;
 }
 .profile__avatar{

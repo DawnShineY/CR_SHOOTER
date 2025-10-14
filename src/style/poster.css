@@ -1,59 +1,80 @@
+:root{
+	--rotateFactor: 135deg;
+	--scaleFactor: 0.7
+}
+
 .poster {
 	min-height: 100vh;
 	box-sizing: border-box;
 	background-color: #DEDFD9;
 }
 .home{
+	padding: 36px 0 0 36px;
+}
+.home__btn{
 	display: block;
 	width: 60px;
 	height: 60px;
-	margin: 36px 0 0 36px;
+	/*margin: 36px 0 0 36px;*/
 	background: url("../../static/images/poster/img_logo.png") center no-repeat;
 	background-size: 100% auto;
 }
 .ticket{
 	width: 100%;
+	height: calc(100vh - 96px);
 	display: flex;
 	flex-direction: column;
-	align-items: center
+	align-items: center;
+	justify-content: center;
 }
+
 .ticket__inspired{
 	width: 600px;
 	height: auto;
-	margin-top: 100px;
-	margin-bottom: 30px;
+	margin-top: -160px;
+	margin-bottom: 50px;
 }
+
 .ticket__envelope{
-	--transition: transform 1s ease-in;
 	position: relative;
 	width: 956px;
 	height: 400px;
-	background-color: #1E1E1E;
+	background: linear-gradient(to bottom, #272825 ,#1c1d1c);
 	filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.3));
 	transform-style: preserve-3d;
 	perspective: 9999px;
 }
 
-
 .ticket__envelope-open .ticket__envelope_top_wrap{
 	transition-delay: 0s;
-	transform: rotateX(180deg);
+	transform: rotateX(var(--rotateFactor));
 }
 .ticket__envelope_top_wrap{
 	position: absolute;
 	top: 0;
 	width: 100%;
 	z-index: 2;
-	transition: var(--transition);
+	transition: transform 1s ease-in;
 	transform-origin: top;
 	transition-delay: 0.3s;
 }
+@property --deg {
+  syntax: '<angle>';     /* <angle>, <number>, <length> 등 가능 */
+  inherits: false;
+  initial-value: 135deg;
+}
+.ticket__envelope-open .ticket__envelope_top{
+	--deg: 0deg;
+	transition-delay: 0.3s;
+}
+
 .ticket__envelope_top{
 	width: 100%;
 	height: 300px;
-	background: linear-gradient(to bottom,#53554c, #2b2b2b);
-	box-shadow: 0 6px 10px #000000;
+	background: linear-gradient(var(--deg),#53554c, #2c2d29);
 	clip-path: polygon(100% 0, 100% 70%, 50% 100%, 0 70%, 0 0);
+	transition: --deg 1s;
+	transition-delay: 0.8s;
 }
 .ticket__envelope-open .ticket__envelope_sticker{
 	animation: none;
@@ -71,17 +92,18 @@
 	animation: stickerRotation 0.5s ease-in-out infinite alternate;
 }
 .ticket__envelope-open .ticket__envelope_bottom{
+	--deg: 180deg;
 	transition-delay: 0.3s;
-	transform: rotateX(-180deg);
+	transform: rotateX(calc(var(--rotateFactor) * -1));
 }
 .ticket__envelope_bottom{
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 	height: 200px;
-	background: linear-gradient(to bottom, #181818,#363734);
+	background: linear-gradient(var(--deg), #464741,#212220);
 	z-index: 1;
-	transition: var(--transition);
+	transition: transform 0.7s ease-in, --deg 1s;
 	transform-origin: bottom;
 }
 @keyframes stickerRotation {
@@ -92,10 +114,57 @@
 		transform: rotateZ(6deg);
 	}
 }
+@keyframes scale-easeOutElastic {
+	0% {
+		transform: translateX(-50%) scale(calc(0.65));
+	}
+
+	/*56% {
+		transform: translateX(-50%) scale(calc(1.1 * var(--scaleFactor)));
+	}*/
+
+	/*28% {
+		transform: translateX(-50%) scale(calc(0.95 * var(--scaleFactor)));
+	}
+
+	44% {
+		transform: translateX(-50%) scale(calc(1.05 * var(--scaleFactor)));
+	}*/
+
+	100% {
+		transform: translateX(-50%) scale(calc(1 * var(--scaleFactor)));
+	}
+}
+
+@keyframes test {
+	0%{
+		transform: translateX(0);
+	}
+	100%{
+		transform: translateX(100px);
+	}
+}
+.anitest{
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 300px;
+	aspect-ratio: 1;
+	background-color: red;
+	z-index: 100;
+	transition: transform 1s ease-in;
+}
+
+.anitest.add{
+	animation: test 1s ease-in forwards;
+}
 
 .ticket__envelope-open .ticket__paper{
-	transform: translateX(-50%) scale(1);
-	transition: transform 1s 0.7s ease-in;
+	/*transform: translateX(-50%) scale(1);*/
+	/*transition: transform 0.65s 7s cubic-bezier(.36,0,.66,-0.56);*/
+	animation: scale-easeOutElastic 1.2s 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+	will-change: transform;
 }
 .ticket__paper{
 	position: absolute;
@@ -105,19 +174,33 @@
 	display: flex;
 	width: 1280px;
 	height: 320px;
-	transform: translateX(-50%) scale(0.7);
+	transform: translateX(-50%) scale(0);
+	transition: transform 0.65s 0.4s ease-in;
 	z-index: 5;
 	filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.3));
 	z-index: 0;
-	transition: transform 1s ease-in;
-
+	overflow: hidden;
+}
+.ticket__paper_texture{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 16px;
+	background: url('../../static/images/poster/img_paper_texture.jpg') no-repeat;
+	background-size: cover;
+	mix-blend-mode: multiply;
+	filter: contrast(0.95) brightness(1.05); 
+	z-index: 1;
+	pointer-events: none;
 }
 .ticket__info_wrap{
+	position: relative;
 	width: 100%;
 	display: flex;
 	border-radius: 16px;
 	background-color: #ECEEE7;
-	overflow: hidden;
 }
 .ticket__info_thumbnail{
 	position: relative;
@@ -203,6 +286,7 @@
 	width: 160px;
 	height: 100%;
 	writing-mode: sideways-lr;
+	-webkit-writing-mode: sideways-lr;
 	text-orientation: sideways;
 	background-color: #B18868;
 	border-radius: 16px;
@@ -258,23 +342,40 @@
 }
 
 .board{
-	margin-top: 320px;
-	padding-bottom: 300px;
+	margin-top: 60px;
+	padding-bottom: 96px;
 	background: linear-gradient(to right, #B9BBB2 1px, transparent 1px) repeat, linear-gradient(to bottom, #B9BBB2 1px, transparent 1px) repeat, #9FA291;
 	background-size: 30px 100%, 100% 30px;
 
+}
+.board__title_wrap{
+	position: relative;
+	width: max-content;
+	margin: 0 auto;
+	transform: translateY(-50px);
 }
 .board__title{
 	display: block;
 	width: 850px;
 	height: auto;
-	margin: 0 auto;
-	transform: translateY(-20px);
+}
+.board__title_texture{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url('../../static/images/poster/img_paper_texture.jpg') left -10px center no-repeat;
+	background-size: 110% auto;
+	mix-blend-mode: multiply;
+	filter: contrast(0.95) brightness(1.07);
+	z-index: 1;
+	pointer-events: none;
 }
 .board__area{
 	position: relative;
 	width: 1280px;
-	margin: 80px auto;
+	margin: 80px auto 8px;
 	padding-top: 280px;
 }
 .board__img_wrap{
@@ -282,13 +383,57 @@
 	margin: 0 auto;
 	max-width: max-content;
 }
+.board__line{
+	position: absolute;
+	overflow: visible;
+}
+.board__line_path{
+	stroke-width: 3px;
+	stroke: #ee9c04;
+	fill: none;
+}
 .board__dot{
 	position: absolute;
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	background-color: rgb(250, 168, 15);
+	width: 40px;
+	height: 40px;
 	z-index: 1;
+	transition: opacity 0.3s ease-in;
+	transform: translate(-50%, -50%);
+}
+.board__dot::before{
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: #ffd78d;
+	animation: dotAni 1s ease-in-out infinite;
+}
+.board__dot::after{
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: #ee9c04;
+}
+@keyframes dotAni {
+	0%{
+		transform: scale(0);
+	}
+	45% {
+		transform: scale(0.7);
+	}
+	66% {
+		transform: scale(0.6);
+	}
+	100%{
+		transform: scale(1);
+		opacity: 0;
+	}
 }
 .board__reference_img{
 	display: block;
@@ -300,6 +445,7 @@
 	top: 0;
 	left: 0;
 	width: 100%;
+	height: 100%;
 }
 .board__polaroid_img{
 	--bg_width: 200px;
@@ -310,6 +456,7 @@
 	background-size: auto 100%;
 	box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.11);
 	cursor: pointer;
+	transition: transform 0.3s ease-in;
 }
 .board__polaroid_img:nth-child(1){
 	background-position-x: 0;
@@ -389,23 +536,50 @@
 	left: 1000px;
 	transform: rotate(4deg);
 }
-.board__arrow{
+.final{
+	padding-top: 30px;
+	padding-bottom: 120px;
+	background-color: #808375;
+}
+.final__arrow{
 	display: block;
 	width: 120px;
 	height: 270px;
-	margin: 0 auto;
+	margin: -128px auto 0;
 	background: url("../../static/images/poster/img_arrow.png") center no-repeat;
 	background-size: 100% auto;
 }
-.board__final{
+.final__photo{
 	width: max-content;
-	margin: 60px auto;
+	margin: 40px auto 0;
+	padding-bottom: 30px;
 	background-color: #E4E6D8;
 	box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.11);
 }
-
+.final__photo_img{
+	width: 600px;
+	height: auto;
+}
+.final__photo_btn{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: max-content;
+	margin: 0 auto;
+	padding: 0 8px;
+	background: linear-gradient(to top, #d8a04ca4 12px, transparent 12px) bottom left no-repeat;
+	background-size: 0 100%;
+	font-size: 20px;
+	font-weight: 600;
+	color: #6b655e;
+	cursor: pointer;
+	transition: all ease-in 0.3s;
+}
+.final__photo_btn:hover{
+	background-size: 100% 100%;
+}
 .footer{
-	height: 420px;
-	background: #1F201B url("../../static/images/poster/img_gun_silhouette.png") left -200px bottom -40px no-repeat;
-	background-size: 1360px auto;
+	height: 280px;
+	background: #1F201B url("../../static/images/poster/img_gun_silhouette.png") left -20px bottom -40px no-repeat;
+	background-size: 680px auto;
 }

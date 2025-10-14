@@ -100,7 +100,7 @@
 	background-size: cover;
 	transition: 0.2s 0.8s ease-out;
 }
-.landing__subtitle{
+.landing__subtitle_wrap{
 	position: absolute;
 	bottom: 4%;
 	left: 50%;
@@ -112,6 +112,9 @@
 	animation: fadeIn 0.5s ease-in both;
 	white-space: nowrap;
 }
+.landing__subtitle_side{
+	transition: all 0.3s ease-in;
+}
 @keyframes fadeIn {
 	0%{
 		opacity: 0;
@@ -122,7 +125,7 @@
 }
 
 @media screen and (max-width : 800px) {
-	.landing__subtitle{
+	.landing__subtitle_wrap{
 		font-size: 20px;
 	}
 	.landing__box{

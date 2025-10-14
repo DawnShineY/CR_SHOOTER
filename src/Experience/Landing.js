@@ -51,7 +51,7 @@ export default class Landing
 
 			window.setTimeout(() =>
 			{
-				this.subtitleElement.innerHTML = '[ complete ]'
+				this.subtitleElement.innerHTML = 'complete'
 			}, 1000)
 			window.setTimeout(() =>
 			{

@@ -12,6 +12,11 @@ export default class Pointer
 		this.experience = new Experience()
 		this.camera = this.experience.camera
 		this.raycaster = this.experience.raycaster
+		this.canvas = this.experience.canvas
+
+		this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+		console.log('isMobile:', this.isMobile)
+
 
 		this.prevInstancedId = null
 		this.prevMouseIn = false
@@ -43,58 +48,81 @@ export default class Pointer
 		{
 			const instancedId = intersection[ 0 ].instanceId
 
-			// Color
-			this.instancedMesh.setColorAt( instancedId, this.activeColor )
-			this.instancedMesh.instanceColor.needsUpdate = true
+			if (instancedId == this.prevInstancedId) return
 
-			if(!this.prevMouseIn)
-			{
-				// Matrix
-				this.instancedMesh.getMatrixAt( instancedId, this.matrix )
-				this.matrix.multiply( this.scaleMatrix )
-				this.instancedMesh.setMatrixAt( instancedId, this.matrix )
-				this.instancedMesh.instanceMatrix.needsUpdate = true
-
-				// Click event
-				this.clickEvent = this.focusCamera( instancedId )
-				window.addEventListener( 'click', this.clickEvent )
+			if( this.prevInstancedId !== null ) { // pointer에서 pointer로 바로 옮겨왔을 때도 이전 pointer reset 필요
+				this.resetPointer()
 			}
 
-			this.prevMouseIn = true
+			this.setPointer(instancedId)
 			document.body.style.cursor = 'pointer'
-			this.prevInstancedId = instancedId
 		}
 		else
 		{
-			if( this.prevInstancedId != null )
+			if( this.prevInstancedId == null ) return
+
+			this.resetPointer()
+			document.body.style.cursor = 'default'
+		}
+	}
+
+	setPointer = (instancedId) => {
+		// Color
+		this.instancedMesh.setColorAt( instancedId, this.activeColor )
+		this.instancedMesh.instanceColor.needsUpdate = true
+
+		if(!this.prevMouseIn)
+		{
+			// Matrix
+			this.instancedMesh.getMatrixAt( instancedId, this.matrix )
+			this.matrix.multiply( this.scaleMatrix )
+			this.instancedMesh.setMatrixAt( instancedId, this.matrix )
+			this.instancedMesh.instanceMatrix.needsUpdate = true
+
+			// Click event
+			this.clickEvent = this.focusCamera( instancedId )
+			if(this.isMobile)
 			{
-				// Color
-				this.instancedMesh.setColorAt( this.prevInstancedId, this.defaultColor )
-				this.instancedMesh.instanceColor.needsUpdate = true
-
-				if(this.prevMouseIn)
-				{
-					// Matrix
-					this.instancedMesh.getMatrixAt( this.prevInstancedId, this.matrix )
-					this.matrix.multiply( this.scaleDownMatrix )
-					this.instancedMesh.setMatrixAt( this.prevInstancedId, this.matrix )
-					this.instancedMesh.instanceMatrix.needsUpdate = true
-
-					// Remove click event
-					window.removeEventListener( 'click', this.clickEvent )
-				}
-
-				this.prevMouseIn = false
-				document.body.style.cursor = 'default'
-				this.prevInstancedId = null
+				this.clickEvent()
+			}
+			else
+			{
+				this.canvas.addEventListener( 'click', this.clickEvent, { passive: false } )
 			}
 		}
+
+		this.prevMouseIn = true
+		this.prevInstancedId = instancedId
+	}
+
+	resetPointer = () => {
+		this.instancedMesh.setColorAt( this.prevInstancedId, this.defaultColor )
+		this.instancedMesh.instanceColor.needsUpdate = true
+
+		if(this.prevMouseIn)
+		{
+			// Matrix
+			this.instancedMesh.getMatrixAt( this.prevInstancedId, this.matrix )
+			this.matrix.multiply( this.scaleDownMatrix )
+			this.instancedMesh.setMatrixAt( this.prevInstancedId, this.matrix )
+			this.instancedMesh.instanceMatrix.needsUpdate = true
+
+			// Remove click event
+			if (!this.isMobile)
+			this.canvas.removeEventListener( 'click', this.clickEvent, { passive: false } )
+		}
+
+		this.prevMouseIn = false
+		this.prevInstancedId = null
 	}
 
 	focusCamera = ( index ) =>
 	{
-		return () =>
+		return (event) =>
 		{
+			if(event){
+				event.preventDefault()
+			}
 			this.camera.instance.position.set( ...pointerIndex[ index ].cameraPosition )
 			this.camera.controls.target.set( ...pointerIndex[ index ].controlTarget )
 		}

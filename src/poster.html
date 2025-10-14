@@ -12,7 +12,9 @@
 	<title>SHOOTER - Movie Poster</title>
 </head>
 <body class="poster">
-	<a href="" class="home"></a>
+	<h1 class="home">
+		<a href="" class="home__btn"></a>
+	</h1>
 	<section class="ticket">
 		<img src="images/poster/img_text_inspired_by.png" alt="Inspired By" class="ticket__inspired">
 		<div class="ticket__envelope" id="ticketEnvelope">
@@ -22,8 +24,9 @@
 			</div>
 			<div class="ticket__envelope_bottom"></div>
 
-			<div class="ticket__paper">
+			<div class="ticket__paper" id="ticketPaper">
 				<div class="ticket__info_wrap">
+					<div class="ticket__paper_texture"></div>
 					<div class="ticket__info_thumbnail">
 						<img src="images/poster/img_ticket_thumbnail.png" alt="movie scene" contenteditable="ticket__info_thumbnail_img">
 						<img src="images/poster/img_text_mark_wahlberg.png" alt="MARK WAHLBERG" class="ticket__info_actor">
@@ -58,21 +61,24 @@
 					</div>
 
 				</div>
-				<div class="ticket__barcode">
+				<a href="https://embed.release-stage.netflix.com/title/70056430" target="_blank" class="ticket__barcode">
+					<div class="ticket__paper_texture"></div>
 					<div class="ticket__netflix">GO TO NETFLIX</div>
 					<div class="ticket__barcode_text">WHERE TO WATCH</div>
 					<img src="images/poster/img_barcode.png" alt="barcode" class="ticket__barcode_img">
-				</div>
+				</a>
 			</div>
 			<div class="ticket__close" id="ticketCloseBtn"></div>
 		</div>
 
 
 	</section>
-
 	<section class="board">
-		<img src="images/poster/img_sub_title.png" alt="" class="board__title">
-		<div class="div board__area">
+		<div class="board__title_wrap">
+			<div class="board__title_texture"></div>
+			<img src="images/poster/img_sub_title.png" alt="PROTAGONIST'S HIDEAWAY: movie set artifacts" class="board__title" id="boardTitle">
+		</div>
+		<div class="board__area">
 			<div class="board__img_wrap" id="boardImgWrap">
 				<img src="images/poster/img_scene.png" alt="" class="board__reference_img">
 			</div>
@@ -92,12 +98,14 @@
 				<div class="board__polaroid_img" data-polaroid="13"></div>
 			</div>
 		</div>
-		<div class="board__arrow"></div>
-		<div class="board__final">
-			<img src="images/poster/img_final_polaroid.png" alt="Final Rendering Result" class="board__final_img">
+	</section>
+	<section class="final" id="finalArrow">
+		<div class="final__arrow" ></div>
+		<div class="final__photo" >
+			<img src="images/poster/img_final_polaroid.png" alt="Final Rendering Result" class="final__photo_img">
+			<a href="http://localhost:5173/" class="final__photo_btn">Go To Experience</a>
 		</div>
 	</section>
-
 	<footer class="footer"></footer>
 	<script src="poster.js"></script>
 </body>
