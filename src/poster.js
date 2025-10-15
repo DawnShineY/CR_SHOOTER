@@ -133,26 +133,26 @@ boardPolaroidWrap.addEventListener('mouseover', (e) => {
 
 //})
 
-// intersectionObserver
-const boardTitle = document.querySelector('#boardTitle')
+/**intersectionObserver */
+//const boardTitle = document.querySelector('#boardTitle')
 
-const observer = new IntersectionObserver((entries, observer) => {
-	entries.forEach(entry => {
-		if(entry.isIntersecting){
-			if(entry.intersectionRect.top <= entry.boundingClientRect.top){
-				entry.target.scrollIntoView({ behavior: 'smooth', block: 'start'})
-			}
-		} else {
-		}
-	})
-}, {
-	root: null,
-	rootMargin: '0px',
-	threshold: 0.2
+//const observer = new IntersectionObserver((entries, observer) => {
+//	entries.forEach(entry => {
+//		if(entry.isIntersecting){
+//			if(entry.intersectionRect.top <= entry.boundingClientRect.top){
+//				entry.target.scrollIntoView({ behavior: 'smooth', block: 'start'})
+//			}
+//		} else {
+//		}
+//	})
+//}, {
+//	root: null,
+//	rootMargin: '0px',
+//	threshold: 0.2
 
-})
+//})
 
-observer.observe(boardTitle)
+//observer.observe(boardTitle)
 
 // 폴라로이드 선분 잇기
 // 1. 폴라로이드 이미지 기준 점 찾기
@@ -211,8 +211,8 @@ function createSvgElement(startCoord, dotCoords) {
 		const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 		path.setAttribute('d',
 			`M${-directionX},${-directionY}
-			C${Math.random() * 2 - 1},${0}
-			${Math.random() * 2 - 1},${0}
+			C${Math.random() * -1.2},${0}
+			${Math.random() * 1.2},${0}
 			${directionX },${directionY}`
 		)
 		path.setAttribute('vector-effect', 'non-scaling-stroke')
@@ -223,5 +223,78 @@ function createSvgElement(startCoord, dotCoords) {
 	})
 
 	return svgList
-
 }
+
+/**
+ * asset animation
+ */
+//let animationId
+//const animationTest =() =>  {
+//	console.log('test')
+
+//	animationId = requestAnimationFrame(animationTest)
+//}
+
+//animationId = requestAnimationFrame(animationTest)
+
+const finalPhoto = document.querySelector('#finalPhoto')
+const finalAssets = document.querySelector('#finalAssets')
+const final = document.querySelector('#final')
+const finalWidth = final.clientWidth
+const finalHeight = final.clientHeight
+const coordWidth = finalWidth / 2
+const coordHeight = finalHeight / 2
+let finalAssetsMoving = false
+let finalAssetsCount = 1
+let initialX = finalPhoto.clientWidth / 2 * (Math.random() * 2 - 1)
+let initialY = finalPhoto.clientHeight / 2 * (Math.random() * 2 - 1)
+finalAssets.style.transform = `translate(calc(-50% + ${initialX}px), calc(-50% + ${initialY}px)) scale(0.6)`
+
+let isHovered = false;
+
+finalPhoto.addEventListener('mouseenter', () => {
+  isHovered = true;
+  console.log('hover 시작');
+});
+
+finalPhoto.addEventListener('mouseleave', () => {
+  isHovered = false;
+  console.log('hover 끝');
+});
+
+
+
+finalPhoto.addEventListener('mousemove', () => {
+	if (finalAssetsMoving) return
+
+	finalAssetsMoving = true
+
+	const directionX = initialX > 0 ? 1 : -1
+	const directionY = initialY > 0 ? 1 : -1
+	const randomCoordX = initialX + coordWidth * (Math.random() * 0.5 + 0.3) * directionX
+	const randomCoordY = initialY + coordHeight * (Math.random() * 0.5 + 0.3)* directionY
+
+	finalAssets.style.transition = 'transform 1s cubic-bezier(.69,.12,.24,1)'
+	finalAssets.style.transform = `translate(calc(-50% + ${randomCoordX }px), calc(-50% + ${randomCoordY}px)) scale(1) rotate(${180 * Math.random()}deg)`
+
+	finalAssets.classList.add('final__assets-fadein')
+})
+
+
+finalAssets.addEventListener('transitionend', (e) => {
+	if (e.propertyName !== 'transform') return; // transform만 처리
+
+	finalAssetsMoving = false
+
+	const finalAssetsId = finalAssetsCount % 12
+	finalAssets.style.backgroundPosition = `left ${ -300 * finalAssetsId }px center`
+	finalAssetsCount += 1
+	
+	finalAssets.style.transition = 'none'
+	initialX = finalPhoto.clientWidth / 2 * (Math.random() * 2 - 1)
+	initialY = finalPhoto.clientHeight / 2 * (Math.random() * 2 - 1)
+	finalAssets.style.transform = `translate(calc(-50% + ${initialX}px), calc(-50% + ${initialY}px)) scale(0.6)`
+
+	finalAssets.classList.remove('final__assets-fadein')
+})
+

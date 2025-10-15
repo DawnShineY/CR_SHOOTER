@@ -537,17 +537,41 @@
 	transform: rotate(4deg);
 }
 .final{
-	padding-top: 30px;
+	position: relative;
+	padding-top: 160px;
 	padding-bottom: 120px;
 	background-color: #808375;
+	overflow: hidden;
+}
+.final::after{
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: linear-gradient(to bottom, #808375, #ffffff00);
+	width: 100%;
+	height: 40px;
+}
+.final::before{
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: linear-gradient(to top, #808375, #ffffff00);
+	width: 100%;
+	height: 40px;
+	z-index: 1;
 }
 .final__arrow{
-	display: block;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
 	width: 120px;
 	height: 270px;
-	margin: -128px auto 0;
+	margin-bottom: -50px;
 	background: url("../../static/images/poster/img_arrow.png") center no-repeat;
 	background-size: 100% auto;
+	z-index: 1;
 }
 .final__photo{
 	width: max-content;
@@ -555,6 +579,7 @@
 	padding-bottom: 30px;
 	background-color: #E4E6D8;
 	box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.11);
+	z-index: 1;
 }
 .final__photo_img{
 	width: 600px;
@@ -575,9 +600,41 @@
 	cursor: pointer;
 	transition: all ease-in 0.3s;
 }
-.final__photo_btn:hover{
+.final__photo:hover .final__photo_btn{
 	background-size: 100% 100%;
 }
+
+@keyframes fading {
+	0%{
+		opacity: 0;
+	}
+	30%{
+		opacity: 0.8;
+	}
+	70%{
+		opacity: 0.8;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+.final__assets{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 300px;
+	height: 300px;
+	background: url("../../static/images/poster/img_sprite_assets.png") left center no-repeat;
+	background-size: auto 300px;
+	filter: drop-shadow(8px 8px 4px #00000011);
+	transform: translate(-50%, -50%) scale(0.6);
+	opacity: 0;
+	pointer-events: none;
+}
+.final__assets-fadein{
+	animation: fading 1s ease-in-out forwards;
+}
+
 .footer{
 	height: 280px;
 	background: #1F201B url("../../static/images/poster/img_gun_silhouette.png") left -20px bottom -40px no-repeat;
