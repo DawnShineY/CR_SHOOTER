@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import pointerIndex from '../../../../Data/pointerIndex.js'
+import gsap from 'gsap'
 
 export default class Pointer
 {
@@ -15,8 +16,6 @@ export default class Pointer
 		this.canvas = this.experience.canvas
 
 		this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-		console.log('isMobile:', this.isMobile)
-
 
 		this.prevInstancedId = null
 		this.prevMouseIn = false
@@ -30,10 +29,14 @@ export default class Pointer
 
 		this.setDefaultColor()
 		this.updateRaycaster()
+		this.setResetCamera()
 	}
 
 	setDefaultColor()
 	{
+		this.instancedMesh.material.opacity = 0.8
+		this.instancedMesh.material.transparent = true
+		
 		for(let i = 0; i < this.instancedMesh.count; i++)
 			this.instancedMesh.setColorAt( i, this.defaultColor )
 
@@ -123,10 +126,38 @@ export default class Pointer
 			if(event){
 				event.preventDefault()
 			}
-			this.camera.instance.position.set( ...pointerIndex[ index ].cameraPosition )
-			this.camera.controls.target.set( ...pointerIndex[ index ].controlTarget )
+			const cameraPosition = pointerIndex[ index ].cameraPosition
+			const controlTarget = pointerIndex[ index ].controlTarget
+			console.log(cameraPosition)
+			//this.camera.instance.position.set( ...pointerIndex[ index ].cameraPosition )
+			//this.camera.controls.target.set( ...pointerIndex[ index ].controlTarget )
+			this.moveCameraToTarget(cameraPosition, controlTarget)
 		}
 	}
+
+	moveCameraToTarget([camPosX, camPosY, camPosZ], [conTarX, conTarY, conTarZ]) {
+		gsap.to(this.camera.instance.position, {
+				duration: 1, 
+				x: camPosX,
+				y: camPosY,
+				z: camPosZ,
+		})
+		gsap.to(this.camera.controls.target, {
+			duration: 0.5, 
+			x: conTarX,
+			y: conTarY,
+			z: conTarZ,
+		})
+	}
+
+	setResetCamera() {
+		const resetBtn = document.querySelector('#cameraResetBtn')
+		resetBtn.addEventListener('click', () => {
+			this.moveCameraToTarget([38, 13, 35], [0, 0, 0])
+		})
+	}
+
+
 
 	update()
 	{

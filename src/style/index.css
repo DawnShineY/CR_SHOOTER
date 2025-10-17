@@ -1,0 +1,13 @@
+.camera_reset_btn{
+	position: fixed;
+	top: 30px;
+	right: 30px;
+	width: 26px;
+	height: 22px;
+	background: #AC451F;
+	cursor: pointer;
+	clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+.camera_reset_btn:hover{
+	background: #ec4a38;
+}

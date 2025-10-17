@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "gsap": "^3.13.0",
     "lil-gui": "^0.19.2",
     "stats.js": "^0.17.0",
     "three": "^0.167.0",
