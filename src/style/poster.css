@@ -81,6 +81,7 @@
 	backface-visibility: hidden;
 }
 .ticket__envelope_sticker{
+	--transY: 0;
 	width: 124px;
 	height: 124px;
 	margin: -66px auto 0;
@@ -108,10 +109,10 @@
 }
 @keyframes stickerRotation {
 	0%{
-		transform: rotateZ(0deg);
+		transform: translateY(var(--transY)) rotateZ(0deg);
 	}
 	100%{
-		transform: rotateZ(6deg);
+		transform: translateY(var(--transY)) rotateZ(6deg);
 	}
 }
 @keyframes scale-easeOutElastic {
