@@ -4,7 +4,7 @@
 }
 
 .poster {
-	min-height: 100vh;
+	/*min-height: 100vh;*/
 	box-sizing: border-box;
 	background-color: #DEDFD9;
 }
@@ -537,6 +537,16 @@
 	left: 1000px;
 	transform: rotate(4deg);
 }
+.board__arrow{
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 120px;
+	height: 270px;
+	background: url("../../static/images/poster/img_arrow.png") center no-repeat;
+	background-size: 100% auto;
+	z-index: 1;
+}
 .final{
 	position: relative;
 	padding-top: 160px;
@@ -561,17 +571,6 @@
 	background: linear-gradient(to top, #808375, #ffffff00);
 	width: 100%;
 	height: 40px;
-	z-index: 1;
-}
-.final__arrow{
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 120px;
-	height: 270px;
-	margin-bottom: -50px;
-	background: url("../../static/images/poster/img_arrow.png") center no-repeat;
-	background-size: 100% auto;
 	z-index: 1;
 }
 .final__photo{
@@ -610,23 +609,24 @@
 		opacity: 0;
 	}
 	30%{
-		opacity: 0.8;
+		opacity: 0.9;
 	}
 	70%{
-		opacity: 0.8;
+		opacity: 0.9;
 	}
 	100%{
 		opacity: 0;
 	}
 }
 .final__assets{
+	--bgSize: 300px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 300px;
-	height: 300px;
+	width: var(--bgSize);
+	height: var(--bgSize);
 	background: url("../../static/images/poster/img_sprite_assets.png") left center no-repeat;
-	background-size: auto 300px;
+	background-size: auto var(--bgSize);
 	filter: drop-shadow(8px 8px 4px #00000011);
 	transform: translate(-50%, -50%) scale(0.6);
 	opacity: 0;

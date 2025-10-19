@@ -27,12 +27,12 @@ canvas{
 	user-select: none;          /* 표준 속성 */
 	touch-action: none;  
 }
-*{
-	-webkit-user-select: none;  /* 텍스트 선택 방지 */
-	-webkit-touch-callout: none; /* 롱터치 메뉴 방지 */
-	user-select: none;          /* 표준 속성 */
-	touch-action: none;  
-}
+/**{
+	-webkit-user-select: none; 
+	-webkit-touch-callout: none;
+	user-select: none;
+	touch-action: none;
+}*/
 
 /* 5. 폼 요소 기본 스타일 제거 및 상속 */
 input, button, textarea, select {

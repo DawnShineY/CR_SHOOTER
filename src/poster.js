@@ -1,3 +1,7 @@
+// Screen size check
+const windowWidth = window.innerWidth
+const isMobileSize = windowWidth < 768 ? true : false
+
 // Ticket Envelope
 const ticketEnvelope = document.getElementById('ticketEnvelope')
 const ticketSticker = document.getElementById('ticketSticker')
@@ -17,9 +21,9 @@ ticketCloseBtn.addEventListener('click', (e) => {
 })
 
 // Board Coordination
-document.querySelector('.board__area').addEventListener('click', (e) => {
-	console.log(e.offsetX, e.offsetY)
-})
+//document.querySelector('.board__area').addEventListener('click', (e) => {
+//	console.log(e.offsetX, e.offsetY)
+//})
 //const boardCoordinate = [
 //	[{x: 87, y: 562}],
 //	[{x: 318, y: 105}],
@@ -66,93 +70,79 @@ const boardPolaroidWrap = document.getElementById('boardPolaroidWrap')
 let prevPolaroid = null
 let selectedPolaroid = null
 
-boardPolaroidWrap.addEventListener('mouseover', (e) => {
-	if( e.target.classList.contains('board__polaroid_img')){
-		const polaroidImg = e.target
-		polaroidImg.style.zIndex = 1
-		const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
-
-		// 점 추가
-		const dotCoordinate = boardCoordinate[num]
-		for(let i = 0; i < dotCoordinate.length; i++) {
-			const coord = dotCoordinate[i]
-			const dotElement = createDotElement(coord)
-			bardArea.appendChild(dotElement)
-		}
-
-		// 폴라로이드 애니메이션
-		const rotateDeg = Math.random() * 5
-		polaroidImg.style.transform = `rotate(${rotateDeg}deg)`
-
-		polaroidImg.addEventListener('mouseout', () => {
-			const dotElements = document.querySelectorAll('.board__dot')
-			const svgElement = document.querySelectorAll('.board__line')
-			polaroidImg.style.zIndex = ''
-			polaroidImg.style.transform = ''
-
-			dotElements.forEach((el) => {
-				el.style.opacity = 0
-				el.addEventListener('transitionend', () => {
-					el.remove()
-				}, {once: true})
-			}
-			)
-			svgElement.forEach((el) => {
-				el.remove()
-			}
-			)
-		}, {once: true})
-	}
-})
-
-
-// Scroll Event
-//const boardTitle = document.getElementById('boardTitle')
-//let prevScrollValue = window.scrollY
-//let isAutoScrolling = false
-
-//window.addEventListener('scroll', (e) => {
-//	if(isAutoScrolling) return 
-
-//	const scrollY = window.scrollY
-//	const scrollDirection = scrollY - prevScrollValue 
-//	prevScrollValue = scrollY
-//	const windowHeight = window.innerHeight
-//	const scrollPoint = scrollY + windowHeight
-//	const boardTitleTop = boardTitle.getBoundingClientRect().top
-//	const boardTitlePositionY = boardTitleTop + scrollY
-
-//	if(scrollPoint >= boardTitlePositionY && scrollDirection > 0 && boardTitleTop >= 0) {
-//		isAutoScrolling = true
-//		boardTitle.scrollIntoView({behavior: 'smooth', block: 'start'})
-//	}
+if (!isMobileSize) { // Pc에서
+	boardPolaroidWrap.addEventListener('mouseover', (e) => {
+		if( e.target.classList.contains('board__polaroid_img')){
+			const polaroidImg = e.target
+			polaroidImg.style.zIndex = 1
+			const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
 	
-//	setTimeout(() => {
-//		isAutoScrolling = false
-//	}, 800)
+			// 점 추가
+			const dotCoordinate = boardCoordinate[num]
+			for(let i = 0; i < dotCoordinate.length; i++) {
+				const coord = dotCoordinate[i]
+				const dotElement = createDotElement(coord)
+				bardArea.appendChild(dotElement)
+			}
+	
+			// 폴라로이드 애니메이션
+			const rotateDeg = Math.random() * 5
+			polaroidImg.style.transform = `rotate(${rotateDeg}deg)`
+	
+			polaroidImg.addEventListener('mouseout', () => {
+				const dotElements = document.querySelectorAll('.board__dot')
+				const svgElement = document.querySelectorAll('.board__line')
+				polaroidImg.style.zIndex = ''
+				polaroidImg.style.transform = ''
+	
+				dotElements.forEach((el) => {
+					el.style.opacity = 0
+					el.addEventListener('transitionend', () => {
+						el.remove()
+					}, {once: true})
+				}
+				)
+				svgElement.forEach((el) => {
+					el.remove()
+				}
+				)
+			}, {once: true})
+		}
+	})
+}
 
-//})
+if(isMobileSize) {
+	let slideDirection = -1
+	let zIndex = 1
+	let isWaiting = false
+	let prevTarget = null
 
-/**intersectionObserver */
-//const boardTitle = document.querySelector('#boardTitle')
+	boardPolaroidWrap.addEventListener('click', (e) => {
+		if( e.target.classList.contains('board__polaroid_img')) {
+			const target = e.target
+			if(target === prevTarget) return
 
-//const observer = new IntersectionObserver((entries, observer) => {
-//	entries.forEach(entry => {
-//		if(entry.isIntersecting){
-//			if(entry.intersectionRect.top <= entry.boundingClientRect.top){
-//				entry.target.scrollIntoView({ behavior: 'smooth', block: 'start'})
-//			}
-//		} else {
-//		}
-//	})
-//}, {
-//	root: null,
-//	rootMargin: '0px',
-//	threshold: 0.2
+			target.style.transition = 'transform 1s, opacity 0.3s 0.7s'
+			target.style.transform = `translateX(${(windowWidth / 2 + 50) * slideDirection}px)`
+			target.style.opacity = 0
+			slideDirection *= -1
 
-//})
+			prevTarget = target
 
-//observer.observe(boardTitle)
+			e.target.addEventListener('transitionend', (e) => {
+				if (e.propertyName !== 'transform') return
+
+				isWaiting = false
+				zIndex -= 1
+				e.target.style.zIndex = zIndex
+				e.target.style.transition = 'opacity 1s'
+				e.target.style.opacity = 1
+				e.target.style.transform = `rotate(${10 * (Math.random() * 2 - 1)}deg)`
+			})
+		}
+	})
+}
+
 
 // 폴라로이드 선분 잇기
 // 1. 폴라로이드 이미지 기준 점 찾기
@@ -161,26 +151,28 @@ const boardPolaroidImg = document.querySelector('.board__polaroid_img')
 const boardPolaroidImgWidth = boardPolaroidImg.clientWidth
 const boardPolaroidImgHeight = boardPolaroidImg.clientHeight
 
-boardPolaroidWrap.addEventListener('mouseover', (e) => {
-	if( e.target.classList.contains('board__polaroid_img')){
-		const polaroidImg = e.target
-		const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
-		const dotCoordinate = boardCoordinate[num]
-
-		const polaroidImgTop = polaroidImg.offsetTop
-		const polaroidImgLeft = polaroidImg.offsetLeft
-
-		const randomX = 0.2 + Math.random() * boardPolaroidImgWidth * 0.8
-		const randomY = 0.2 + Math.random() * boardPolaroidImgHeight * 0.8
-		
-		const coord = {x: polaroidImgLeft + randomX, y: polaroidImgTop + randomY}
-
-		const svgList = createSvgElement(coord, dotCoordinate)
-		svgList.forEach((svg) => {
-			boardPolaroidWrap.appendChild(svg)
-		})
-	}
-})
+if (!isMobileSize) { // Pc에서
+	boardPolaroidWrap.addEventListener('mouseover', (e) => {
+		if( e.target.classList.contains('board__polaroid_img')){
+			const polaroidImg = e.target
+			const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
+			const dotCoordinate = boardCoordinate[num]
+	
+			const polaroidImgTop = polaroidImg.offsetTop
+			const polaroidImgLeft = polaroidImg.offsetLeft
+	
+			const randomX = 0.2 + Math.random() * boardPolaroidImgWidth * 0.8
+			const randomY = 0.2 + Math.random() * boardPolaroidImgHeight * 0.8
+			
+			const coord = {x: polaroidImgLeft + randomX, y: polaroidImgTop + randomY}
+	
+			const svgList = createSvgElement(coord, dotCoordinate)
+			svgList.forEach((svg) => {
+				boardPolaroidWrap.appendChild(svg)
+			})
+		}
+	})
+}
 
 
 function createSvgElement(startCoord, dotCoords) {
@@ -199,7 +191,6 @@ function createSvgElement(startCoord, dotCoords) {
 		const directionY = height > 0 ? 1 : -1
 	
 		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-		console.log('kkk')
 		svg.setAttribute('viewBox', '-1, -1, 2, 2')
 		svg.setAttribute('width', width * directionX)
 		svg.setAttribute('height', height * directionY)
@@ -225,18 +216,6 @@ function createSvgElement(startCoord, dotCoords) {
 	return svgList
 }
 
-/**
- * asset animation
- */
-//let animationId
-//const animationTest =() =>  {
-//	console.log('test')
-
-//	animationId = requestAnimationFrame(animationTest)
-//}
-
-//animationId = requestAnimationFrame(animationTest)
-
 const finalPhoto = document.querySelector('#finalPhoto')
 const finalAssets = document.querySelector('#finalAssets')
 const final = document.querySelector('#final')
@@ -254,12 +233,10 @@ let isHovered = false;
 
 finalPhoto.addEventListener('mouseenter', () => {
   isHovered = true;
-  console.log('hover 시작');
 });
 
 finalPhoto.addEventListener('mouseleave', () => {
   isHovered = false;
-  console.log('hover 끝');
 });
 
 
@@ -287,7 +264,7 @@ finalAssets.addEventListener('transitionend', (e) => {
 	finalAssetsMoving = false
 
 	const finalAssetsId = finalAssetsCount % 12
-	finalAssets.style.backgroundPosition = `left ${ -300 * finalAssetsId }px center`
+	finalAssets.style.backgroundPosition = `left calc(var(--bgSize) * ${-finalAssetsId}) center`
 	finalAssetsCount += 1
 	
 	finalAssets.style.transition = 'none'

@@ -128,24 +128,21 @@
 	align-self: flex-start;
 	flex-shrink: 0;
 	overflow: hidden;
-	width: 225px;
-	height: 278px;
 	border: 4px solid #202020;
 	box-sizing: border-box;
 	background-color: #202020;
 }
 .profile__avatar_wrap{
-	transition: 0.3s;
+	width: 220px;
+	height: 270px;
 	cursor: pointer;
 }
 .profile__avatar{
 	position: absolute;
 	top: 0;
 	left: 0;
-	display: block;
-	width: 217px;
-	height: 270px;
-	transition: 0.3s;
+	width: 100%;
+	height: 100%;
 }
 .profile__info{
 	margin-left: 28px;
@@ -234,6 +231,7 @@
 }
 .profile__sub_tit{
 	height: 36px;
+	margin: auto;
 	pointer-events: none;
 }
 .profile__icon_wrap{

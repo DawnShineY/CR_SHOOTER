@@ -22,62 +22,29 @@ export default class Memo
 		const avatarFrameElement = document.querySelector('.profile__avatar_frame')
 		const avatarWrapElement = document.querySelector('.profile__avatar_wrap')
 		const avatarElement = document.querySelector('.profile__avatar')
-		const scaleFactor = 2
 
-		avatarFrameElement.addEventListener('mouseover', () => {
-			avatarWrapElement.style.transform = `scale(${scaleFactor})`
+		const avatarWrapWidth = avatarWrapElement.clientWidth
+		const avatarWrapHeight = avatarWrapElement.clientHeight
+
+		avatarWrapElement.addEventListener('mousemove', (e) => {
+			const avatarWrapRect = avatarWrapElement.getBoundingClientRect()
+			const cursorX = e.clientX - avatarWrapRect.left
+			const cursorY = e.clientY - avatarWrapRect.top
+
+			const moveX = cursorX - avatarWrapWidth / 2
+			const moveY = cursorY - avatarWrapHeight / 2
+
+			console.log(moveX, moveY)
+
+			avatarElement.style.transform = `translate(${-moveX}px, ${-moveY}px) scale(2)`
+
 		})
-		avatarFrameElement.addEventListener('mouseout', () => {
-			avatarWrapElement.style.transform = `none`
-			avatarElement.style.transform = `none`
-		})
-		avatarFrameElement.addEventListener('mousemove', (e) => {
-			//const x = e.offsetX
-			//const y = e.offsetY
-			const x = ( - e.offsetX + 225 / 2 ) * 0.5 * scaleFactor
-			const y = ( - e.offsetY + 278 / 2 ) * 0.5 * scaleFactor
-			avatarElement.style.transform = ` translate(${x}px, ${y}px)`
+		avatarWrapElement.addEventListener('mouseout', () => {
+			avatarElement.style.transition = 'transform 0.3s'
+			avatarElement.style.transform = ''
+
 		})
 
-
-
-
-
-		/**
-		 * 기존 코드
-		 */
-		//const avatarFrameElement = document.querySelector('.profile__avatar_frame')
-		//const avatarWrapElement = document.querySelector('.profile__avatar_wrap')
-		//const avatarElement = document.querySelector('.profile__avatar')
-		//let scaleEnd = false
-		//avatarFrameElement.addEventListener('mousemove', (e) =>
-		//{
-		//	const scaleFactor = 2
-		//	let x = ( - e.offsetX + 225 / 2 ) * 0.5 * scaleFactor
-		//	let y = ( - e.offsetY + 278 / 2 ) * 0.5 * scaleFactor
-
-		//	avatarElement.style.transform = `scale(${scaleFactor})`
-
-		//	if(scaleEnd)
-		//	{
-		//		avatarWrapElement.style.transform = `translate(${x}px, ${y}px)`
-		//	}
-		//})
-		//avatarFrameElement.addEventListener('mouseout', (e) =>
-		//{
-		//	scaleEnd = false
-		//	avatarWrapElement.style.transform = 'none'
-		//	avatarElement.style.transform = 'none'
-		//})
-		//avatarFrameElement.addEventListener('mouseover', (e) =>
-		//{
-		//	scaleEnd = false
-		//})
-
-		//avatarElement.addEventListener('transitionend', () =>
-		//{
-		//	scaleEnd = true
-		//})
 	}
 
 	switchControls()
