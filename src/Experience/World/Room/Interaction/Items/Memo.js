@@ -49,10 +49,18 @@ export default class Memo
 
 	switchControls()
 	{
+		/**
+		 * Scene control 동작 O
+		 * CssRenderer Control 동작 X
+		 */
+		this.cssRenderer.domElement.style.pointerEvents = 'none'
+
+		/**
+		 * Scene control 동작 X
+		 * CssRenderer Control 동작 O
+		 */
 		//this.camera.controls.domElement = this.cssRenderer.domElement
 		//this.camera.controls.update()
-		this.cssRenderer.domElement.style.pointerEvents = 'none'
-		//this.camera.controls
 		//this.camera.controls = new OrbitControls(this.camera.instance, this.cssRenderer.domElement)
 		//this.camera.controls.enableDamping = true
 	}
