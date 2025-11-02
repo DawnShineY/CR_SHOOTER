@@ -13,7 +13,7 @@ export default class Camera
 
 		this.setInstance()
 		this.setControls()
-		//this.setControlLimit()
+		this.setControlLimit()
 	}
 	setInstance()
 	{
@@ -33,6 +33,17 @@ export default class Camera
 		this.controls.minAzimuthAngle = 0
 		this.controls.maxAzimuthAngle = Math.PI / 2
 		this.controls.maxDistance = 80
+
+		// Pan limitation
+		const xRange = 4.4
+		const yRange = 4.7
+		const zRange = 4.6
+		this.controls.addEventListener('change', () => {
+			const t = this.controls.target;
+			t.x = Math.max(-xRange, Math.min(xRange, t.x));
+			t.y = Math.max(-yRange, Math.min(yRange, t.y));
+			t.z = Math.max(-zRange, Math.min(zRange, t.z));
+		});
 	}
 
 	update()
