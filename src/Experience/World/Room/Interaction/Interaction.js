@@ -13,6 +13,7 @@ import TvScreen from './Items/TvScreen.js'
 import Windbell from './Items/Windbell.js'
 
 import setInteractionGroup from '../../../Helpers/setInteractionGroup.js'
+import Lights from './Items/Lights.js'
 
 export default class Interaction
 {
@@ -50,6 +51,9 @@ export default class Interaction
 		// LaptopScreen
 		this.laptopScreen = new LaptopScreen( this.roomInteractionObjects )
 
+		// Lights
+		this.lights - new Lights( this.roomInteractionObjects )
+
 		// Locker
 		this.locker = new Locker( this.roomInteractionObjects )
 
@@ -78,6 +82,6 @@ export default class Interaction
 		this.windbell.update()
 		this.laptopScreen.update()
 		this.pointer.update()
-		this.memo.update()
+		//this.memo.update()
 	}
 }

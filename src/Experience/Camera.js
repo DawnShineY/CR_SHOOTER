@@ -8,11 +8,12 @@ export default class Camera
 	{
 		this.experience = new Experience()
 		this.sizes = this.experience.sizes
-		this.scene = this.experience.scene
+		this.scene = this.experience.scene.instance
 		this.canvas = this.experience.canvas
 
 		this.setInstance()
 		this.setControls()
+		//this.setControlLimit()
 	}
 	setInstance()
 	{
@@ -25,7 +26,6 @@ export default class Camera
 	{
 		this.controls = new OrbitControls( this.instance, this.canvas )
 		this.controls.enableDamping = true
-		this.setControlLimit()
 	}
 	setControlLimit()
 	{

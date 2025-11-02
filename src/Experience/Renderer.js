@@ -9,7 +9,7 @@ export default class Renderer
 		this.sizes = this.experience.sizes
 		this.canvas = this.experience.canvas
 		this.camera = this.experience.camera.instance
-		this.scene = this.experience.scene
+		this.scene = this.experience.scene.instance
 
 		this.setRenderer()
 	}
@@ -21,6 +21,7 @@ export default class Renderer
 		})
 		this.instance.setSize( this.sizes.width, this.sizes.height )
 		this.instance.setPixelRatio( this.sizes.pixelRatio )
+		this.instance.outputColorSpace = THREE.SRGBColorSpace
 	}
 	update()
 	{

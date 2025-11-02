@@ -5,7 +5,12 @@ export default class Scene
 	constructor()
 	{
 		this.instance = new THREE.Scene()
-		this.instance.background = new THREE.Color( '#292420' )
+		this.setModelGroup()
+		console.log(this.modelGroup)
 	}
-
+	setModelGroup()
+	{
+		this.modelGroup = new THREE.Group()
+		this.instance.add(this.modelGroup)
+	}
 }

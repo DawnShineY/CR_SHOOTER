@@ -157,8 +157,6 @@ export default class Pointer
 		})
 	}
 
-
-
 	update()
 	{
 		this.updateRaycaster()
