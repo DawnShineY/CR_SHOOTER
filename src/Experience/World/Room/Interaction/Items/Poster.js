@@ -17,6 +17,7 @@ export default class Poster
 		{
 			if(obj === 'poster')
 			{
+				const eventBtn = document.querySelector('#interactionBtn')
 				console.log('this is poster')
 			}
 		})

@@ -26,7 +26,7 @@ export default class Pointer extends EventEmitter
 		this.defaultColor = new THREE.Color( '#7e1e00' )
 		this.activeColor = new THREE.Color( '#ec4a38' )
 		this.matrix = new THREE.Matrix4()
-		this.scaleAmount = 1.5
+		this.scaleAmount = 1.2
 		this.scaleMatrix = new THREE.Matrix4().makeScale( this.scaleAmount, this.scaleAmount, this.scaleAmount )
 		this.scaleDownMatrix = new THREE.Matrix4().makeScale( 1 / this.scaleAmount, 1 / this.scaleAmount, 1 / this.scaleAmount )
 
@@ -159,6 +159,7 @@ export default class Pointer extends EventEmitter
 		const resetBtn = document.querySelector('#cameraResetBtn')
 		resetBtn.addEventListener('click', () => {
 			this.moveCameraToTarget([38, 13, 35], [0, 0, 0])
+			this.trigger('reset')
 		})
 	}
 

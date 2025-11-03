@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import Interaction from '../Interaction.js'
+import gsap from 'gsap'
 
 export default class Drawer
 {
@@ -15,6 +16,7 @@ export default class Drawer
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
 		this.setPointerEvent()
+		this.resetPointerEvent()
 
 		if(this.debug.active) {
 			this.debugFolder = this.debug.ui.addFolder('drawer')
@@ -28,8 +30,31 @@ export default class Drawer
 		{
 			if(obj === 'drawer')
 			{
-				console.log('this is drawer')
+				gsap.to(
+					this.model.position,
+					{
+						x: -2.8,
+						duration: 1,
+						delay: 0.8,
+						ease: 'power2.inOut'
+					}
+				)
 			}
+		})
+	}
+	resetPointerEvent()
+	{
+		this.pointer.on('reset', (obj) =>
+		{
+			gsap.to(
+				this.model.position,
+				{
+					x: -3.4015002250671387,
+					duration: 1,
+					delay: 0,
+					ease: 'power2.inOut'
+				}
+			)
 		})
 	}
 }

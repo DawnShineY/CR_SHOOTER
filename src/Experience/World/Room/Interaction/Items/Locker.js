@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import Interaction from '../Interaction.js'
+import gsap from 'gsap'
 
 export default class Locker
 {
@@ -15,6 +16,7 @@ export default class Locker
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
 		this.setPointerEvent()
+		this.resetPointerEvent()
 
 		if(this.debug.active) {
 			this.debugFolder = this.debug.ui.addFolder('락커문')
@@ -28,10 +30,34 @@ export default class Locker
 		{
 			if(obj === 'lockerDoor')
 			{
-				console.log('this is lockerDoor')
+				gsap.to(
+					this.model.rotation,
+					{
+						y: -Math.PI * 0.4,
+						duration: 1,
+						delay: 0.8,
+						ease: 'power2.inOUt'
+					}
+				)
 
 				return
 			}
+		})
+	}
+
+	resetPointerEvent()
+	{
+		this.pointer.on('reset', () =>
+		{
+			gsap.to(
+				this.model.rotation,
+				{
+					y: 0,
+					duration: 1,
+					delay: 0,
+					ease: 'power2.inOUt'
+				}
+			)
 		})
 	}
 }

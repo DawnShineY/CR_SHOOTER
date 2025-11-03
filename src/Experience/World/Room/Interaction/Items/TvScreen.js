@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import Interaction from '../Interaction.js'
+import gsap from 'gsap'
 
 export default class TvScreen
 {
@@ -12,10 +13,12 @@ export default class TvScreen
 
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
-		this.setPointerEvent()
 
 		this.setVideoElement()
 		this.setVideoTexture()
+
+		this.setPointerEvent()
+		this.resetPointerEvent()
 	}
 
 	setPointerEvent()
@@ -24,18 +27,30 @@ export default class TvScreen
 		{
 			if(obj === 'tv')
 			{
-				console.log('this is tv')
-
-				return
+				this.videoElement.play()
+				gsap.to(
+					this.videoElement,
+					{
+						volume: 0.1,
+						duration: 1
+					}
+				)
 			}
+		})
+	}
+
+	resetPointerEvent()
+	{
+		this.pointer.on('reset', () =>
+		{
+			this.videoElement.pause()
+			this.videoElement.currentTime = 0
 		})
 	}
 
 	setVideoElement()
 	{
 		this.videoElement = document.getElementById('video')
-		this.videoElement.volume = 0.0
-		this.videoElement.play()
 	}
 
 	setVideoTexture()

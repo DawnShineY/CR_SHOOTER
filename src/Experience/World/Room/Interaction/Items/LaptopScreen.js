@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import setInteractionGroup from '../../../../Helpers/setInteractionGroup.js'
 import Interaction from '../Interaction.js'
+import gsap from 'gsap'
 
 export default class LaptopScreen
 {
@@ -10,6 +11,7 @@ export default class LaptopScreen
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.laptopScreen
 		this.laptopCoverModel = this.interactionObjects.laptopCover
+		this.laptopCoverModel.rotation.y = Math.PI
 
 		this.experience = new Experience()
 		this.resources = this.experience.resources
@@ -22,6 +24,7 @@ export default class LaptopScreen
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
 		this.setPointerEvent()
+		this.resetPointerEvent()
 
 		this.prevLaptopTextBoxObject = null
 		this.laptopInteractionObjects = setInteractionGroup(this.laptopScreenModel, 'InteractionGroup')
@@ -33,21 +36,43 @@ export default class LaptopScreen
 		if(this.debug.active)
 		{
 			this.debugFolder = this.debug.ui.addFolder('노트북')
-			this.debugFolder.add(this.laptopCoverModel.rotation, 'y').name('노트북 커버 회전').min(Math.PI * 0.3).max(Math.PI).step(0.01) 
+			this.debugFolder.add(this.laptopCoverModel.rotation, 'y').name('노트북 커버 회전').min(Math.PI * 0.3).max(Math.PI).step(0.01)
 		}
 	}
 
 	setPointerEvent()
 	{
-		const eventBtn = document.querySelector('#interactionBtn')
 		this.pointer.on('click', (obj) =>
 		{
 			if(obj === 'laptop')
 			{
-				console.log('this is laptop')
+				gsap.to(
+					this.laptopCoverModel.rotation,
+					{
+						y: Math.PI * 0.4,
+						duration: 1,
+						delay: 0.8,
+						ease: 'power2.inOut'
+					}
+				)
 
 				return
 			}
+		})
+	}
+	resetPointerEvent()
+	{
+		this.pointer.on('reset', (obj) =>
+		{
+			gsap.to(
+				this.laptopCoverModel.rotation,
+				{
+					y: Math.PI,
+					duration: 1,
+					delay: 0,
+					ease: 'power2.inOut'
+				}
+			)
 		})
 	}
 

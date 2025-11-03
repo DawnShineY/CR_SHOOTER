@@ -25,7 +25,7 @@ export default class Lights {
 
 		this.setLights()
 		this.setToggleSwitch()
-		this.turnLightsOn( !isLightMode )
+		this.turnLights( !isLightMode )
 	}
 	setLights()
 	{
@@ -33,8 +33,6 @@ export default class Lights {
 
 		this.candleLight1 = new THREE.PointLight('#ff7a5c', 3, 0.5, 0)
 		this.candleLight1.position.copy(this.candle1Position)
-		this.pointLightHelper1 = new THREE.PointLightHelper(this.candleLight1)
-		this.pointLightHelper1.update()
 
 		this.candleLight2 = new THREE.PointLight('#ff7a5c', 3, 0.5, 0)
 		this.candleLight2.position.copy(this.candle2Position)
@@ -44,8 +42,6 @@ export default class Lights {
 		this.standLight.target.position.copy(this.standPosition)
 		this.standLight.target.position.y -= 3
 		this.standLight.target.position.z += 0.3
-		//const spotLightHelper = new THREE.SpotLightHelper(this.standLight)
-		//spotLightHelper.update()
 
 		this.standLight2 = new THREE.SpotLight('#ffceb0', 100, 5, Math.PI * 0.25, 1, 1)
 		this.standLight2.position.copy(this.lightPosition)
@@ -63,34 +59,32 @@ export default class Lights {
 		this.lampLight2 = new THREE.PointLight('#ffceb0', 10, 2, 1)
 		this.lampLight2.position.copy(this.lamp2Position)
 
-		this.lightsArray = [
+		this.lightsGroup = new THREE.Group()
+		this.lightsGroup.add(
 			this.candleLight1, this.candleLight2,
 			this.standLight, this.standLight.target,
 			this.standLight2, this.standLight2.target,
 			this.lampLight1, this.lampLight2
-		]
-
-		this.modelGroup.add(
-			this.candleLight1,
-			this.candleLight2,
-			this.standLight, this.standLight.target,
-			this.standLight2, this.standLight2.target,
-			this.lampLight1, this.lampLight2
 		)
+		this.modelGroup.add( this.lightsGroup )
 	}
 	setToggleSwitch() {
 		this.switchElement.addEventListener('click', (e) =>
 		{
+			//const control = this.experience.camera.controls.target
+			//const camera = this.experience.camera.instance.position
+			//console.log(camera, control)
+
 			const isActive = this.switchElement.classList.contains('active')
 			if(isActive)
 			{
 				this.switchElement.classList.remove('active')
-				this.turnLightsOn(isActive)
+				this.turnLights(isActive)
 			}
 			else
 			{
 				this.switchElement.classList.add('active')
-				this.turnLightsOn(isActive)
+				this.turnLights(isActive)
 			}
 		})
 	}
@@ -104,14 +98,11 @@ export default class Lights {
 		})
 	}
 
-	turnLightsOn(value)
+	turnLights(value)
 	{
 		if(value)
 		{
-			for(let object of this.lightsArray)
-			{
-				object.visible = true
-			}
+			this.lightsGroup.visible = true
 			setTimeout(() =>
 			{
 				this.setLightIntensity(this.candleLight1, 3)
@@ -124,13 +115,16 @@ export default class Lights {
 		}
 		else
 		{
-			for(let object of this.lightsArray)
-			{
-				this.setLightIntensity(object, 0)
-				setTimeout(() => {
-					object.visible = false
-				}, 1000)
-			}
+			this.setLightIntensity(this.candleLight1, 0)
+			this.setLightIntensity(this.candleLight2, 0)
+			this.setLightIntensity(this.standLight, 0)
+			this.setLightIntensity(this.standLight2, 0)
+			this.setLightIntensity(this.lampLight1, 0)
+			this.setLightIntensity(this.lampLight2, 0)
+
+			setTimeout(() => {
+				this.lightsGroup.visible = false
+			}, 1000)
 		}
 	}
 }
