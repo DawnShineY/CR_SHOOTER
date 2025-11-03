@@ -2,11 +2,14 @@ import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import pointerIndex from '../../../../Data/pointerIndex.js'
 import gsap from 'gsap'
+import EventEmitter from '../../../../Utils/EventEmitter.js'
 
-export default class Pointer
+export default class Pointer extends EventEmitter
 {
 	constructor(_interactionObjects)
 	{
+		super()
+
 		this.interactionObjects = _interactionObjects
 		this.instancedMesh = this.interactionObjects.pointerGroup
 
@@ -36,7 +39,7 @@ export default class Pointer
 	{
 		this.instancedMesh.material.opacity = 0.8
 		this.instancedMesh.material.transparent = true
-		
+
 		for(let i = 0; i < this.instancedMesh.count; i++)
 			this.instancedMesh.setColorAt( i, this.defaultColor )
 
@@ -126,24 +129,26 @@ export default class Pointer
 			if(event){
 				event.preventDefault()
 			}
+			const pointerName = pointerIndex[ index ].name
 			const cameraPosition = pointerIndex[ index ].cameraPosition
 			const controlTarget = pointerIndex[ index ].controlTarget
-			console.log(cameraPosition)
 			//this.camera.instance.position.set( ...pointerIndex[ index ].cameraPosition )
 			//this.camera.controls.target.set( ...pointerIndex[ index ].controlTarget )
 			this.moveCameraToTarget(cameraPosition, controlTarget)
+
+			this.trigger('click', [pointerName])
 		}
 	}
 
 	moveCameraToTarget([camPosX, camPosY, camPosZ], [conTarX, conTarY, conTarZ]) {
 		gsap.to(this.camera.instance.position, {
-				duration: 1, 
+				duration: 1,
 				x: camPosX,
 				y: camPosY,
 				z: camPosZ,
 		})
 		gsap.to(this.camera.controls.target, {
-			duration: 0.5, 
+			duration: 0.5,
 			x: conTarX,
 			y: conTarY,
 			z: conTarZ,

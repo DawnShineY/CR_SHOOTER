@@ -5,6 +5,7 @@
 		"Phong",
 		"Raycaster",
 		"gltf",
+		"gsap",
 		"linewidth",
 		"matcap",
 		"windbell",

@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
+import Interaction from '../Interaction.js'
 
 export default class Gun
 {
@@ -13,6 +14,10 @@ export default class Gun
 		this.resources = this.experience.resources
 		this.debug = this.experience.debug
 
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
+		this.setPointerEvent()
+
 		if(this.debug.active) {
 			this.debugFolder = this.debug.ui.addFolder('gun')
 			this.debugFolder.add(this.model.position, 'x').name('총 x').min(1.4246635437011719).max(10).step(0.01)
@@ -22,6 +27,17 @@ export default class Gun
 			}
 
 		this.setShadow()
+	}
+
+	setPointerEvent()
+	{
+		this.pointer.on('click', (obj) =>
+		{
+			if(obj === 'gun')
+			{
+				console.log('this is gun')
+			}
+		})
 	}
 
 	setShadow()

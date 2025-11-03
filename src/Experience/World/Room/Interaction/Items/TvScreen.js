@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
+import Interaction from '../Interaction.js'
 
 export default class TvScreen
 {
@@ -9,8 +10,25 @@ export default class TvScreen
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.tvScreen
 
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
+		this.setPointerEvent()
+
 		this.setVideoElement()
 		this.setVideoTexture()
+	}
+
+	setPointerEvent()
+	{
+		this.pointer.on('click', (obj) =>
+		{
+			if(obj === 'tv')
+			{
+				console.log('this is tv')
+
+				return
+			}
+		})
 	}
 
 	setVideoElement()

@@ -1,4 +1,5 @@
 import Experience from '../../../../Experience.js'
+import Interaction from '../Interaction.js'
 
 export default class Calendar
 {
@@ -11,8 +12,23 @@ export default class Calendar
 		this.dayMesh = this.calendar.calendarDay
 		this.monthMesh = this.calendar.calendarMonth
 
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
+		this.setPointerEvent()
+
 		this.getFullDate()
 		this.setTexture()
+	}
+
+	setPointerEvent()
+	{
+		this.pointer.on('click', (obj) =>
+		{
+			if(obj === 'calendar')
+			{
+				console.log('this is calendar')
+			}
+		})
 	}
 
 	getFullDate()

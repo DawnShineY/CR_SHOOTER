@@ -13,7 +13,6 @@ export default class World
 		{
 			this.environment = new Environment()
 			this.room = new Room()
-			console.log('여기는 Room Class')
 		})
 	}
 	update()

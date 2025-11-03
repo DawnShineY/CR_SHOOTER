@@ -15,10 +15,16 @@ import Windbell from './Items/Windbell.js'
 import setInteractionGroup from '../../../Helpers/setInteractionGroup.js'
 import Lights from './Items/Lights.js'
 
+let instance = null
 export default class Interaction
 {
 	constructor()
 	{
+		if(instance)
+			return instance
+
+		instance = this
+
 		this.experience = new Experience()
 		this.resources = this.experience.resources
 		this.roomModel = this.resources.items.roomModel.scene
@@ -33,6 +39,9 @@ export default class Interaction
 
 	activateInteractions()
 	{
+		// Pointer
+		this.pointer = new Pointer( this.roomInteractionObjects )
+
 		// Calendar
 		this.calendar = new Calendar( this.roomInteractionObjects )
 
@@ -59,9 +68,6 @@ export default class Interaction
 
 		// Memo
 		this.memo = new Memo( this.roomInteractionObjects )
-
-		// Pointer
-		this.pointer = new Pointer( this.roomInteractionObjects )
 
 		// Poster
 		this.poster = new Poster( this.roomInteractionObjects )

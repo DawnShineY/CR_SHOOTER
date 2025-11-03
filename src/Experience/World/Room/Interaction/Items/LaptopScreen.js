@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import setInteractionGroup from '../../../../Helpers/setInteractionGroup.js'
+import Interaction from '../Interaction.js'
 
 export default class LaptopScreen
 {
@@ -18,6 +19,10 @@ export default class LaptopScreen
 		this.renderer = this.experience.renderer
 		this.laptopScreenModel = this.resources.items.laptopScreenModel.scene // laptop screen inner model
 
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
+		this.setPointerEvent()
+
 		this.prevLaptopTextBoxObject = null
 		this.laptopInteractionObjects = setInteractionGroup(this.laptopScreenModel, 'InteractionGroup')
 
@@ -30,6 +35,20 @@ export default class LaptopScreen
 			this.debugFolder = this.debug.ui.addFolder('노트북')
 			this.debugFolder.add(this.laptopCoverModel.rotation, 'y').name('노트북 커버 회전').min(Math.PI * 0.3).max(Math.PI).step(0.01) 
 		}
+	}
+
+	setPointerEvent()
+	{
+		const eventBtn = document.querySelector('#interactionBtn')
+		this.pointer.on('click', (obj) =>
+		{
+			if(obj === 'laptop')
+			{
+				console.log('this is laptop')
+
+				return
+			}
+		})
 	}
 
 	setRenderTargetTexture()
