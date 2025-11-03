@@ -35,9 +35,9 @@ export default class Camera
 		this.controls.maxDistance = 80
 
 		// Pan limitation
-		const xRange = 4.4
-		const yRange = 4.7
-		const zRange = 4.6
+		const xRange = 2
+		const yRange = 2
+		const zRange = 2
 		this.controls.addEventListener('change', () => {
 			const t = this.controls.target;
 			t.x = Math.max(-xRange, Math.min(xRange, t.x));

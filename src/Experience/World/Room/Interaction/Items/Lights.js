@@ -7,7 +7,6 @@ export default class Lights {
 	{
 		this.interactionObjects = _interactionObjects
 		this.group = this.interactionObjects.lightsPositionGroup
-		console.log(this.group)
 		this.experience = new Experience()
 		this.debug = this.experience.debug
 		this.resources = this.experience.resources
@@ -20,10 +19,13 @@ export default class Lights {
 		this.lamp2Position = this.group.lamp2Position.position
 		this.lightPosition = this.group.lightPosition.position
 		this.standPosition = this.group.standPosition.position
-		console.log(this.standPosition, this.lightPosition)
+
+		this.switchElement = document.querySelector('#lightToggleBtn')
+		const isLightMode = this.switchElement.classList.contains('active')
 
 		this.setLights()
 		this.setToggleSwitch()
+		this.turnLightsOn( !isLightMode )
 	}
 	setLights()
 	{
@@ -76,23 +78,19 @@ export default class Lights {
 			this.lampLight1, this.lampLight2
 		)
 	}
-
 	setToggleSwitch() {
-		const switchElement = document.querySelector('#lightToggleBtn')
-		switchElement.addEventListener('click', (e) =>
+		this.switchElement.addEventListener('click', (e) =>
 		{
-			const control = this.experience.camera.controls.target
-			const camera = this.experience.camera.instance.position
-			console.log(camera, control)
-			if(e.target.classList.contains('active'))
+			const isActive = this.switchElement.classList.contains('active')
+			if(isActive)
 			{
-				e.target.classList.remove('active')
-				this.turnLightsOn(true)
+				this.switchElement.classList.remove('active')
+				this.turnLightsOn(isActive)
 			}
 			else
 			{
-				e.target.classList.add('active')
-				this.turnLightsOn(false)
+				this.switchElement.classList.add('active')
+				this.turnLightsOn(isActive)
 			}
 		})
 	}
@@ -109,30 +107,30 @@ export default class Lights {
 	turnLightsOn(value)
 	{
 		if(value)
+		{
+			for(let object of this.lightsArray)
 			{
-				for(let object of this.lightsArray)
-				{
-					object.visible = true
-				}
-				setTimeout(() =>
-				{
-					this.setLightIntensity(this.candleLight1, 3)
-					this.setLightIntensity(this.candleLight2, 3)
-					this.setLightIntensity(this.standLight, 70)
-					this.setLightIntensity(this.standLight2, 100)
-					this.setLightIntensity(this.lampLight1, 5)
-					this.setLightIntensity(this.lampLight2, 10)
-				}, 500)
+				object.visible = true
 			}
-			else
+			setTimeout(() =>
 			{
-				for(let object of this.lightsArray)
-				{
-					this.setLightIntensity(object, 0)
-					setTimeout(() => {
-						object.visible = false
-					}, 1000)
-				}
+				this.setLightIntensity(this.candleLight1, 3)
+				this.setLightIntensity(this.candleLight2, 3)
+				this.setLightIntensity(this.standLight, 70)
+				this.setLightIntensity(this.standLight2, 100)
+				this.setLightIntensity(this.lampLight1, 5)
+				this.setLightIntensity(this.lampLight2, 10)
+			}, 500)
+		}
+		else
+		{
+			for(let object of this.lightsArray)
+			{
+				this.setLightIntensity(object, 0)
+				setTimeout(() => {
+					object.visible = false
+				}, 1000)
 			}
+		}
 	}
 }
