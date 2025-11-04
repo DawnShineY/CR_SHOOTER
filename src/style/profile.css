@@ -2,6 +2,17 @@
 	position: absolute;
 	transform-style: preserve-3d;
 }
+.profile__cls_btn{
+	position: fixed;
+	top: -52px;
+	right: 2px;
+	width: 50px;
+	height: 50px;
+	background: #FFF url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23707070%22%20d%3D%22m31.35%201.35-.7-.7L16%2015.29%201.35.65l-.7.7L15.29%2016%20.65%2030.65l.7.7L16%2016.71l14.65%2014.64.7-.7L16.71%2016%2031.35%201.35z%22%2F%3E%3C%2Fsvg%3E") center no-repeat;
+	background-size: 32px 32px;
+	cursor: pointer;
+	pointer-events: auto;
+}
 .profile:hover{
 	cursor: copy;
 }

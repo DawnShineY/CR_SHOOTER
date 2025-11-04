@@ -21,16 +21,17 @@ export default class LaptopScreen
 		this.renderer = this.experience.renderer
 		this.laptopScreenModel = this.resources.items.laptopScreenModel.scene // laptop screen inner model
 
-		this.interaction = new Interaction()
-		this.pointer = this.interaction.pointer
-		this.setPointerEvent()
-		this.resetPointerEvent()
-
 		this.prevLaptopTextBoxObject = null
 		this.laptopInteractionObjects = setInteractionGroup(this.laptopScreenModel, 'InteractionGroup')
 
 		this.setRenderTargetTexture()
 		this.setLaptopModel()
+
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
+		this.isActive = false
+		this.setPointerEvent()
+		this.resetPointerEvent()
 
 		// debug
 		if(this.debug.active)
@@ -46,6 +47,7 @@ export default class LaptopScreen
 		{
 			if(obj === 'laptop')
 			{
+				this.isActive = true
 				gsap.to(
 					this.laptopCoverModel.rotation,
 					{
@@ -64,6 +66,7 @@ export default class LaptopScreen
 	{
 		this.pointer.on('reset', (obj) =>
 		{
+			this.isActive = false
 			gsap.to(
 				this.laptopCoverModel.rotation,
 				{
@@ -263,10 +266,13 @@ export default class LaptopScreen
 
 	update()
 	{
-		this.updateRaycaster()
-		this.setAnimation()
-		this.renderer.instance.setRenderTarget( this.renderTarget )
-		this.renderer.instance.render( this.scene, this.camera )
-		this.renderer.instance.setRenderTarget( null )
+		if(this.isActive)
+		{
+			this.updateRaycaster()
+			this.setAnimation()
+			this.renderer.instance.setRenderTarget( this.renderTarget )
+			this.renderer.instance.render( this.scene, this.camera )
+			this.renderer.instance.setRenderTarget( null )
+		}
 	}
 }

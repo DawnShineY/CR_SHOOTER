@@ -11,12 +11,11 @@ export default class TvScreen
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.tvScreen
 
-		this.interaction = new Interaction()
-		this.pointer = this.interaction.pointer
-
 		this.setVideoElement()
 		this.setVideoTexture()
 
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
 		this.setPointerEvent()
 		this.resetPointerEvent()
 	}
@@ -27,7 +26,11 @@ export default class TvScreen
 		{
 			if(obj === 'tv')
 			{
+				this.model.material.color.set('#E1E1E1')
+				this.model.material.map = this.videoTexture
+				this.model.material.needsUpdate = true
 				this.videoElement.play()
+
 				gsap.to(
 					this.videoElement,
 					{
@@ -43,6 +46,9 @@ export default class TvScreen
 	{
 		this.pointer.on('reset', () =>
 		{
+			this.model.material.color.set('#202020')
+			this.model.material.map = null
+			this.model.material.needsUpdate = true
 			this.videoElement.pause()
 			this.videoElement.currentTime = 0
 		})
@@ -66,8 +72,8 @@ export default class TvScreen
 
 		this.model.material = new THREE.MeshPhongMaterial(
 			{
-				color: '#E1E1E1',
-				map: this.videoTexture,
+				color: '#202020',
+				//map: this.videoTexture,
 				shininess: 100,
 				specular: '#505050',
 				emissive: '#171717'

@@ -61,14 +61,14 @@ export default class Pointer extends EventEmitter
 			}
 
 			this.setPointer(instancedId)
-			document.body.style.cursor = 'pointer'
+			this.canvas.style.cursor = 'pointer'
 		}
 		else
 		{
 			if( this.prevInstancedId == null ) return
 
 			this.resetPointer()
-			document.body.style.cursor = 'default'
+			this.canvas.style.cursor = 'default'
 		}
 	}
 

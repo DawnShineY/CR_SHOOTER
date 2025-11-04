@@ -1,31 +1,90 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
-import { CSS3DObject, CSS3DRenderer, OrbitControls } from 'three/examples/jsm/Addons.js'
-import Interaction from '../Interaction.js'
+import { CSS3DObject, CSS3DRenderer, LineMaterial, OrbitControls, Wireframe, WireframeGeometry2 } from 'three/examples/jsm/Addons.js'
 import gsap from 'gsap'
+import Interaction from '../Interaction.js'
 
 export default class Memo
 {
-	constructor()
+	constructor(_interactionObjects)
 	{
+		this.interactionObjects = _interactionObjects
+		this.model = this.interactionObjects.memo
+
 		this.experience = new Experience()
 		this.renderer = this.experience.renderer
 		this.sizes = this.experience.sizes
 		this.camera = this.experience.camera
+		this.canvas = this.experience.canvas
+		this.raycaster = this.experience.raycaster
+		this.modelGroup = this.experience.scene.modelGroup
+		this.scene = this.experience.scene.instance
 
 		this.isRendering = false
-
-		this.setCSS3DRenderer()
-		this.setProfileCSS()
-		this.switchControls()
-		this.addAvatarEvent()
+		this.isFirstRendering = true
+		this.isDrawerOpened = false
 
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
-		this.setPointerEvent()
-		this.resetPointerEvent()
+		this.pointer.on('click', (obj) =>
+		{
+			if(obj === 'drawer')
+			{
+				this.isDrawerOpened = true
+			}
+		})
+
+		this.pointer.on('reset', ()=>{
+			this.isDrawerOpened = false
+		})
+
+		/**
+		 * 이력서
+		 */
+		this.setCSS3DRenderer()
+		//this.setOrbitControls()
+		this.setProfileCSS()
+		this.addAvatarEvent()
+		this.clickEvent = this.setClickEvent.bind(this)
+
+		/**
+		 * 메모 종이
+		 */
+		this.prevMouseIn = false
+
 	}
 
+	/**
+	 * 메모 종이
+	 */
+	updateRaycaster()
+	{
+		const intersection = this.raycaster.instance.intersectObject( this.model )
+
+		if(intersection.length > 0)
+		{
+			if(!this.prevMouseIn)
+			{
+				this.canvas.addEventListener( 'click', this.clickEvent )
+				this.canvas.style.cursor = 'pointer'
+			}
+			this.prevMouseIn = true
+		}
+		else
+		{
+			if(this.prevMouseIn)
+			{
+				this.canvas.removeEventListener( 'click', this.clickEvent )
+				this.canvas.style.cursor = 'default'
+			}
+			this.prevMouseIn = false
+		}
+	}
+
+
+	/**
+	 * 이력서
+	 */
 	addAvatarEvent()
 	{
 		const avatarFrameElement = document.querySelector('.profile__avatar_frame')
@@ -51,27 +110,14 @@ export default class Memo
 		avatarWrapElement.addEventListener('mouseout', () => {
 			avatarElement.style.transition = 'transform 0.3s'
 			avatarElement.style.transform = ''
-
 		})
-
 	}
 
-	switchControls()
+	setOrbitControls()
 	{
-		/**
-		 * Scene control 동작 O
-		 * CssRenderer Control 동작 X
-		 */
-		this.cssRenderer.domElement.style.pointerEvents = 'none'
-
-		/**
-		 * Scene control 동작 X
-		 * CssRenderer Control 동작 O
-		 */
-		//this.camera.controls.domElement = this.cssRenderer.domElement
-		//this.camera.controls.update()
-		//this.camera.controls = new OrbitControls(this.camera.instance, this.cssRenderer.domElement)
-		//this.camera.controls.enableDamping = true
+		this.camera.controls.enabled = false
+		//this.cssRendererControls = new OrbitControls( this.camera.instance, this.cssRenderer.domElement )
+		//this.cssRendererControls.enableDamping = true
 	}
 	setCSS3DRenderer()
 	{
@@ -81,7 +127,7 @@ export default class Memo
 		this.cssRenderer.domElement.style.top = 0
 		this.cssRenderer.domElement.style.zIndex = 1
 		this.cssRenderer.domElement.style.opacity = 0
-		document.body.appendChild(this.cssRenderer.domElement)
+		this.cssRenderer.domElement.style.pointerEvents = 'none'
 	}
 
 	setProfileCSS()
@@ -118,6 +164,62 @@ export default class Memo
 		this.bottomGroup.add( this.profileBottomObject )
 		this.bottomGroup.rotation.x = - Math.PI * 0.1
 	}
+
+	setCloseEvent()
+	{
+		const clsBtnElement = document.querySelector('#profileClsBtn')
+		console.log(clsBtnElement)
+		clsBtnElement.addEventListener('click', () =>
+		{
+			gsap.to(
+				this.topGroup.rotation,
+				{
+					x: Math.PI * 0.9,
+					duration: 1,
+					//delay: 1,
+					ease: 'power2.inOut'
+				}
+			)
+			gsap.to(
+				this.cssScene.position,
+				{
+					y: 0.5,
+					duration: 1,
+					//delay: 1,
+					ease: 'power2.inOut'
+				}
+			)
+			const scaleParameter = 0.003
+			gsap.to(
+				this.cssScene.scale,
+				{
+					x: scaleParameter,
+					y: scaleParameter,
+					z: scaleParameter,
+					duration: 1,
+					//delay: 1,
+					ease: 'power2.inOut'
+				}
+			)
+			gsap.to(
+				this.cssRenderer.domElement.style,
+				{
+					opacity: 0,
+					duration: 1,
+				}
+			)
+			this.camera.controls.enabled = true
+			this.cssRenderer.domElement.style.pointerEvents = 'none'
+			setTimeout(() =>
+			{
+				this.isRendering = false
+				this.cssScene.visible = false
+				this.cssRenderer.domElement.style.display = 'none'
+			}, 1000)
+		})
+
+
+	}
 	resetPointerEvent()
 	{
 		this.pointer.on('reset', () =>
@@ -138,77 +240,79 @@ export default class Memo
 		})
 	}
 
-	setPointerEvent()
+	setClickEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		if(this.isFirstRendering)
 		{
-			if(obj === 'drawer')
+			document.body.appendChild(this.cssRenderer.domElement)
+			this.setOrbitControls()
+			this.setCloseEvent()
+		}
+		this.isFirstRendering = false
+		this.isRendering = true
+		this.cssRenderer.domElement.style.pointerEvents = 'auto'
+		this.cssRenderer.domElement.style.display = 'block'
+		this.cssScene.visible = true
+		gsap.to(this.camera.instance.position,
 			{
-				this.cssRenderer.domElement.style.display = 'block'
-				this.cssScene.visible = true
-				this.isRendering = true
-				gsap.to(this.camera.instance.position,
-					{
-						x: 17.94746799558896,
-						y: 19.53944692395215,
-						z: 17.726234541472923,
-						duration: 1,
-						delay: 3,
-						ease: 'power2.inOut'
-					}
-				)
-				gsap.to(this.camera.controls.target,
-					{
-						x: -0.36585217079070365,
-						y: 0.6930266926821083,
-						z: -0.3518681450786801,
-						duration: 1,
-						delay: 3,
-						ease: 'power2.inOut'
-					}
-				)
-				setTimeout(() =>
-				{
-					gsap.to(
-						this.topGroup.rotation,
-						{
-							x: Math.PI * 0.1,
-							duration: 1,
-							//delay: 1,
-							ease: 'power2.inOut'
-						}
-					)
-					gsap.to(
-						this.cssScene.position,
-						{
-							y: 1,
-							duration: 1,
-							//delay: 1,
-							ease: 'power2.inOut'
-						}
-					)
-					const scaleParameter = 0.005
-					gsap.to(
-						this.cssScene.scale,
-						{
-							x: scaleParameter,
-							y: scaleParameter,
-							z: scaleParameter,
-							duration: 1,
-							//delay: 1,
-							ease: 'power2.inOut'
-						}
-					)
-					gsap.to(
-						this.cssRenderer.domElement.style,
-						{
-							opacity: 1,
-							duration: 1,
-						}
-					)
-				}, 4000)
+				x: 17.94746799558896,
+				y: 19.53944692395215,
+				z: 17.726234541472923,
+				duration: 1,
+				delay: 0,
+				ease: 'power2.inOut'
 			}
-		})
+		)
+		gsap.to(this.camera.controls.target,
+			{
+				x: -0.36585217079070365,
+				y: 0.6930266926821083,
+				z: -0.3518681450786801,
+				duration: 1,
+				delay: 0,
+				ease: 'power2.inOut'
+			}
+		)
+		setTimeout(() =>
+		{
+			gsap.to(
+				this.topGroup.rotation,
+				{
+					x: Math.PI * 0.1,
+					duration: 1,
+					//delay: 1,
+					ease: 'power2.inOut'
+				}
+			)
+			gsap.to(
+				this.cssScene.position,
+				{
+					y: 1,
+					duration: 1,
+					//delay: 1,
+					ease: 'power2.inOut'
+				}
+			)
+			const scaleParameter = 0.005
+			gsap.to(
+				this.cssScene.scale,
+				{
+					x: scaleParameter,
+					y: scaleParameter,
+					z: scaleParameter,
+					duration: 1,
+					//delay: 1,
+					ease: 'power2.inOut'
+				}
+			)
+			gsap.to(
+				this.cssRenderer.domElement.style,
+				{
+					opacity: 1,
+					duration: 1,
+				}
+			)
+		}, 1000)
 	}
 
 	resize()
@@ -218,6 +322,11 @@ export default class Memo
 
 	update()
 	{
-		if(this.isRendering) this.cssRenderer.render(this.cssScene, this.camera.instance)
+		if(this.isDrawerOpened) this.updateRaycaster()
+		if(this.isRendering)
+		{
+			this.cssRenderer.render(this.cssScene, this.camera.instance)
+			//this.cssRendererControls.update()
+		}
 	}
 }
