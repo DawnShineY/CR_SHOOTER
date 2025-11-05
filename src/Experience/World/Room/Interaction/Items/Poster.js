@@ -8,7 +8,14 @@ export default class Poster
 	{
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
+		this.posterBtnElement = document.querySelector('#posterBtnWrap')
+		this.posterClsBtnElement = document.querySelector('#posterClsBtn')
+
+		this.setCloseBtnClickEvent()
 		this.setPointerEvent()
+		this.resetPointerEvent()
+		
+
 
 	}
 	setPointerEvent()
@@ -17,9 +24,33 @@ export default class Poster
 		{
 			if(obj === 'poster')
 			{
-				const eventBtn = document.querySelector('#interactionBtn')
-				console.log('this is poster')
+				this.posterBtnElement.style.display = 'block'
+				setTimeout(() =>
+				{
+					this.posterBtnElement.classList.add('active')
+				}, 0)
 			}
 		})
+	}
+	resetPointerEvent()
+	{
+		this.pointer.on('reset', () =>
+		{
+			this.closePosterBtn()
+		})
+	}
+	setCloseBtnClickEvent()
+	{
+		this.posterClsBtnElement.addEventListener('click', () =>{
+			this.closePosterBtn()
+		})
+	}
+	closePosterBtn()
+	{
+		this.posterBtnElement.classList.remove('active')
+		setTimeout(() =>
+		{
+			this.posterBtnElement.style.display = 'none'
+		}, 1000)
 	}
 }

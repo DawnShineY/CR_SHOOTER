@@ -69,6 +69,7 @@ export default class Lights {
 		)
 		this.modelGroup.add( this.lightsGroup )
 	}
+	
 	setToggleTheme() {
 		this.switchElement.addEventListener('click', (e) =>
 		{
