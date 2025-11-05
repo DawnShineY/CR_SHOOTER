@@ -23,40 +23,56 @@ export default class Memo
 		this.isRendering = false
 		this.isFirstRendering = true
 		this.isDrawerOpened = false
-
-		this.interaction = new Interaction()
-		this.pointer = this.interaction.pointer
-		this.pointer.on('click', (obj) =>
-		{
-			if(obj === 'drawer')
-			{
-				this.isDrawerOpened = true
-			}
-		})
-
-		this.pointer.on('reset', ()=>{
-			this.isDrawerOpened = false
-		})
-
-		/**
-		 * 이력서
-		 */
-		this.setCSS3DRenderer()
-		//this.setOrbitControls()
-		this.setProfileCSS()
-		this.addAvatarEvent()
-		this.clickEvent = this.setClickEvent.bind(this)
+		this.prevMouseIn = false
 
 		/**
 		 * 메모 종이
 		 */
-		this.prevMouseIn = false
+		this.checkDrawerOpen()
 
+		/**
+		 * 이력서
+		 */
+		this.setProfileCSS()
+		this.addAvatarEvent()
+		this.css3dRenderingEvent = this.setOpenProfileMemo.bind(this)
 	}
 
 	/**
 	 * 메모 종이
 	 */
+	checkDrawerOpen()
+	{
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
+		this.modelRotationTimeLine = gsap.to(
+			this.model.rotation,
+			{
+				y: 0.15,
+				duration: 1,
+				//ease: 'power2.inOut',
+				repeat: -1,
+				yoyo: true,
+				yoyoEase: 'power2.inOut'
+			}
+		).pause()
+
+		this.pointer.on('click', (obj) =>
+		{
+			if(obj === 'drawer')
+			{
+				this.isDrawerOpened = true
+				this.modelRotationTimeLine.play()
+			}
+		})
+
+		this.pointer.on('reset', ()=>{
+			this.isDrawerOpened = false
+			this.modelRotationTimeLine.pause()
+
+		})
+	}
+
 	updateRaycaster()
 	{
 		const intersection = this.raycaster.instance.intersectObject( this.model )
@@ -65,7 +81,7 @@ export default class Memo
 		{
 			if(!this.prevMouseIn)
 			{
-				this.canvas.addEventListener( 'click', this.clickEvent )
+				this.canvas.addEventListener( 'click', this.css3dRenderingEvent )
 				this.canvas.style.cursor = 'pointer'
 			}
 			this.prevMouseIn = true
@@ -74,7 +90,7 @@ export default class Memo
 		{
 			if(this.prevMouseIn)
 			{
-				this.canvas.removeEventListener( 'click', this.clickEvent )
+				this.canvas.removeEventListener( 'click', this.css3dRenderingEvent )
 				this.canvas.style.cursor = 'default'
 			}
 			this.prevMouseIn = false
@@ -113,12 +129,6 @@ export default class Memo
 		})
 	}
 
-	setOrbitControls()
-	{
-		this.camera.controls.enabled = false
-		//this.cssRendererControls = new OrbitControls( this.camera.instance, this.cssRenderer.domElement )
-		//this.cssRendererControls.enableDamping = true
-	}
 	setCSS3DRenderer()
 	{
 		this.cssRenderer = new CSS3DRenderer()
@@ -128,12 +138,12 @@ export default class Memo
 		this.cssRenderer.domElement.style.zIndex = 1
 		this.cssRenderer.domElement.style.opacity = 0
 		this.cssRenderer.domElement.style.pointerEvents = 'none'
+		document.body.appendChild(this.cssRenderer.domElement)
 	}
 
 	setProfileCSS()
 	{
 		this.cssScene = new THREE.Scene()
-		//this.cssScene.visible = false
 		this.cssScene.rotation.y = Math.PI * 0.25
 		this.cssScene.position.set(0, 0, 0)
 
@@ -156,7 +166,6 @@ export default class Memo
 
 		this.topGroup.add( this.profileTopObject )
 		this.topGroup.rotation.x = Math.PI * 0.9
-		//topGroup.rotation.x = 0
 
 		this.profileBottomObject = new CSS3DObject( profileBottom )
 		this.profileBottomObject.position.y = -250
@@ -165,94 +174,37 @@ export default class Memo
 		this.bottomGroup.rotation.x = - Math.PI * 0.1
 	}
 
-	setCloseEvent()
-	{
-		const clsBtnElement = document.querySelector('#profileClsBtn')
-		console.log(clsBtnElement)
-		clsBtnElement.addEventListener('click', () =>
-		{
-			gsap.to(
-				this.topGroup.rotation,
-				{
-					x: Math.PI * 0.9,
-					duration: 1,
-					//delay: 1,
-					ease: 'power2.inOut'
-				}
-			)
-			gsap.to(
-				this.cssScene.position,
-				{
-					y: 0.5,
-					duration: 1,
-					//delay: 1,
-					ease: 'power2.inOut'
-				}
-			)
-			const scaleParameter = 0.003
-			gsap.to(
-				this.cssScene.scale,
-				{
-					x: scaleParameter,
-					y: scaleParameter,
-					z: scaleParameter,
-					duration: 1,
-					//delay: 1,
-					ease: 'power2.inOut'
-				}
-			)
-			gsap.to(
-				this.cssRenderer.domElement.style,
-				{
-					opacity: 0,
-					duration: 1,
-				}
-			)
-			this.camera.controls.enabled = true
-			this.cssRenderer.domElement.style.pointerEvents = 'none'
-			setTimeout(() =>
-			{
-				this.isRendering = false
-				this.cssScene.visible = false
-				this.cssRenderer.domElement.style.display = 'none'
-			}, 1000)
-		})
-
-
-	}
-	resetPointerEvent()
-	{
-		this.pointer.on('reset', () =>
-		{
-			this.cssScene.visible = false
-			this.isRendering = false
-			gsap.to(
-				this.cssRenderer.domElement.style,
-				{
-					opacity: 0,
-					duration: 1,
-				}
-			)
-			setTimeout(() =>
-			{
-				this.cssRenderer.domElement.style.display = 'none'
-			}, 1000)
-		})
-	}
-
-	setClickEvent()
+	setOpenProfileMemo()
 	{
 		if(this.isFirstRendering)
 		{
-			document.body.appendChild(this.cssRenderer.domElement)
-			this.setOrbitControls()
-			this.setCloseEvent()
+			this.setCSS3DRenderer()
+			this.setCloseProfileMemo()
 		}
 		this.isFirstRendering = false
 		this.isRendering = true
+		this.camera.controls.enabled = false
+		this.cssScene.visible = true
 		this.cssRenderer.domElement.style.pointerEvents = 'auto'
 		this.cssRenderer.domElement.style.display = 'block'
-		this.cssScene.visible = true
+		this.modelRotationTimeLine.pause()
+		this.profileMemoOpenAni()
+	}
+
+	setCloseProfileMemo()
+	{
+		const clsBtnElement = document.querySelector('#profileClsBtn')
+		clsBtnElement.addEventListener('click', () =>
+		{
+			this.camera.controls.enabled = true
+			this.cssRenderer.domElement.style.pointerEvents = 'none'
+			this.modelRotationTimeLine.play()
+			this.profileMemoCloseAni()
+		})
+	}
+
+	profileMemoOpenAni()
+	{
 		gsap.to(this.camera.instance.position,
 			{
 				x: 17.94746799558896,
@@ -273,6 +225,7 @@ export default class Memo
 				ease: 'power2.inOut'
 			}
 		)
+
 		setTimeout(() =>
 		{
 			gsap.to(
@@ -315,6 +268,51 @@ export default class Memo
 		}, 1000)
 	}
 
+	profileMemoCloseAni()
+	{
+		gsap.to(
+			this.topGroup.rotation,
+			{
+				x: Math.PI * 0.9,
+				duration: 1,
+				ease: 'power2.inOut'
+			}
+		)
+		gsap.to(
+			this.cssScene.position,
+			{
+				y: 0.5,
+				duration: 1,
+				ease: 'power2.inOut'
+			}
+		)
+		const scaleParameter = 0.003
+		gsap.to(
+			this.cssScene.scale,
+			{
+				x: scaleParameter,
+				y: scaleParameter,
+				z: scaleParameter,
+				duration: 1,
+				ease: 'power2.inOut'
+			}
+		)
+		gsap.to(
+			this.cssRenderer.domElement.style,
+			{
+				opacity: 0,
+				duration: 1,
+			}
+		)
+
+		setTimeout(() =>
+		{
+			this.isRendering = false
+			this.cssScene.visible = false
+			this.cssRenderer.domElement.style.display = 'none'
+		}, 1000)
+	}
+
 	resize()
 	{
 		this.cssRenderer.setSize(this.sizes.width, this.sizes.height)
@@ -326,7 +324,6 @@ export default class Memo
 		if(this.isRendering)
 		{
 			this.cssRenderer.render(this.cssScene, this.camera.instance)
-			//this.cssRendererControls.update()
 		}
 	}
 }
