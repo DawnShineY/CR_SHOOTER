@@ -36,6 +36,7 @@ export default class Memo
 		this.setProfileCSS()
 		this.addAvatarEvent()
 		this.css3dRenderingEvent = this.setOpenProfileMemo.bind(this)
+		this.mouseMoveEvent = this.setMouseMoveEvent.bind(this)
 	}
 
 	/**
@@ -133,26 +134,31 @@ export default class Memo
 	{
 		this.cssRenderer = new CSS3DRenderer()
 		this.cssRenderer.setSize(this.sizes.width, this.sizes.height)
-		this.cssRenderer.domElement.style.position = 'fixed'
-		this.cssRenderer.domElement.style.top = 0
-		this.cssRenderer.domElement.style.zIndex = 1
-		this.cssRenderer.domElement.style.opacity = 0
-		this.cssRenderer.domElement.style.pointerEvents = 'none'
-		document.body.appendChild(this.cssRenderer.domElement)
+		this.cssCanvas = this.cssRenderer.domElement
+		this.cssCanvas.style.position = 'fixed'
+		this.cssCanvas.style.top = 0
+		this.cssCanvas.style.zIndex = 1
+		this.cssCanvas.style.opacity = 0
+		this.cssCanvas.style.pointerEvents = 'none'
+		document.body.appendChild(this.cssCanvas)
 	}
 
 	setProfileCSS()
 	{
 		this.cssScene = new THREE.Scene()
-		this.cssScene.rotation.y = Math.PI * 0.25
 		this.cssScene.position.set(0, 0, 0)
+
+		const qx = new THREE.Quaternion();
+		const qy = new THREE.Quaternion();
+		qx.setFromAxisAngle(new THREE.Vector3(1, 0, 0), - Math.PI * 0.25);
+		qy.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 0.25);
+		this.cssScene.quaternion.multiplyQuaternions(qy, qx);
 
 		const scaleParameter = 0.003
 		this.cssScene.scale.set(scaleParameter, scaleParameter, scaleParameter)
 
 		this.profileGroup = new THREE.Group()
 		this.cssScene.add(this.profileGroup)
-		this.profileGroup.rotation.x = - Math.PI * 0.25
 
 		this.topGroup = new THREE.Group()
 		this.bottomGroup = new THREE.Group()
@@ -180,13 +186,14 @@ export default class Memo
 		{
 			this.setCSS3DRenderer()
 			this.setCloseProfileMemo()
+			this.cssCanvas.addEventListener( 'mousemove', this.mouseMoveEvent )
 		}
 		this.isFirstRendering = false
 		this.isRendering = true
 		this.camera.controls.enabled = false
 		this.cssScene.visible = true
-		this.cssRenderer.domElement.style.pointerEvents = 'auto'
-		this.cssRenderer.domElement.style.display = 'block'
+		this.cssCanvas.style.pointerEvents = 'auto'
+		this.cssCanvas.style.display = 'block'
 		this.modelRotationTimeLine.pause()
 		this.profileMemoOpenAni()
 	}
@@ -197,10 +204,20 @@ export default class Memo
 		clsBtnElement.addEventListener('click', () =>
 		{
 			this.camera.controls.enabled = true
-			this.cssRenderer.domElement.style.pointerEvents = 'none'
+			this.cssCanvas.style.pointerEvents = 'none'
 			this.modelRotationTimeLine.play()
 			this.profileMemoCloseAni()
 		})
+	}
+
+	setMouseMoveEvent(e)
+	{
+		const x = ( e.clientX / this.sizes.width ) * 2 - 1
+		const y = ( e.clientY / this.sizes.height ) * -2 + 1
+		this.profileGroup.position.x += ( - x * 50 - this.profileGroup.position.x ) * 0.05
+		this.profileGroup.position.y += ( - y * 50 - this.profileGroup.position.y ) * 0.05
+		this.profileGroup.rotation.x += ( - y * 0.1 - this.profileGroup.rotation.x ) * 0.05
+		this.profileGroup.rotation.y += ( - x * 0.5 - this.profileGroup.rotation.y ) * 0.05
 	}
 
 	profileMemoOpenAni()
@@ -259,7 +276,7 @@ export default class Memo
 				}
 			)
 			gsap.to(
-				this.cssRenderer.domElement.style,
+				this.cssCanvas.style,
 				{
 					opacity: 1,
 					duration: 1,
@@ -298,10 +315,11 @@ export default class Memo
 			}
 		)
 		gsap.to(
-			this.cssRenderer.domElement.style,
+			this.cssCanvas.style,
 			{
 				opacity: 0,
 				duration: 1,
+				ease: 'power2.in'
 			}
 		)
 
@@ -309,13 +327,13 @@ export default class Memo
 		{
 			this.isRendering = false
 			this.cssScene.visible = false
-			this.cssRenderer.domElement.style.display = 'none'
+			this.cssCanvas.style.display = 'none'
 		}, 1000)
 	}
 
 	resize()
 	{
-		this.cssRenderer.setSize(this.sizes.width, this.sizes.height)
+		if(this.cssRenderer) this.cssRenderer.setSize(this.sizes.width, this.sizes.height)
 	}
 
 	update()
