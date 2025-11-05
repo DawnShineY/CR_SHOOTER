@@ -34,7 +34,7 @@ export default class Memo
 		 * 이력서
 		 */
 		this.setProfileCSS()
-		this.addAvatarEvent()
+		//this.addAvatarEvent()
 		this.css3dRenderingEvent = this.setOpenProfileMemo.bind(this)
 		this.mouseMoveEvent = this.setMouseMoveEvent.bind(this)
 	}
@@ -186,7 +186,6 @@ export default class Memo
 		{
 			this.setCSS3DRenderer()
 			this.setCloseProfileMemo()
-			this.cssCanvas.addEventListener( 'mousemove', this.mouseMoveEvent )
 		}
 		this.isFirstRendering = false
 		this.isRendering = true
@@ -196,6 +195,10 @@ export default class Memo
 		this.cssCanvas.style.display = 'block'
 		this.modelRotationTimeLine.pause()
 		this.profileMemoOpenAni()
+		setTimeout(() =>
+		{
+			this.cssCanvas.addEventListener( 'mousemove', this.mouseMoveEvent )
+		}, 1000)
 	}
 
 	setCloseProfileMemo()
@@ -207,6 +210,7 @@ export default class Memo
 			this.cssCanvas.style.pointerEvents = 'none'
 			this.modelRotationTimeLine.play()
 			this.profileMemoCloseAni()
+			this.cssCanvas.removeEventListener( 'mousemove', this.mouseMoveEvent )
 		})
 	}
 
@@ -300,6 +304,24 @@ export default class Memo
 			{
 				y: 0.5,
 				duration: 1,
+				ease: 'power2.inOut'
+			}
+		)
+		gsap.to(
+			this.profileGroup.position,
+			{
+				x: 0,
+				y: 0,
+				duration: 0.5,
+				ease: 'power2.inOut'
+			}
+		)
+		gsap.to(
+			this.profileGroup.rotation,
+			{
+				x: 0,
+				y: 0,
+				duration: 0.5,
 				ease: 'power2.inOut'
 			}
 		)

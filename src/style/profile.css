@@ -287,11 +287,14 @@
 .profile__icon-storybook{
 	background-position: -300px 0;
 }
-.profile__icon-blender{
+.profile__icon-xd{
 	background-position: -360px 0;
 }
-.profile__icon-figma{
+.profile__icon-blender{
 	background-position: -420px 0;
+}
+.profile__icon-figma{
+	background-position: -480px 0;
 }
 
 
