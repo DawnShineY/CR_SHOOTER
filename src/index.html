@@ -18,7 +18,7 @@
 	<!--<script type="module" src="script2.js"></script>-->
 	<!--<script type="module" src="test/css3Drender-2.js"></script>-->
 </head>
-<body>
+<body data-theme="dayMode">
 	<canvas class="webgl" id="webgl"></canvas>
 
 	<!-- Landing -->
@@ -198,7 +198,9 @@
 
 	<!-- camera initial potion button -->
 	<div class="camera_reset_btn" id="cameraResetBtn"></div>
-	<div class="light_toggle_btn active" id="lightToggleBtn"></div>
+	<div class="light_toggle_btn" id="lightToggleBtn">
+		<svg class="light_toggle_icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 50"><path d="M38 41.1s.1-7.8-8.1-8.7c-8.2-.8-7.5-10.2-7.5-10.2h-1L20.3 21V0h-.7v21l-1.1 1.3h-.7s-1.3 10-8.4 10.8-7.4 8-7.4 8h12.8c.4 2.5 2.5 4.5 5.1 4.5s4.8-1.9 5.1-4.5z"/></svg>
+	</div>
 	<div class="interaction_btn" id="interactionBtn">이벤트</div>
 	<video
 		src="/video/clip.mp4"

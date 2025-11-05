@@ -198,7 +198,7 @@ export default class Memo
 		setTimeout(() =>
 		{
 			this.cssCanvas.addEventListener( 'mousemove', this.mouseMoveEvent )
-		}, 1000)
+		}, 2000)
 	}
 
 	setCloseProfileMemo()
@@ -216,6 +216,7 @@ export default class Memo
 
 	setMouseMoveEvent(e)
 	{
+		console.log('kkj')
 		const x = ( e.clientX / this.sizes.width ) * 2 - 1
 		const y = ( e.clientY / this.sizes.height ) * -2 + 1
 		this.profileGroup.position.x += ( - x * 50 - this.profileGroup.position.x ) * 0.05

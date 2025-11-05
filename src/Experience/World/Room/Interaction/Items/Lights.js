@@ -20,12 +20,13 @@ export default class Lights {
 		this.lightPosition = this.group.lightPosition.position
 		this.standPosition = this.group.standPosition.position
 
+		this.themeElement = document.querySelector('[data-theme]')
 		this.switchElement = document.querySelector('#lightToggleBtn')
-		const isLightMode = this.switchElement.classList.contains('active')
+		const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
 
 		this.setLights()
-		this.setToggleSwitch()
-		this.turnLights( !isLightMode )
+		this.setToggleTheme()
+		this.turnLights( !isDayMode )
 	}
 	setLights()
 	{
@@ -68,23 +69,23 @@ export default class Lights {
 		)
 		this.modelGroup.add( this.lightsGroup )
 	}
-	setToggleSwitch() {
+	setToggleTheme() {
 		this.switchElement.addEventListener('click', (e) =>
 		{
-			//const control = this.experience.camera.controls.target
-			//const camera = this.experience.camera.instance.position
-			//console.log(camera, control)
+			const control = this.experience.camera.controls.target
+			const camera = this.experience.camera.instance.position
+			console.log(camera, control)
 
-			const isActive = this.switchElement.classList.contains('active')
-			if(isActive)
+			const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
+			if(isDayMode)
 			{
-				this.switchElement.classList.remove('active')
-				this.turnLights(isActive)
+				this.themeElement.setAttribute('data-theme', 'nightMode')
+				this.turnLights(isDayMode)
 			}
 			else
 			{
-				this.switchElement.classList.add('active')
-				this.turnLights(isActive)
+				this.themeElement.setAttribute('data-theme', 'dayMode')
+				this.turnLights(isDayMode)
 			}
 		})
 	}

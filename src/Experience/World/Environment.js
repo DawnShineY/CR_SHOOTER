@@ -10,7 +10,8 @@ export default class Environment
 		this.scene = this.experience.scene.instance
 		this.debug = this.experience.debug
 		this.switchElement = document.querySelector('#lightToggleBtn')
-		const isLightMode = this.switchElement.classList.contains('active')
+		this.themeElement = document.querySelector('[data-theme]')
+		const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
 
 		this.modeObject = {
 			bgCurrentColor: '#958a75',
@@ -19,8 +20,8 @@ export default class Environment
 		}
 
 		this.setDefaultLight()
-		this.changeLightMode(isLightMode)
-		this.setToggleSwitch()
+		this.changeThemeMode(isDayMode)
+		this.setToggleTheme()
 
 		if(this.debug.active) {
 			this.setDebug()
@@ -40,36 +41,36 @@ export default class Environment
 		this.scene.add( this.directionalLight )
 	}
 
-	changeLightMode(isLightMode)
+	changeThemeMode(isDayMode)
 	{
-		if(isLightMode)
+		if(isDayMode)
 		{
-			this.setLightMode()
+			this.setDayMode()
 		}
 		else
 		{
-			this.setDarkMode()
+			this.setNightMode()
 		}
 
 	}
 
-	setToggleSwitch()
+	setToggleTheme()
 	{
 		this.switchElement.addEventListener('click', (e) =>
 		{
-			const isActive = this.switchElement.classList.contains('active')
-			this.changeLightMode( !isActive )
+			const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
+			this.changeThemeMode( !isDayMode )
 		})
 	}
 
-	setLightMode()
+	setDayMode()
 	{
 		this.changeSceneBgColor(this.modeObject.bgDayColor)
 		this.changeLightIntensity(this.ambientLight, 2)
 		this.changeLightIntensity(this.directionalLight, 4.5)
 	}
 
-	setDarkMode()
+	setNightMode()
 	{
 		this.changeSceneBgColor(this.modeObject.bgNightColor)
 		this.changeLightIntensity(this.ambientLight, 1)
