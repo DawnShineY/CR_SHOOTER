@@ -13,6 +13,8 @@
 	<link rel="stylesheet" href="/style/profile.css">
 	<link rel="stylesheet" href="/style/landing.css">
 	<link rel="stylesheet" href="/style/index.css">
+	<link rel="stylesheet" href="style/poster.css">
+	<link rel="stylesheet" href="style/poster_mobile.css">
 
 	<script type="module" src="script.js"></script>
 	<!--<script type="module" src="script2.js"></script>-->
@@ -196,16 +198,117 @@
 		</div>
 	</div>
 
+	<!-- Poster Container -->
+	<div class="poster" id="posterContainer">
+		<h1 class="home">
+			<a href="" class="home__btn"></a>
+		</h1>
+		<section class="ticket">
+			<img src="images/poster/img_text_inspired_by.png" alt="Inspired By" class="ticket__inspired">
+			<div class="ticket__envelope" id="ticketEnvelope">
+				<div class="ticket__envelope_top_wrap">
+					<div class="ticket__envelope_top"></div>
+					<div class="ticket__envelope_sticker"  id="ticketSticker"></div>
+				</div>
+				<div class="ticket__envelope_bottom"></div>
+
+				<div class="ticket__paper" id="ticketPaper">
+					<div class="ticket__info_wrap">
+						<div class="ticket__paper_texture"></div>
+						<div class="ticket__info_thumbnail">
+							<img src="images/poster/img_ticket_thumbnail.png" alt="movie scene" contenteditable="ticket__info_thumbnail_img">
+							<img src="images/poster/img_text_mark_wahlberg.png" alt="MARK WAHLBERG" class="ticket__info_actor">
+						</div>
+						<div class="ticket__info_detail">
+							<img src="images/poster/img_ticket_title.png" alt="SHOOTER: FROM THE DIRECTOR OF 'TRAINING DAY'" class="ticket__title" />
+							<div class="ticket__info_genre">2007 American Action Thriller Film</div>
+							<div class="ticket__info_text_wrap">
+								<div class="ticket__info_text">
+									<div class="ticket__info_text_title">Runtime</div>
+									<div class="ticket__info_text_content">2h 06min</div>
+								</div>
+								<div class="ticket__info_text">
+									<div class="ticket__info_text_title">Tomatometer</div>
+									<div class="ticket__info_text_content">48%</div>
+								</div>
+								<div class="ticket__info_text">
+									<div class="ticket__info_text_title">Stars</div>
+									<div class="ticket__info_text_content">Mark Wahlberg</div>
+								</div>
+								<div class="ticket__info_text">
+									<div class="ticket__info_text_title">Audience Score</div>
+									<div class="ticket__info_text_content">80%</div>
+								</div>
+							</div>
+							<div class="ticket__hashtag_wrap">
+								<div class="ticket__hashtag">ACTION</div>
+								<div class="ticket__hashtag">THRILLER</div>
+								<div class="ticket__hashtag">GUN</div>
+							</div>
+
+						</div>
+
+					</div>
+					<a href="https://embed.release-stage.netflix.com/title/70056430" target="_blank" class="ticket__barcode">
+						<div class="ticket__paper_texture"></div>
+						<div class="ticket__netflix">GO TO NETFLIX</div>
+						<div class="ticket__barcode_text">WHERE TO WATCH</div>
+						<img src="images/poster/img_barcode.png" alt="barcode" class="ticket__barcode_img">
+					</a>
+				</div>
+				<div class="ticket__close" id="ticketCloseBtn"></div>
+			</div>
+
+
+		</section>
+		<section class="board">
+			<div class="board__title_wrap">
+				<div class="board__title_texture"></div>
+				<img src="images/poster/img_sub_title.png" alt="PROTAGONIST'S HIDEAWAY: movie set artifacts" class="board__title" id="boardTitle">
+			</div>
+			<div class="board__area">
+				<div class="board__img_wrap" id="boardImgWrap">
+					<img src="images/poster/img_scene.png" alt="" class="board__reference_img">
+				</div>
+				<div class="board__polaroid_wrap" id="boardPolaroidWrap">
+					<div class="board__polaroid_img" data-polaroid="1"></div>
+					<div class="board__polaroid_img" data-polaroid="2"></div>
+					<div class="board__polaroid_img" data-polaroid="3"></div>
+					<div class="board__polaroid_img" data-polaroid="4"></div>
+					<div class="board__polaroid_img" data-polaroid="5"></div>
+					<div class="board__polaroid_img" data-polaroid="6"></div>
+					<div class="board__polaroid_img" data-polaroid="7"></div>
+					<div class="board__polaroid_img" data-polaroid="8"></div>
+					<div class="board__polaroid_img" data-polaroid="9"></div>
+					<div class="board__polaroid_img" data-polaroid="10"></div>
+					<div class="board__polaroid_img" data-polaroid="11"></div>
+					<div class="board__polaroid_img" data-polaroid="12"></div>
+					<div class="board__polaroid_img" data-polaroid="13"></div>
+				</div>
+			</div>
+			<div class="board__arrow" ></div>
+		</section>
+		<section class="final" id="final">
+			<div class="final__photo" id="finalPhoto">
+				<img src="images/poster/img_final_polaroid.png" alt="Final Rendering Result" class="final__photo_img">
+				<div class="final__photo_btn" id="finalPhotoBtn">Go To Experience</div>
+			</div>
+			<div class="final__assets" id="finalAssets"></div>
+		</section>
+		<footer class="footer"></footer>
+		<script src="poster.js"></script>
+	</div>
+
 	<!-- camera initial potion button -->
 	<div class="camera_reset_btn" id="cameraResetBtn"></div>
 	<div class="light_toggle_btn" id="lightToggleBtn">
 		<svg class="light_toggle_icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 50"><path d="M38 41.1s.1-7.8-8.1-8.7c-8.2-.8-7.5-10.2-7.5-10.2h-1L20.3 21V0h-.7v21l-1.1 1.3h-.7s-1.3 10-8.4 10.8-7.4 8-7.4 8h12.8c.4 2.5 2.5 4.5 5.1 4.5s4.8-1.9 5.1-4.5z"/></svg>
 	</div>
 	<div class="poster_btn_wrap" id="posterBtnWrap">
-		<a class="poster_btn" href="/poster.html">
+		<div class="poster_btn" id="posterBtn" href="/poster.html">
 			<div class="poster_btn__title">Explore the Movie Scene</div>
 			<div>See how the space unfolds in 3D</div>
-		</a>
+		</div>
 		<div class="poster_cls_btn" id="posterClsBtn"></div>
 	</div>
 	<video

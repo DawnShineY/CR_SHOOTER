@@ -2,11 +2,19 @@
 	--rotateFactor: 135deg;
 	--scaleFactor: 0.7
 }
-
-.poster {
-	/*min-height: 100vh;*/
-	box-sizing: border-box;
+.poster{
+	position: fixed;
+	width: 100%;
+	height: max-content;
+	top: 0;
+	left: 0;
+	transform: translateY(100vh);
+	transition: all;
+	background: linear-gradient(to bottom, transparent 20vh, #DEDFD9);
 	background-color: #DEDFD9;
+	z-index: 10;
+	box-sizing: border-box;
+	opacity: 0;
 }
 .home{
 	padding: 36px 0 0 36px;

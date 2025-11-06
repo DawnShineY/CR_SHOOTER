@@ -11,7 +11,7 @@ export default class Time extends EventEmitter
 			this.start = Date.now()
 			this.current = this.start
 			this.elapsed = 0
-			this.delta = 16
+			this.delta = 0.016
 			this.stats = new Stats()
 			this.stats.showPanel(0)
 			document.body.append(this.stats.dom)

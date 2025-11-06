@@ -63,11 +63,12 @@
 	clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
 }
 .poster_btn_wrap{
+	/*display: none;*/
 	position: fixed;
 	bottom: 150px;
 	left: 50%;
-	transform: translate(-50%, 80px);
-	opacity: 0;
+	/*transform: translate(-50%, 80px);*/
+	/*opacity: 0;*/
 	transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .poster_btn{

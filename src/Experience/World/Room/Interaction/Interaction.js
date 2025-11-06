@@ -82,12 +82,14 @@ export default class Interaction
 	resize()
 	{
 		this.memo.resize()
+		this.poster.resize()
 	}
 	update()
 	{
 		this.windbell.update()
 		this.laptopScreen.update()
 		this.pointer.update()
+		this.poster.update()
 		this.memo.update()
 	}
 }

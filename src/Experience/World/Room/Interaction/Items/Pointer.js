@@ -17,8 +17,7 @@ export default class Pointer extends EventEmitter
 		this.camera = this.experience.camera
 		this.raycaster = this.experience.raycaster
 		this.canvas = this.experience.canvas
-
-		this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+		this.isMobile = this.experience.isMobile
 
 		this.prevInstancedId = null
 		this.prevMouseIn = false
@@ -140,15 +139,15 @@ export default class Pointer extends EventEmitter
 		}
 	}
 
-	moveCameraToTarget([camPosX, camPosY, camPosZ], [conTarX, conTarY, conTarZ]) {
+	moveCameraToTarget([camPosX, camPosY, camPosZ], [conTarX, conTarY, conTarZ], duration=1) {
 		gsap.to(this.camera.instance.position, {
-				duration: 1,
+				duration,
 				x: camPosX,
 				y: camPosY,
 				z: camPosZ,
 		})
 		gsap.to(this.camera.controls.target, {
-			duration: 0.5,
+			duration,
 			x: conTarX,
 			y: conTarY,
 			z: conTarZ,

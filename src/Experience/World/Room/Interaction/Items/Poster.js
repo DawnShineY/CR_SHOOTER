@@ -1,21 +1,37 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import Interaction from '../Interaction.js'
+import gsap from 'gsap'
 
 export default class Poster
 {
 	constructor()
 	{
+		this.experience = new Experience()
+		this.camera = this.experience.camera
+		this.sizes = this.experience.sizes
+		this.scene = this.experience.scene
+		this.timeDelta = this.experience.time.delta
+		this.isPosterPageActive = false
+		this.posterBtnWrapElement = document.querySelector('#posterBtnWrap')
+		this.posterClsBtnElement = document.querySelector('#posterClsBtn')
+		this.posterContainer = document.querySelector('#posterContainer')
+		this.posterContainerHeight = this.posterContainer.clientHeight
+		this.posterScrollHeight = this.posterContainerHeight - this.sizes.height
+		this.bodyElement = document.body
+		this.bodyElement.style.height = `${this.posterContainerHeight}px`
+		this.posterScrollY = 0
+		this.posterCurrentY = 0
+		this.movingTime = 1.5
+		this.setHidePosterPage()
+		this.setPosterScrollEvent()
+		this.setPosterBtnClickEvent()
+		this.setCloseBtnClickEvent()
+
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
-		this.posterBtnElement = document.querySelector('#posterBtnWrap')
-		this.posterClsBtnElement = document.querySelector('#posterClsBtn')
-
-		this.setCloseBtnClickEvent()
 		this.setPointerEvent()
 		this.resetPointerEvent()
-		
-
 
 	}
 	setPointerEvent()
@@ -24,10 +40,10 @@ export default class Poster
 		{
 			if(obj === 'poster')
 			{
-				this.posterBtnElement.style.display = 'block'
+				this.posterBtnWrapElement.style.display = 'block'
 				setTimeout(() =>
 				{
-					this.posterBtnElement.classList.add('active')
+					this.posterBtnWrapElement.classList.add('active')
 				}, 0)
 			}
 		})
@@ -39,6 +55,45 @@ export default class Poster
 			this.closePosterBtn()
 		})
 	}
+
+	/**
+	 * Poster Button
+	 */
+	setPosterBtnClickEvent()
+	{
+		this.posterBtn = document.querySelector('#posterBtn')
+		this.posterBtn.addEventListener('click', () =>
+		{
+			this.camera.controls.enabled = false
+			this.camera.resetControlLimits()
+
+			gsap.to(
+				this.camera.instance.position,
+				{
+					x: 56,
+					y: 4,
+					z: 52,
+					duration: this.movingTime
+				}
+			)
+			gsap.to(
+				this.camera.controls.target,
+				{
+					x: 3,
+					y: -15,
+					z: 3,
+					duration: this.movingTime
+				}
+			)
+
+			setTimeout(() =>
+			{
+				this.scene.instance.visible = false
+			}, this.movingTime * 1000)
+
+			this.showPosterPage(this.movingTime)
+		})
+	}
 	setCloseBtnClickEvent()
 	{
 		this.posterClsBtnElement.addEventListener('click', () =>{
@@ -47,10 +102,86 @@ export default class Poster
 	}
 	closePosterBtn()
 	{
-		this.posterBtnElement.classList.remove('active')
+		this.posterBtnWrapElement.classList.remove('active')
 		setTimeout(() =>
 		{
-			this.posterBtnElement.style.display = 'none'
+			this.posterBtnWrapElement.style.display = 'none'
 		}, 1000)
+	}
+
+	/**
+	 * Poster Page
+	 */
+	setPosterScrollEvent()
+	{
+		window.addEventListener('scroll', (e) =>
+		{
+			this.posterScrollY = window.scrollY
+		}, { passive: false })
+	}
+	showPosterPage()
+	{
+		this.timeDelta = Math.min(this.experience.time.delta, 0.03)
+		this.posterContainer.style.transitionDuration = `${this.movingTime}s`
+		this.posterContainer.style.transform = 'translateY(0)'
+		this.posterContainer.style.opacity = '1'
+		setTimeout(() =>
+		{
+			this.bodyElement.style.overflow = 'auto'
+			this.isPosterPageActive = true
+			this.posterContainer.style.transitionDuration ='0s'
+		}, this.movingTime * 1000)
+	}
+	setHidePosterPage()
+	{
+		const hideButton = document.querySelector('#finalPhotoBtn')
+		hideButton.addEventListener('click', () =>
+		{
+			this.isPosterPageActive = false
+			this.posterContainer.style.transitionDuration = `0.5s`
+			this.posterContainer.style.opacity = '0'
+			//this.posterContainer.style.transform = `translateY(100vh)`
+			this.scene.instance.visible = true
+			gsap.to(this.camera.instance.position, {
+				duration: this.movingTime,
+				x: 38,
+				y: 13,
+				z: 35,
+			})
+			gsap.to(this.camera.controls.target, {
+				duration: this.movingTime,
+				x: 0,
+				y: 0,
+				z: 0,
+			})
+			this.bodyElement.style.overflow = 'hidden'
+			window.scrollTo({top: 0})
+			this.posterScrollY = 0
+			this.posterCurrentY = 0
+			setTimeout(() =>
+			{
+				this.posterContainer.style.transform = `translateY(100vh)`
+				this.camera.controls.enabled = true
+				this.camera.setControlLimits()
+			}, this.movingTime * 1000)
+		})
+	}
+	scrollAnimation()
+	{
+		this.posterCurrentY += (this.posterScrollY - this.posterCurrentY) * this.timeDelta * 4
+		if(this.posterCurrentY < 1) this.posterCurrentY = 0
+		this.posterContainer.style.transform = `translateY(${-this.posterCurrentY}px)`
+	}
+	resize()
+	{
+		this.posterContainerHeight = this.posterContainer.clientHeight
+		this.bodyElement.style.height = `${this.posterContainerHeight}px`
+	}
+	update()
+	{
+		if(this.isPosterPageActive)
+		{
+			this.scrollAnimation()
+		}
 	}
 }

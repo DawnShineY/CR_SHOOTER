@@ -1,16 +1,21 @@
-body {
+html, body {
 	font-family: "Poppins";
 	font-weight: 400;
 	background-color: #262721;
+	-webkit-overflow-scrolling: auto;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+body{
+	overflow: hidden;
+	height: 100%;
+}
+
+/* Chrome, Safari, Opera */
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  /*display: none;*/
 }
 canvas{
 	position: fixed;
-	top: 0
-}
-
-.test{
-	position: relative;
-	z-index: 10;
-	background-color: #FFFFFF;
-	height: 100vh;
+	top: 0;
 }
