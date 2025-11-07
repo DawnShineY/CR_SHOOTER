@@ -15,9 +15,10 @@ const ticketCloseBtn = document.getElementById('ticketCloseBtn')
 ticketCloseBtn.addEventListener('click', (e) => {
 	ticketEnvelope.classList.remove('ticket__envelope-open')
 	ticketPaper.style.transform = 'translateX(-50%) scale(var(--scaleFactor))'
-	requestAnimationFrame(() => {
+	setTimeout(() =>
+	{
 		ticketPaper.style.transform = 'translateX(-50%) scale(0.65)'
-	})
+	}, 0)
 })
 
 // Board Coordination

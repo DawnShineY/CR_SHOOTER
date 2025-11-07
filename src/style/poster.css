@@ -1,22 +1,27 @@
 :root{
 	--rotateFactor: 135deg;
-	--scaleFactor: 0.7
+	--scaleFactor: 0.7;
 }
 .poster{
+	--movingTime: 0s;
 	position: fixed;
 	width: 100%;
 	height: max-content;
 	top: 0;
 	left: 0;
-	transform: translateY(100vh);
-	transition: all;
-	background: linear-gradient(to bottom, transparent 20vh, #DEDFD9);
-	background-color: #DEDFD9;
-	z-index: 10;
 	box-sizing: border-box;
+	transform: translateY(100vh);
+	transition-property: transform, opacity, background-color;
+	transition-duration: var(--movingTime), var(--movingTime), var(--movingTime);
+	transition-delay: 0s, 0s, var(--movingTime);
+	background-color: transparent;
 	opacity: 0;
+	z-index: 10;
 }
 .home{
+	position: absolute;
+	top: 0;
+	left: 0;
 	padding: 36px 0 0 36px;
 }
 .home__btn{
@@ -26,14 +31,17 @@
 	/*margin: 36px 0 0 36px;*/
 	background: url("../../static/images/poster/img_logo.png") center no-repeat;
 	background-size: 100% auto;
+	cursor: pointer;
 }
 .ticket{
+	position: relative;
 	width: 100%;
-	height: calc(100vh - 96px);
+	min-height: calc(100vh + 60px);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	background-image: linear-gradient(to bottom, transparent, #DEDFD9 50vh);
 }
 
 .ticket__inspired{
@@ -127,19 +135,6 @@
 	0% {
 		transform: translateX(-50%) scale(calc(0.65));
 	}
-
-	/*56% {
-		transform: translateX(-50%) scale(calc(1.1 * var(--scaleFactor)));
-	}*/
-
-	/*28% {
-		transform: translateX(-50%) scale(calc(0.95 * var(--scaleFactor)));
-	}
-
-	44% {
-		transform: translateX(-50%) scale(calc(1.05 * var(--scaleFactor)));
-	}*/
-
 	100% {
 		transform: translateX(-50%) scale(calc(1 * var(--scaleFactor)));
 	}
@@ -351,7 +346,6 @@
 }
 
 .board{
-	margin-top: 60px;
 	padding-bottom: 96px;
 	background: linear-gradient(to right, #B9BBB2 1px, transparent 1px) repeat, linear-gradient(to bottom, #B9BBB2 1px, transparent 1px) repeat, #9FA291;
 	background-size: 30px 100%, 100% 30px;

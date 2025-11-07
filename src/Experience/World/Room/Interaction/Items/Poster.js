@@ -16,6 +16,8 @@ export default class Poster
 		this.posterBtnWrapElement = document.querySelector('#posterBtnWrap')
 		this.posterClsBtnElement = document.querySelector('#posterClsBtn')
 		this.posterContainer = document.querySelector('#posterContainer')
+		this.ticketElement = document.querySelector('.ticket')
+		this.utilityGroup = document.querySelector('#utilityGroup')
 		this.posterContainerHeight = this.posterContainer.clientHeight
 		this.posterScrollHeight = this.posterContainerHeight - this.sizes.height
 		this.bodyElement = document.body
@@ -52,7 +54,7 @@ export default class Poster
 	{
 		this.pointer.on('reset', () =>
 		{
-			this.closePosterBtn()
+			this.hidePosterBtn()
 		})
 	}
 
@@ -97,10 +99,10 @@ export default class Poster
 	setCloseBtnClickEvent()
 	{
 		this.posterClsBtnElement.addEventListener('click', () =>{
-			this.closePosterBtn()
+			this.hidePosterBtn()
 		})
 	}
-	closePosterBtn()
+	hidePosterBtn()
 	{
 		this.posterBtnWrapElement.classList.remove('active')
 		setTimeout(() =>
@@ -122,14 +124,17 @@ export default class Poster
 	showPosterPage()
 	{
 		this.timeDelta = Math.min(this.experience.time.delta, 0.03)
-		this.posterContainer.style.transitionDuration = `${this.movingTime}s`
+		this.posterContainer.style.setProperty('--movingTime', `${this.movingTime}s`)
 		this.posterContainer.style.transform = 'translateY(0)'
 		this.posterContainer.style.opacity = '1'
+		//this.posterContainer.style.backgroundColor = '#dedfd980'
+		this.utilityGroup.style.display = 'none'
+		this.hidePosterBtn()
 		setTimeout(() =>
 		{
 			this.bodyElement.style.overflow = 'auto'
 			this.isPosterPageActive = true
-			this.posterContainer.style.transitionDuration ='0s'
+			this.posterContainer.style.setProperty('--movingTime', `0s`)
 		}, this.movingTime * 1000)
 	}
 	setHidePosterPage()
@@ -138,10 +143,10 @@ export default class Poster
 		hideButton.addEventListener('click', () =>
 		{
 			this.isPosterPageActive = false
-			this.posterContainer.style.transitionDuration = `0.5s`
+			this.posterContainer.style.setProperty('--movingTime', `0.5s`)
 			this.posterContainer.style.opacity = '0'
-			//this.posterContainer.style.transform = `translateY(100vh)`
 			this.scene.instance.visible = true
+			this.utilityGroup.style.display = 'flex'
 			gsap.to(this.camera.instance.position, {
 				duration: this.movingTime,
 				x: 38,

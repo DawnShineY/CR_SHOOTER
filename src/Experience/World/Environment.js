@@ -9,7 +9,7 @@ export default class Environment
 		this.experience = new Experience()
 		this.scene = this.experience.scene.instance
 		this.debug = this.experience.debug
-		this.switchElement = document.querySelector('#lightToggleBtn')
+		this.switchElement = document.querySelector('#themeToggleBtn')
 		this.themeElement = document.querySelector('[data-theme]')
 		const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
 

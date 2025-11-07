@@ -30,6 +30,9 @@ export default class Time extends EventEmitter
 			this.elapsed = ( this.current - this.start ) * 0.001
 			this.current = currentTime
 
+			this.tickCount++
+			this.newTime += this.delta
+
 			this.trigger( 'tick' )
 
 			this.stats.end()

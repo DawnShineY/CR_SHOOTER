@@ -21,23 +21,39 @@
 	<!--<script type="module" src="test/css3Drender-2.js"></script>-->
 </head>
 <body data-theme="dayMode">
+	<!-- webgl canvas -->
 	<canvas class="webgl" id="webgl"></canvas>
 
 	<!-- Landing -->
 	<div class="landing" style="display: non;">
-		<div class="landing__bullet"></div>
+		<!--<div class="landing__bullet"></div>-->
 		<div class="landing__opening landing__opening-top"></div>
 		<div class="landing__opening landing__opening-bottom"></div>
 		<div class="landing__box">
 			<div class="landing__content">
-				<div class="landing__area landing__area-left">
+				<div class="landing__asset_group">
+					<div class="landing__gun"></div>
+					<div class="landing__bullet_way">
+						<div class="landing__bullet_line"></div>
+						<div class="landing__bullet"></div>
+					</div>
+					<div class="landing__can"></div>
+				</div>
+
+				<div class="landing__rock_group">
+					<div class="landing__rock landing__rock-left"></div>
+					<div class="landing__rock landing__rock-right"></div>
+				</div>
+
+
+				<!--<div class="landing__area landing__area-left">
 					<div class="landing__gun"></div>
 					<div class="landing__rock"></div>
 				</div>
 				<div class="landing__area landing__area-right">
 					<div class="landing__can"></div>
 					<div class="landing__rock"></div>
-				</div>
+				</div>-->
 				<div class="landing__subtitle_wrap"><span class="landing__subtitle_side">[</span> <span class="landing__subtitle">loading</span><span class="landing__subtitle_side"> ]</span></div>
 			</div>
 		</div>
@@ -200,10 +216,10 @@
 
 	<!-- Poster Container -->
 	<div class="poster" id="posterContainer">
-		<h1 class="home">
-			<a href="" class="home__btn"></a>
-		</h1>
 		<section class="ticket">
+			<h1 class="home">
+				<div class="home__btn"></div>
+			</h1>
 			<img src="images/poster/img_text_inspired_by.png" alt="Inspired By" class="ticket__inspired">
 			<div class="ticket__envelope" id="ticketEnvelope">
 				<div class="ticket__envelope_top_wrap">
@@ -245,9 +261,7 @@
 								<div class="ticket__hashtag">THRILLER</div>
 								<div class="ticket__hashtag">GUN</div>
 							</div>
-
 						</div>
-
 					</div>
 					<a href="https://embed.release-stage.netflix.com/title/70056430" target="_blank" class="ticket__barcode">
 						<div class="ticket__paper_texture"></div>
@@ -258,8 +272,6 @@
 				</div>
 				<div class="ticket__close" id="ticketCloseBtn"></div>
 			</div>
-
-
 		</section>
 		<section class="board">
 			<div class="board__title_wrap">
@@ -300,10 +312,14 @@
 	</div>
 
 	<!-- camera initial potion button -->
-	<div class="camera_reset_btn" id="cameraResetBtn"></div>
-	<div class="light_toggle_btn" id="lightToggleBtn">
-		<svg class="light_toggle_icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 50"><path d="M38 41.1s.1-7.8-8.1-8.7c-8.2-.8-7.5-10.2-7.5-10.2h-1L20.3 21V0h-.7v21l-1.1 1.3h-.7s-1.3 10-8.4 10.8-7.4 8-7.4 8h12.8c.4 2.5 2.5 4.5 5.1 4.5s4.8-1.9 5.1-4.5z"/></svg>
+	<div class="utility" id="utilityGroup">
+		<div class="utility__cam_reset_btn" id="cameraResetBtn"></div>
+		<div class="utility__theme_btn" id="themeToggleBtn">
+			<svg class="utility__theme_icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 50"><path d="M38 41.1s.1-7.8-8.1-8.7c-8.2-.8-7.5-10.2-7.5-10.2h-1L20.3 21V0h-.7v21l-1.1 1.3h-.7s-1.3 10-8.4 10.8-7.4 8-7.4 8h12.8c.4 2.5 2.5 4.5 5.1 4.5s4.8-1.9 5.1-4.5z"/></svg>
+		</div>
 	</div>
+
+	<!-- poster show button -->
 	<div class="poster_btn_wrap" id="posterBtnWrap">
 		<div class="poster_btn" id="posterBtn" href="/poster.html">
 			<div class="poster_btn__title">Explore the Movie Scene</div>
@@ -311,11 +327,14 @@
 		</div>
 		<div class="poster_cls_btn" id="posterClsBtn"></div>
 	</div>
+
+	<!-- video texture -->
 	<video
 		src="/video/clip.mp4"
 		id="video"
 		style="display: none;"
-		controls name="media" crossOrigin="anonymous" type="video/mp4"></video>
+		controls name="media" crossOrigin="anonymous" type="video/mp4">
+	</video>
 
 
 </body>

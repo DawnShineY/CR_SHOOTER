@@ -8,12 +8,9 @@ html, body {
 }
 body{
 	overflow: hidden;
-	height: 100%;
 }
-
-/* Chrome, Safari, Opera */
 html::-webkit-scrollbar, body::-webkit-scrollbar {
-  /*display: none;*/
+  display: none;
 }
 canvas{
 	position: fixed;

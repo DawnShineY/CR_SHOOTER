@@ -8,7 +8,8 @@
 	height: 100vh;
 	z-index: 10;
 	background-color: #000000;
-	transition: 2s ease-out 3s;
+	transition: opacity 1s ease-out 2.5s;
+	opacity: 1;
 }
 
 .landing__opening{
@@ -18,8 +19,8 @@
 	width: 100%;
 	height: 100%;
 	background-color: #000000;
-	z-index: 2;
-	transition: 1.5s ease-in 1s;
+	z-index: 3;
+	transition: 1s ease-in 1s;
 }
 
 .landing__opening-top{
@@ -41,57 +42,51 @@
 	height: 100%;
 	background: linear-gradient(#3B3B34, #1B1C17) ;
 }
-.landing__area{
+.landing__asset_group{
 	position: absolute;
-	bottom: 0;
-
-}
-.landing__area-left{
-	left: 0;
-}
-.landing__rock{
-	position: relative;
-}
-.landing__area-left .landing__rock{
-	width: 500px;
-	height: 310px;
-	background: url('/images/landing/img_rock_left.png') center no-repeat;
-	background-size: cover;
-}
-.landing__area-right{
-	right: 0;
-}
-.landing__area-right .landing__rock{
-	width: 575px;
-	height: 315px;
-	background: url('/images/landing/img_rock_right.png') center no-repeat;
-	background-size: cover;
+	bottom: 264px;
+	display: flex;
+	width: 100%;
 }
 .landing__gun{
-	position: absolute;
-	top: -24px;
-	left: 70px;
+	margin-left: 70px;
 	width: 200px;
 	height: 60px;
 	background: url('/images/landing/img_gun.png') center no-repeat;
 	background-size: cover;
 }
+.landing__bullet_way{
+	position: relative;
+	width: 100%;
+}
 .landing__bullet{
 	position: absolute;
+	top: 17px;
+	left: 10px;
 	opacity: 0;
-	z-index: 1;
-	width: 26px;
+	z-index: 2;
+	width: calc(100% - 26px);
 	height: 6px;
 	background: url('/images/landing/img_bullet.png') no-repeat;
-	background-position: 0 center;
+	background-position: left 0 center;
 	background-size: auto 100%;
-	transition: transform 1s ease-out, opacity 0.3s ease-out;
+	transition: transform 2s, opacity 0.3s ease-out;
 }
-
-.landing__can{
+.landing__bullet_line{
 	position: absolute;
-	top: -20px;
-	right: 100px;
+	top: 19px;
+	left: 2px;
+	width: 100%;
+	height: 2px;
+	background-color: #7e2f1e;
+	z-index: 1;
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 2s;
+}
+.landing__can{
+	flex-shrink: 0;
+	margin-right: 100px;
 	width: 40px;
 	height: 40px;
 	background-image: url('/images/landing/img_can.png');
@@ -99,6 +94,28 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	transition: 0.2s 0.8s ease-out;
+}
+.landing__rock_group{
+	position: absolute;
+	bottom: -10px;
+	width: 100%;
+	display: flex;
+}
+.landing__rock{
+	display: flex;
+}
+.landing__rock{
+	width: 500px;
+	height: 310px;
+	background: url('/images/landing/img_rock_left.png') center no-repeat;
+	background-size: cover;
+}
+.landing__rock-right{
+	width: 575px;
+	height: 315px;
+	margin-left: auto;
+	background: url('/images/landing/img_rock_right.png') center no-repeat;
+	background-size: cover;
 }
 .landing__subtitle_wrap{
 	position: absolute;

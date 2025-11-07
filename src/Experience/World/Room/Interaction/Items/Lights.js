@@ -21,8 +21,9 @@ export default class Lights {
 		this.standPosition = this.group.standPosition.position
 
 		this.themeElement = document.querySelector('[data-theme]')
-		this.switchElement = document.querySelector('#lightToggleBtn')
+		this.switchElement = document.querySelector('#themeToggleBtn')
 		const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
+		this.hideLightsGroup = null
 
 		this.setLights()
 		this.setToggleTheme()
@@ -69,7 +70,6 @@ export default class Lights {
 		)
 		this.modelGroup.add( this.lightsGroup )
 	}
-	
 	setToggleTheme() {
 		this.switchElement.addEventListener('click', (e) =>
 		{
@@ -81,13 +81,12 @@ export default class Lights {
 			if(isDayMode)
 			{
 				this.themeElement.setAttribute('data-theme', 'nightMode')
-				this.turnLights(isDayMode)
 			}
 			else
 			{
 				this.themeElement.setAttribute('data-theme', 'dayMode')
-				this.turnLights(isDayMode)
 			}
+			this.turnLights(isDayMode)
 		})
 	}
 
@@ -102,10 +101,11 @@ export default class Lights {
 
 	turnLights(value)
 	{
-		if(value)
+		if(value) // 밤
 		{
+			clearTimeout(this.dayModeTimeout)
 			this.lightsGroup.visible = true
-			setTimeout(() =>
+			this.nightModeTimeout = setTimeout(() =>
 			{
 				this.setLightIntensity(this.candleLight1, 3)
 				this.setLightIntensity(this.candleLight2, 3)
@@ -115,18 +115,18 @@ export default class Lights {
 				this.setLightIntensity(this.lampLight2, 10)
 			}, 500)
 		}
-		else
+		else // 낮
 		{
+			clearTimeout(this.nightModeTimeout)
+			this.dayModeTimeout = setTimeout(() => {
+				this.lightsGroup.visible = false
+			}, 1000)
 			this.setLightIntensity(this.candleLight1, 0)
 			this.setLightIntensity(this.candleLight2, 0)
 			this.setLightIntensity(this.standLight, 0)
 			this.setLightIntensity(this.standLight2, 0)
 			this.setLightIntensity(this.lampLight1, 0)
 			this.setLightIntensity(this.lampLight2, 0)
-
-			setTimeout(() => {
-				this.lightsGroup.visible = false
-			}, 1000)
 		}
 	}
 }
