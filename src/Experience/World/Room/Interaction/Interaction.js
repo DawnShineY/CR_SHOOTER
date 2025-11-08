@@ -83,11 +83,13 @@ export default class Interaction
 	{
 		this.memo.resize()
 		this.poster.resize()
+		this.locker.resize()
 	}
 	update()
 	{
 		this.windbell.update()
 		this.laptopScreen.update()
+		this.locker.update()
 		this.pointer.update()
 		this.poster.update()
 		this.memo.update()

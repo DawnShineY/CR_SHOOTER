@@ -12,10 +12,9 @@ export default class Raycaster{
 		this.mouse = new THREE.Vector2( -999, -999 )
 		this.canvas = this.experience.canvas
 
-		
 		this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 		this.eventType = this.isMobile ? 'click' : 'mousemove'
-		
+
 		this.setMouse()
 	}
 

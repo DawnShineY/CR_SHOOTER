@@ -195,7 +195,7 @@
 	background: url('../../static/images/poster/img_paper_texture.jpg') no-repeat;
 	background-size: cover;
 	mix-blend-mode: multiply;
-	filter: contrast(0.95) brightness(1.05); 
+	filter: contrast(0.95) brightness(1.05);
 	z-index: 1;
 	pointer-events: none;
 }
@@ -325,7 +325,7 @@
 	display: block;
 	opacity: 1;
 	transition: opacity 1s 1.2s ease-in;
-	cursor: pointer; 
+	cursor: pointer;
 	pointer-events: auto;
 }
 .ticket__close{
@@ -391,8 +391,8 @@
 	overflow: visible;
 }
 .board__line_path{
-	stroke-width: 3px;
-	stroke: #ee9c04;
+	stroke-width: 4px;
+	stroke: url('#RadialGradient1');
 	fill: none;
 }
 .board__dot{

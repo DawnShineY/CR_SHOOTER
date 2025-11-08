@@ -77,7 +77,7 @@ if (!isMobileSize) { // Pc에서
 			const polaroidImg = e.target
 			polaroidImg.style.zIndex = 1
 			const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
-	
+
 			// 점 추가
 			const dotCoordinate = boardCoordinate[num]
 			for(let i = 0; i < dotCoordinate.length; i++) {
@@ -85,17 +85,17 @@ if (!isMobileSize) { // Pc에서
 				const dotElement = createDotElement(coord)
 				bardArea.appendChild(dotElement)
 			}
-	
+
 			// 폴라로이드 애니메이션
 			const rotateDeg = Math.random() * 5
 			polaroidImg.style.transform = `rotate(${rotateDeg}deg)`
-	
+
 			polaroidImg.addEventListener('mouseout', () => {
 				const dotElements = document.querySelectorAll('.board__dot')
 				const svgElement = document.querySelectorAll('.board__line')
 				polaroidImg.style.zIndex = ''
 				polaroidImg.style.transform = ''
-	
+
 				dotElements.forEach((el) => {
 					el.style.opacity = 0
 					el.addEventListener('transitionend', () => {
@@ -158,15 +158,15 @@ if (!isMobileSize) { // Pc에서
 			const polaroidImg = e.target
 			const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
 			const dotCoordinate = boardCoordinate[num]
-	
+
 			const polaroidImgTop = polaroidImg.offsetTop
 			const polaroidImgLeft = polaroidImg.offsetLeft
-	
+
 			const randomX = 0.2 + Math.random() * boardPolaroidImgWidth * 0.8
 			const randomY = 0.2 + Math.random() * boardPolaroidImgHeight * 0.8
-			
+
 			const coord = {x: polaroidImgLeft + randomX, y: polaroidImgTop + randomY}
-	
+
 			const svgList = createSvgElement(coord, dotCoordinate)
 			svgList.forEach((svg) => {
 				boardPolaroidWrap.appendChild(svg)
@@ -190,7 +190,7 @@ function createSvgElement(startCoord, dotCoords) {
 
 		const directionX = width > 0 ? 1 : -1
 		const directionY = height > 0 ? 1 : -1
-	
+
 		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
 		svg.setAttribute('viewBox', '-1, -1, 2, 2')
 		svg.setAttribute('width', width * directionX)
@@ -199,7 +199,7 @@ function createSvgElement(startCoord, dotCoords) {
 		svg.setAttribute('class', 'board__line')
 		svg.style.left = `${directionX > 0 ? startX : endX}px`
 		svg.style.top = `${directionY > 0 ? startY : endY}px`
-	
+
 		const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 		path.setAttribute('d',
 			`M${-directionX},${-directionY}
@@ -209,7 +209,7 @@ function createSvgElement(startCoord, dotCoords) {
 		)
 		path.setAttribute('vector-effect', 'non-scaling-stroke')
 		path.setAttribute('class', 'board__line_path')
-	
+
 		svg.appendChild(path)
 		svgList.push(svg)
 	})
@@ -267,7 +267,7 @@ finalAssets.addEventListener('transitionend', (e) => {
 	const finalAssetsId = finalAssetsCount % 12
 	finalAssets.style.backgroundPosition = `left calc(var(--bgSize) * ${-finalAssetsId}) center`
 	finalAssetsCount += 1
-	
+
 	finalAssets.style.transition = 'none'
 	initialX = finalPhoto.clientWidth / 2 * (Math.random() * 2 - 1)
 	initialY = finalPhoto.clientHeight / 2 * (Math.random() * 2 - 1)
@@ -275,4 +275,3 @@ finalAssets.addEventListener('transitionend', (e) => {
 
 	finalAssets.classList.remove('final__assets-fadein')
 })
-

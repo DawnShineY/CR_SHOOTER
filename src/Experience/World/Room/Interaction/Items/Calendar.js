@@ -14,6 +14,9 @@ export default class Calendar
 		this.monthMesh = this.calendar.calendarMonth
 		this.getFullDate()
 
+		this.dateMesh.material.map.offset.y = 0
+		this.monthMesh.material.map.offset.y = 0
+
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
 		this.setPointerEvent()
@@ -35,7 +38,6 @@ export default class Calendar
 						ease: 'power2.inOut'
 					}
 				)
-				if(this.date )
 				gsap.to(
 					this.dateMesh.material.map.offset,
 					{
@@ -80,7 +82,6 @@ export default class Calendar
 					ease: 'power2.inOut'
 				}
 			)
-			if(this.date )
 			gsap.to(
 				this.dateMesh.material.map.offset,
 				{
@@ -118,12 +119,4 @@ export default class Calendar
 		this.day = this.fullDate.getDay() + 1
 		this.month = this.fullDate.getMonth() + 1
 	}
-
-	//setTexture()
-	//{
-	//	this.dayMesh.material.map.offset.y += 0.125 * this.day
-	//	this.dateMesh.material.map.offset.x += 0.2468 * ( Math.floor( this.date / 10 ))
-	//	this.dateMesh.material.map.offset.y += 0.094 * ( this.date % 10 )
-	//	this.monthMesh.material.map.offset.y += 0.077 * this.month
-	//}
 }
