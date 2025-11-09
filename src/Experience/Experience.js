@@ -32,7 +32,7 @@ export default class Experience
 		this.time = new Time()
 		this.scene = new Scene()
 		this.resources = new Resources()
-		this.landing = new Landing()
+		//this.landing = new Landing()
 		this.camera = new Camera()
 		this.renderer = new Renderer()
 		this.world = new World()

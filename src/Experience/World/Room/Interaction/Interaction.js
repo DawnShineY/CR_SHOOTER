@@ -93,5 +93,6 @@ export default class Interaction
 		this.pointer.update()
 		this.poster.update()
 		this.memo.update()
+		this.can.update()
 	}
 }

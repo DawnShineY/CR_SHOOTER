@@ -12,11 +12,11 @@ export default class Poster
 		this.sizes = this.experience.sizes
 		this.scene = this.experience.scene
 		this.timeDelta = this.experience.time.delta
+
 		this.isPosterPageActive = false
 		this.posterBtnWrapElement = document.querySelector('#posterBtnWrap')
 		this.posterClsBtnElement = document.querySelector('#posterClsBtn')
 		this.posterContainer = document.querySelector('#posterContainer')
-		this.ticketElement = document.querySelector('.ticket')
 		this.utilityGroup = document.querySelector('#utilityGroup')
 		this.posterContainerHeight = this.posterContainer.clientHeight
 		this.posterScrollHeight = this.posterContainerHeight - this.sizes.height
@@ -139,37 +139,48 @@ export default class Poster
 	}
 	setHidePosterPage()
 	{
-		const hideButton = document.querySelector('#finalPhotoBtn')
-		hideButton.addEventListener('click', () =>
+		const hideButtonTop = document.querySelector('#posterHomeBtn')
+		hideButtonTop.addEventListener('click', () =>
 		{
-			this.isPosterPageActive = false
-			this.posterContainer.style.setProperty('--movingTime', `0.5s`)
-			this.posterContainer.style.opacity = '0'
-			this.scene.instance.visible = true
-			this.utilityGroup.style.display = 'flex'
-			gsap.to(this.camera.instance.position, {
-				duration: this.movingTime,
-				x: 38,
-				y: 13,
-				z: 35,
-			})
-			gsap.to(this.camera.controls.target, {
-				duration: this.movingTime,
-				x: 0,
-				y: 0,
-				z: 0,
-			})
-			this.bodyElement.style.overflow = 'hidden'
-			window.scrollTo({top: 0})
-			this.posterScrollY = 0
-			this.posterCurrentY = 0
-			setTimeout(() =>
-			{
-				this.posterContainer.style.transform = `translateY(100vh)`
-				this.camera.controls.enabled = true
-				this.camera.setControlLimits()
-			}, this.movingTime * 1000)
+			this.hidePosterPage()
 		})
+
+		const hideButtonBottom = document.querySelector('#finalPhotoBtn')
+		hideButtonBottom.addEventListener('click', () =>
+		{
+			this.hidePosterPage()
+		})
+	}
+
+	hidePosterPage()
+	{
+		this.isPosterPageActive = false
+		this.posterContainer.style.setProperty('--movingTime', `0.5s`)
+		this.posterContainer.style.opacity = '0'
+		this.scene.instance.visible = true
+		this.utilityGroup.style.display = 'flex'
+		gsap.to(this.camera.instance.position, {
+			duration: this.movingTime,
+			x: 38,
+			y: 13,
+			z: 35,
+		})
+		gsap.to(this.camera.controls.target, {
+			duration: this.movingTime,
+			x: 0,
+			y: 0,
+			z: 0,
+		})
+		this.bodyElement.style.overflow = 'hidden'
+		window.scrollTo({top: 0})
+		this.posterScrollY = 0
+		this.posterCurrentY = 0
+		setTimeout(() =>
+		{
+			this.posterContainer.style.transform = `translateY(100vh)`
+			this.camera.controls.enabled = true
+			this.camera.setControlLimits()
+		}, this.movingTime * 1000)
 	}
 	scrollAnimation()
 	{

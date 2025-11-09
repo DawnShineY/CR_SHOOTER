@@ -87,7 +87,7 @@
 	font-size: 16px;
 	color: #2E2A24;
 	cursor: pointer;
-	/*width: max-content;*/
+	width: max-content;
 }
 .poster_btn:hover{
 	background-color: #f5efe6;
@@ -141,4 +141,22 @@
 	top: auto;
 	bottom: 0;
 	left: 15px;
+}
+
+
+@media only screen and (max-width: 768px) {
+	.poster_btn_wrap{
+		bottom: 80px;
+	}
+	.poster_btn{
+		padding: 12px 36px;
+		font-size: 14px;
+	}
+	.poster_btn__title{
+		font-size: 19px;
+	}
+	.poster_cls_btn{
+		bottom: -54px;
+		transform: translateX(-50%) scale(0.8);
+	}
 }

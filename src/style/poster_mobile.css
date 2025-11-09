@@ -3,26 +3,27 @@
 		--rotateFactor: 135deg;
 		--scaleFactor: 0.9
 	}
-	.home{
-		padding: 12px 0 0 12px;
+	.poster__home{
+		top: 12px;
 	}
-	.home__btn{
-		width: 45px;
-		height: 45px;
+	.poster__home_btn{
+		width: 38px;
+		height: 38px;
 	}
 	.ticket{
-		height: calc(100vh - 5px);
-		margin-top: -50px;
+		height: calc(100vh);
+		min-height: auto;
 		overflow-x: hidden;
 	}
 	.ticket__inspired{
-		width: 230px;
-		margin-top: 0;
-		margin-bottom: 12px;
+		width: 190px;
+        margin-top: 20px;
+        margin-bottom: 0;
 	}
 	.ticket__envelope{
 		width: 310px;
 		height: 500px;
+		filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
 	}
 	.ticket__envelope_top_wrap{
 		transform-origin: left;

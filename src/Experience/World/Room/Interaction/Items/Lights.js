@@ -52,9 +52,6 @@ export default class Lights {
 		this.standLight2.target.position.y -= 5
 		this.standLight2.target.position.z += 3
 
-		//this.fireplaceLight = new THREE.PointLight('#de00a7', 10, 1, 1)
-		//this.fireplaceLight.position.copy(this.fireplacePosition)
-
 		this.lampLight1 = new THREE.PointLight('#ffceb0', 5, 2, 1)
 		this.lampLight1.position.copy(this.lamp1Position)
 

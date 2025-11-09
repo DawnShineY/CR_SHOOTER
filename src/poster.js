@@ -1,6 +1,11 @@
 // Screen size check
-const windowWidth = window.innerWidth
-const isMobileSize = windowWidth < 768 ? true : false
+let windowWidth = window.innerWidth
+let isMobileSize = windowWidth < 768 ? true : false
+window.addEventListener('resize', () =>
+{
+	windowWidth = window.innerWidth
+	isMobileSize = windowWidth < 768 ? true : false
+})
 
 // Ticket Envelope
 const ticketEnvelope = document.getElementById('ticketEnvelope')
@@ -21,25 +26,6 @@ ticketCloseBtn.addEventListener('click', (e) => {
 	}, 0)
 })
 
-// Board Coordination
-//document.querySelector('.board__area').addEventListener('click', (e) => {
-//	console.log(e.offsetX, e.offsetY)
-//})
-//const boardCoordinate = [
-//	[{x: 87, y: 562}],
-//	[{x: 318, y: 105}],
-//	[{x: 337, y: 182}, {x: 359, y: 505}],
-//	[{x: 374, y: 204}],
-//	[{x: 405, y: 142}, {x: 468, y: 264}, {x: 438, y: 296}],
-//	[{x: 658, y: 286}],
-//	[{x: 535, y: 500}],
-//	[{x: 290, y: 520}, {x: 221, y: 498}],
-//	[{x: 249, y: 598}, {x: 172, y: 564}, {x: 135, y: 519}],
-//	[{x: 250, y: 792}],
-//	[{x: 123, y: 1021}, {x: 266, y: 1028}, {x: 323, y: 1074}, {x: 603, y: 920}],
-//	[{x: 525, y: 780}],
-//	[{x: 366, y: 984}, {x: 496, y: 1172}],
-//]
 const boardCoordinate = [
 	[{x: 353, y: 834}],
 	[{x: 589, y: 374}],
@@ -71,79 +57,45 @@ const boardPolaroidWrap = document.getElementById('boardPolaroidWrap')
 let prevPolaroid = null
 let selectedPolaroid = null
 
-if (!isMobileSize) { // Pc에서
-	boardPolaroidWrap.addEventListener('mouseover', (e) => {
-		if( e.target.classList.contains('board__polaroid_img')){
-			const polaroidImg = e.target
-			polaroidImg.style.zIndex = 1
-			const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
+boardPolaroidWrap.addEventListener('mouseover', (e) => {
+	if( isMobileSize ) return
+	if( e.target.classList.contains('board__polaroid_img')){
+		const polaroidImg = e.target
+		polaroidImg.style.zIndex = 1
+		const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
 
-			// 점 추가
-			const dotCoordinate = boardCoordinate[num]
-			for(let i = 0; i < dotCoordinate.length; i++) {
-				const coord = dotCoordinate[i]
-				const dotElement = createDotElement(coord)
-				bardArea.appendChild(dotElement)
-			}
+		// 점 추가
+		const dotCoordinate = boardCoordinate[num]
+		for(let i = 0; i < dotCoordinate.length; i++) {
+			const coord = dotCoordinate[i]
+			const dotElement = createDotElement(coord)
+			bardArea.appendChild(dotElement)
+		}
 
-			// 폴라로이드 애니메이션
-			const rotateDeg = Math.random() * 5
-			polaroidImg.style.transform = `rotate(${rotateDeg}deg)`
+		// 폴라로이드 애니메이션
+		const rotateDeg = Math.random() * 5
+		polaroidImg.style.transform = `rotate(${rotateDeg}deg)`
 
-			polaroidImg.addEventListener('mouseout', () => {
-				const dotElements = document.querySelectorAll('.board__dot')
-				const svgElement = document.querySelectorAll('.board__line')
-				polaroidImg.style.zIndex = ''
-				polaroidImg.style.transform = ''
+		polaroidImg.addEventListener('mouseout', () => {
+			const dotElements = document.querySelectorAll('.board__dot')
+			const svgElement = document.querySelectorAll('.board__line')
+			polaroidImg.style.zIndex = ''
+			polaroidImg.style.transform = ''
 
-				dotElements.forEach((el) => {
-					el.style.opacity = 0
-					el.addEventListener('transitionend', () => {
-						el.remove()
-					}, {once: true})
-				}
-				)
-				svgElement.forEach((el) => {
+			dotElements.forEach((el) => {
+				el.style.opacity = 0
+				el.addEventListener('transitionend', () => {
 					el.remove()
-				}
-				)
-			}, {once: true})
-		}
-	})
-}
-
-if(isMobileSize) {
-	let slideDirection = -1
-	let zIndex = 1
-	let isWaiting = false
-	let prevTarget = null
-
-	boardPolaroidWrap.addEventListener('click', (e) => {
-		if( e.target.classList.contains('board__polaroid_img')) {
-			const target = e.target
-			if(target === prevTarget) return
-
-			target.style.transition = 'transform 1s, opacity 0.3s 0.7s'
-			target.style.transform = `translateX(${(windowWidth / 2 + 50) * slideDirection}px)`
-			target.style.opacity = 0
-			slideDirection *= -1
-
-			prevTarget = target
-
-			e.target.addEventListener('transitionend', (e) => {
-				if (e.propertyName !== 'transform') return
-
-				isWaiting = false
-				zIndex -= 1
-				e.target.style.zIndex = zIndex
-				e.target.style.transition = 'opacity 1s'
-				e.target.style.opacity = 1
-				e.target.style.transform = `rotate(${10 * (Math.random() * 2 - 1)}deg)`
-			})
-		}
-	})
-}
-
+				}, {once: true})
+			}
+			)
+			svgElement.forEach((el) => {
+				el.remove()
+			}
+			)
+		}, {once: true})
+	}
+})
 
 // 폴라로이드 선분 잇기
 // 1. 폴라로이드 이미지 기준 점 찾기
@@ -152,29 +104,58 @@ const boardPolaroidImg = document.querySelector('.board__polaroid_img')
 const boardPolaroidImgWidth = boardPolaroidImg.clientWidth
 const boardPolaroidImgHeight = boardPolaroidImg.clientHeight
 
-if (!isMobileSize) { // Pc에서
-	boardPolaroidWrap.addEventListener('mouseover', (e) => {
-		if( e.target.classList.contains('board__polaroid_img')){
-			const polaroidImg = e.target
-			const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
-			const dotCoordinate = boardCoordinate[num]
+boardPolaroidWrap.addEventListener('mouseover', (e) => {
+	if( isMobileSize ) return
+	if( e.target.classList.contains('board__polaroid_img')){
+		const polaroidImg = e.target
+		const num = parseInt(polaroidImg.getAttribute('data-polaroid')) - 1
+		const dotCoordinate = boardCoordinate[num]
 
-			const polaroidImgTop = polaroidImg.offsetTop
-			const polaroidImgLeft = polaroidImg.offsetLeft
+		const polaroidImgTop = polaroidImg.offsetTop
+		const polaroidImgLeft = polaroidImg.offsetLeft
 
-			const randomX = 0.2 + Math.random() * boardPolaroidImgWidth * 0.8
-			const randomY = 0.2 + Math.random() * boardPolaroidImgHeight * 0.8
+		const randomX = 0.2 + Math.random() * boardPolaroidImgWidth * 0.8
+		const randomY = 0.2 + Math.random() * boardPolaroidImgHeight * 0.8
 
-			const coord = {x: polaroidImgLeft + randomX, y: polaroidImgTop + randomY}
+		const coord = {x: polaroidImgLeft + randomX, y: polaroidImgTop + randomY}
 
-			const svgList = createSvgElement(coord, dotCoordinate)
-			svgList.forEach((svg) => {
-				boardPolaroidWrap.appendChild(svg)
-			})
-		}
-	})
-}
+		const svgList = createSvgElement(coord, dotCoordinate)
+		svgList.forEach((svg) => {
+			boardPolaroidWrap.appendChild(svg)
+		})
+	}
+})
 
+let slideDirection = -1
+let zIndex = 1
+let isWaiting = false
+let prevTarget = null
+
+boardPolaroidWrap.addEventListener('click', (e) => {
+	if( !isMobileSize ) return
+	if( e.target.classList.contains('board__polaroid_img')) {
+		const target = e.target
+		if(target === prevTarget) return
+
+		target.style.transition = 'transform 1s, opacity 0.3s 0.7s'
+		target.style.transform = `translateX(${(windowWidth / 2 + 50) * slideDirection}px)`
+		target.style.opacity = 0
+		slideDirection *= -1
+
+		prevTarget = target
+
+		e.target.addEventListener('transitionend', (e) => {
+			if (e.propertyName !== 'transform') return
+
+			isWaiting = false
+			zIndex -= 1
+			e.target.style.zIndex = zIndex
+			e.target.style.transition = 'opacity 1s'
+			e.target.style.opacity = 1
+			e.target.style.transform = `rotate(${10 * (Math.random() * 2 - 1)}deg)`
+		})
+	}
+})
 
 function createSvgElement(startCoord, dotCoords) {
 	const startX = startCoord.x
