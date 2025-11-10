@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import CANNON from 'cannon'
+import Interaction from '../Interaction.js'
 
 export default class Can
 {
@@ -11,17 +12,25 @@ export default class Can
 		this.modelShadow = this.interactionObjects.canShadow
 		this.canHeight = 0.498234
 		this.canRadius = 0.377429 / 2
+		this.isFocused = false
+		this.isMouseIn = false
+		this.canOriginPosition = [ 0.288211, 1.58473, 1.1656 ]
 
-
+		this.clickEvent = this.setClickEvent.bind(this)
 
 		this.experience = new Experience()
 		this.resources = this.experience.resources
 		this.scene = this.experience.scene.instance
 		this.modelGroup = this.experience.scene.modelGroup
 		this.raycaster = this.experience.raycaster
-
+		this.canvas = this.experience.canvas
 		this.time = this.experience.time
 		this.debug = this.experience.debug
+		this.sizes = this.experience.sizes
+
+		this.interaction = new Interaction()
+		this.pointer = this.interaction.pointer
+		this.setPointerEvent()
 
 		if(this.debug.active)
 		{
@@ -38,15 +47,107 @@ export default class Can
 		this.setGeometryAxis()
 		this.setShadow()
 		this.setPhysics()
+		this.setScope()
+	}
+
+	setScope()
+	{
+		const scopeGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
+		this.scopeMaterial = new THREE.ShaderMaterial({
+			//wireframe: true,
+			transparent: true,
+			//alphaMap: this.modelShadow,
+			uniforms: {
+				uAlphaMap: { value: this.shadowOpacityTexture},
+				uPointer: { value: new THREE.Vector2(1, 1)},
+				uAspectRatio: { value: this.sizes.aspectRatio },
+				uSize: { value: 0.38 },
+				uTime: { value: 0 }
+			},
+			vertexShader: `
+				varying vec2 vUv;
+				void main()
+				{
+					vUv = uv;
+					gl_Position = vec4(position, 1.0);
+				}
+			`,
+			fragmentShader: `
+				uniform sampler2D uAlphaMap;
+				varying vec2 vUv;
+				uniform vec2 uPointer;
+				uniform float uAspectRatio;
+				uniform float uSize;
+				uniform float uTime;
+				void main()
+				{
+					vec2 newUv = vUv;
+					newUv.x *= uAspectRatio;
+					newUv.x -= uPointer.x * uAspectRatio / 2.0;
+					newUv.y -= uPointer.y / 2.0;
+
+					float strength = step(0.5, distance(newUv, vec2(0.5 * uAspectRatio, 0.5)) + uSize) - 0.1;
+
+					float colorIntensity = abs(sin(uTime * 2.0)) - 0.8;
+
+					gl_FragColor = vec4(colorIntensity, 0.0, 0.0, strength);
+				}
+			`
+		})
+
+		const scopeMesh = new THREE.Mesh( scopeGeometry, this.scopeMaterial )
+		this.scene.add(scopeMesh)
+	}
+
+	setPointerEvent()
+	{
+		this.pointer.on('reset', () =>
+		{
+			const [ x, y, z ] = this.canOriginPosition
+			this.canBody.position.set(x, y, z)
+			this.canBody.quaternion.setFromEuler(0,0, 0)
+		})
+	}
+	setClickEvent()
+	{
+		const intersection = this.intersection
+		console.log(intersection)
+		const hitObject = intersection[0]
+		const hitPoint = hitObject.point
+		const hitNormal = this.raycaster.instance.ray.direction
+		const forceScale = -1
+		this.canBody.applyImpulse(
+			new CANNON.Vec3(
+				hitNormal.x * forceScale,
+				hitNormal.y * forceScale,
+				hitNormal.z * forceScale
+			),
+			new CANNON.Vec3(
+				hitPoint.x,
+				hitPoint.y,
+				hitPoint.z
+			)
+		)
 	}
 	updateRaycaster()
 	{
-		const intersection = this.raycaster.instance.intersectObject( this.model )
-		if(intersection.length > 0)
+		this.intersection = this.raycaster.instance.intersectObject( this.model )
+		if(this.intersection.length > 0)
 		{
-			console.log('can!')
+			this.isFocused = true
+			if(!this.isMouseIn)
+			{
+				this.canvas.addEventListener('click', this.clickEvent)
+			}
+			this.isMouseIn = true
 		}
+		else {
+			this.canvas.removeEventListener('click', this.clickEvent)
+			this.canvas.classList.add('canvas_scope')
 
+			this.isFocused = false
+			this.isMouseIn = false
+		}
 	}
 	setPhysics()
 	{
@@ -55,7 +156,8 @@ export default class Can
 		 */
 		this.world = new CANNON.World()
 		this.world.gravity.set(0, -9.82, 0)
-
+		this.world.broadphase = new CANNON.SAPBroadphase(this.world)
+		this.world.allowSleep = true
 		/**
 		 * Material
 		 */
@@ -106,7 +208,7 @@ export default class Can
 
 		this.canBody = new CANNON.Body({
 			mass: 3,
-			position: new CANNON.Vec3(0.288211, 1.58473 +5, 1.1656),
+			position: new CANNON.Vec3(0.288211, 1.58473, 1.1656),
 			shape: canShape,
 			material: canMaterial
 		})
@@ -115,8 +217,6 @@ export default class Can
 		this.world.addBody(this.canBody)
 		this.world.addBody(this.floorBody)
 		this.world.addBody(this.chairBody)
-
-		//this.canBody.applyLocalForce(new CANNON.Vec3(-5, 1.58473, -25), new CANNON.Vec3(0.288211, 1.58473, 1.1656))
 	}
 	setTable()
 	{
@@ -153,13 +253,26 @@ export default class Can
 		this.model.geometry.translate(0, -this.canHeight / 2, 0)
 		this.model.geometry.rotateY( - Math.PI * 2 / 3)
 	}
+	updatePhysics()
+	{
+	}
 
+	resize()
+	{
+		this.scopeMaterial.uniforms.uAspectRatio.value = this.sizes.aspectRatio
+	}
 	update()
 	{
+		this.scopeMaterial.uniforms.uPointer.value = new THREE.Vector2(
+			this.raycaster.mouse.x,
+			this.raycaster.mouse.y
+		)
+		this.scopeMaterial.uniforms.uTime.value = this.isFocused ? this.time.elapsed : 0
+
+		this.updateRaycaster()
 		this.world.step( 1 / 60, this.time.delta, 3)
 		this.model.position.copy(this.canBody.position)
 		this.model.quaternion.copy(this.canBody.quaternion)
 
-		this.updateRaycaster()
 	}
 }

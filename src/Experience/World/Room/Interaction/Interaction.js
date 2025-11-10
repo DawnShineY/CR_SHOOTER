@@ -84,6 +84,7 @@ export default class Interaction
 		this.memo.resize()
 		this.poster.resize()
 		this.locker.resize()
+		this.can.resize()
 	}
 	update()
 	{
