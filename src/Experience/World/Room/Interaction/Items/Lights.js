@@ -72,7 +72,7 @@ export default class Lights {
 		{
 			const control = this.experience.camera.controls.target
 			const camera = this.experience.camera.instance.position
-			console.log(camera, control)
+			console.log(camera.x, camera.y, camera.z, control.x, control.y, control.z)
 
 			const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
 			if(isDayMode)

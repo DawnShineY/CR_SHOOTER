@@ -9,6 +9,7 @@ import Debug from './Utils/Debug.js'
 import Raycaster from './Raycaster.js'
 import Scene from './Scene.js'
 import Landing from './Landing.js'
+import Physics from './Physics.js'
 
 let instance = null
 
@@ -37,6 +38,7 @@ export default class Experience
 		this.renderer = new Renderer()
 		this.world = new World()
 		this.raycaster = new Raycaster()
+		this.physics = new Physics()
 
 		this.time.on('tick', () =>
 		{
@@ -54,6 +56,7 @@ export default class Experience
 		this.raycaster.update()
 		this.renderer.update()
 		this.world.update() // css3DRenderer가 webGLRenderer보다 나중에 실행되어야함
+		this.physics.update()
 	}
 	resize()
 	{

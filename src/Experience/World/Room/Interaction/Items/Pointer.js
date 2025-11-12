@@ -164,6 +164,9 @@ export default class Pointer extends EventEmitter
 
 	update()
 	{
-		this.updateRaycaster()
+		if(this.instancedMesh.visible)
+		{
+			this.updateRaycaster()
+		}
 	}
 }

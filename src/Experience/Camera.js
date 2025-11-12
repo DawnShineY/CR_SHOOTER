@@ -15,7 +15,7 @@ export default class Camera
 
 		this.setInstance()
 		this.setControls()
-		this.setControlLimits()
+		//this.setControlLimits()
 
 		if(this.debug.active)
 		{

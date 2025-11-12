@@ -45,6 +45,9 @@ export default class Interaction
 		// Calendar
 		this.calendar = new Calendar( this.roomInteractionObjects )
 
+		// Gun
+		this.gun = new Gun( this.roomInteractionObjects )
+
 		// Can
 		this.can = new Can( this.roomInteractionObjects )
 
@@ -53,9 +56,6 @@ export default class Interaction
 
 		// Fireplace
 		this.fireplace = new Fireplace( this.roomInteractionObjects )
-
-		// Gun
-		this.gun = new Gun( this.roomInteractionObjects )
 
 		// LaptopScreen
 		this.laptopScreen = new LaptopScreen( this.roomInteractionObjects )
