@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import Experience from '../../../../Experience.js'
 import CANNON from 'cannon'
 import Interaction from '../Interaction.js'
-import { TriangleBlurShader } from 'three/examples/jsm/Addons.js'
 import gsap from 'gsap'
 import pointerIndex from '../../../../Data/pointerIndex.js'
 
@@ -33,28 +32,19 @@ export default class Can
 		this.debug = this.experience.debug
 		this.sizes = this.experience.sizes
 		this.camera = this.experience.camera
-		this.setShadow()
 
 		this.interaction = new Interaction()
 		this.pointer = this.interaction.pointer
 		this.gun = this.interaction.gun
-		this.setPointerEvent()
-		this.resetPointerEvent()
+
+		this.setShadow()
 		this.setPhysics()
 		this.setMissionBrief()
+		this.setScopeMesh()
 
 		this.utilityElement = document.querySelector('#utilityGroup')
+		this.posterBtnWrapElement = document.querySelector('#posterBtnWrap')
 		this.missionCompleteElement = document.querySelector('#missionComplete')
-
-		//if(this.debug.active)
-		//{
-		//	this.debug.ui.add(this.model.position, 'x').min(-10).max(10).step(0.001)
-		//	this.debug.ui.add(this.model.position, 'y').min(-10).max(10).step(0.001)
-		//	this.debug.ui.add(this.model.position, 'z').min(-10).max(10).step(0.001)
-		//	this.debug.ui.add(this.model.rotation, 'x').min(-10).max(10).step(0.001)
-		//	this.debug.ui.add(this.model.rotation, 'y').min(-10).max(10).step(0.001)
-		//	this.debug.ui.add(this.model.rotation, 'z').min(-10).max(10).step(0.001)
-		//}
 	}
 
 	/**
@@ -74,103 +64,34 @@ export default class Can
 		})
 		this.modelGroup.add(this.planeMesh)
 	}
-	setGeometryAxis()
-	{
-		this.model.geometry.translate(0, -this.modelHeight / 2, 0)
-		this.model.geometry.rotateY(- Math.PI * 2 / 3)
-	}
-	resetModelTransform()
-	{
-		// can
-		const {x, y, z} = this.modelOriginPosition
-		this.model.position.set(x, y, z)
-		this.model.rotation.set(0, - Math.PI * 2 / 3, 0)
-		this.canBody.position.set(x, y, z)
-		this.canBody.quaternion.setFromEuler(0, -Math.PI * 2 / 3, 0);
-		this.modelShadow.visible = true
-
-		// gun
-		this.gun.model.visible = true
-		this.gun.model.position.set(
-			this.gun.modelOriginPosition.x,
-			this.gun.modelOriginPosition.y,
-			this.gun.modelOriginPosition.z,
-		)
-		this.gun.model.rotation.set(
-			this.gun.modelOriginRotation.x,
-			this.gun.modelOriginRotation.y,
-			this.gun.modelOriginRotation.z,
-		)
-	}
-	/**
-	 * Step 1. ready
-	 */
-	setPointerEvent()
-	{
-		this.pointer.on('click', (obj) =>
-		{
-			if(obj === 'gun')
-			{
-				this.startMission()
-			}
-		})
-	}
-	startCameraPosition()
-	{
-		const cameraPosition = pointerIndex[ 7 ].cameraPosition
-		const controlTarget = pointerIndex[ 7 ].controlTarget
-		this.pointer.moveCameraToTarget(cameraPosition, controlTarget)
-	}
-
-	startMission()
-	{
-		this.startCameraPosition()
-		this.camera.controls.enabled = false
-		this.pointer.instancedMesh.visible = false
-		setTimeout(() =>
-		{
-			this.isShotted = false
-			this.isReady = true
-			this.setScope()
-			this.showMissionBrief()
-		}, 2000)
-	}
-	showMissionBrief()
-	{
-		this.missionElement.style.display = 'block'
-		requestAnimationFrame(() =>
-		{
-			this.missionElement.classList.remove('mission-closed')
-		})
-	}
-	hideMissionBrief()
-	{
-		this.missionElement.classList.add('mission-closed')
-	}
 
 	setMissionBrief()
 	{
 		this.missionElement = document.querySelector('#mission')
-		this.missionBtn = document.querySelector('#missionBtn')
-		this.missionBtn.addEventListener('click', () =>
+		this.missionBtnElement = document.querySelector('#missionBtn')
+		this.missionBtnElement.addEventListener('click', () =>
 		{
 			if(!this.isReady)
 			{
 				this.gun.startMission()
 				this.startMission()
 				this.utilityElement.style.display = 'none'
+				this.missionBtnElement.style.pointerEvents = 'none'
 
 				setTimeout(()=>
 				{
-					this.missionBtn.innerHTML = "QUIT MISSION"
+					this.missionBtnElement.innerHTML = "QUIT MISSION"
+					this.missionBtnElement.style.pointerEvents = 'all'
 				}, 2000)
 			}
 			else
 			{
 				this.resetAssets()
+				this.missionBtnElement.style.pointerEvents = 'none'
 				setTimeout(()=>
 				{
-					this.missionBtn.innerHTML = "ACCEPT MISSION"
+					this.missionBtnElement.innerHTML = "ACCEPT MISSION"
+					this.missionBtnElement.style.pointerEvents = 'all'
 				}, 1000)
 			}
 		})
@@ -189,17 +110,34 @@ export default class Can
 		})
 	}
 
-	setScope()
+	/**
+	 * Step 1. ready
+	 */
+	startMission()
 	{
-		// set camera angle
+		this.setStartCameraPosition()
+		this.camera.controls.enabled = false
+		this.pointer.instancedMesh.visible = false
+		this.posterBtnWrapElement.style.display = 'none'
+		this.posterBtnWrapElement.classList.remove('active')
+		setTimeout(() =>
+		{
+			this.isReady = true
+			this.isShotted = false
+			this.setPlayingCameraPosition()
+			this.setScope()
+		}, 2000)
+	}
+
+	setPlayingCameraPosition()
+	{
 		this.camera.instance.fov = 45
 		this.camera.instance.updateProjectionMatrix()
 		this.camera.instance.position.set(10.95210208983665, 5.533408998183908, 14.055720006103275)
 		this.camera.controls.target.set(1.037373571184411, -0.06867062842241968, 1.7896552928057428)
-		this.camera.controls.enabled = false
-
-		// add scope ui
-		this.canvas.classList.add('canvas_scope')
+	}
+	setScopeMesh()
+	{
 		const scopeGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
 		this.scopeMaterial = new THREE.ShaderMaterial({
 			transparent: true,
@@ -240,7 +178,12 @@ export default class Can
 				}
 			`
 		})
-
+		this.scopeMesh = new THREE.Mesh( scopeGeometry, this.scopeMaterial )
+	}
+	setScope()
+	{
+		this.canvas.classList.add('canvas_scope')
+		this.scene.add(this.scopeMesh)
 		gsap.to(
 			this.scopeMaterial.uniforms.uSize,
 			{
@@ -249,23 +192,6 @@ export default class Can
 				ease: 'power2.inOut'
 			}
 		)
-		this.scopeMesh = new THREE.Mesh( scopeGeometry, this.scopeMaterial )
-		this.scene.add(this.scopeMesh)
-	}
-
-	resetPointerEvent()
-	{
-		this.pointer.on('reset', () =>
-		{
-			this.isReady = false
-
-			// reset camera fov
-			this.camera.instance.fov = 15
-			this.camera.instance.updateProjectionMatrix()
-
-			this.resetModelTransform()
-			this.modelShadow.visible = true
-		})
 	}
 
 	/**
@@ -296,7 +222,7 @@ export default class Can
 		const hitObject = this.intersection[0]
 		const hitPoint = hitObject.point
 		const hitNormal = this.raycaster.instance.ray.direction
-		const forceScale = -1
+		const forceScale = -1.8
 
 		// physics
 		this.canBody.wakeUp()
@@ -334,7 +260,7 @@ export default class Can
 		)
 		this.physics.world.addContactMaterial(woodCanContactMaterial)
 
-		// objects
+		// body
 		const tableShape = new CANNON.Box(new CANNON.Vec3(4.21 * 0.5, 0.891849 * 0.5, 2.13* 0.5))
 		this.tableBody = new CANNON.Body({
 			mass: 0,
@@ -352,18 +278,25 @@ export default class Can
 		})
 		this.floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(- 1, 0, 0), Math.PI * 0.5)
 
-		const chairShape = new CANNON.Box(new CANNON.Vec3(1.3765 * 0.5, 1.86539 * 0.5, 1.3765* 0.5))
+		const chairShape = new CANNON.Box(new CANNON.Vec3(1.49751 * 0.5, 1.31804 * 0.5, 1.16305 * 0.5))
 		this.chairBody = new CANNON.Body({
 			mass: 0,
-			position: new CANNON.Vec3(-1.72985, 1.37714, 1.4792 ),
+			position: new CANNON.Vec3(-3.51072, 1.09705, -1.05658  ),
 			shape: chairShape,
 			material: woodMaterial
 		})
-		this.chairBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 9)
+
+		const lockerShape = new CANNON.Box(new CANNON.Vec3(2.13653 * 0.5, 3.55027 * 0.5,0.850227 * 0.5))
+		this.lockerBody = new CANNON.Body({
+			mass: 0,
+			position: new CANNON.Vec3(-3.15998, 2.20919, -3.16247),
+			shape: lockerShape,
+			material: woodMaterial
+		})
 
 		const canShape = new CANNON.Cylinder(this.modelRadius, this.modelRadius, this.modelHeight, 12)
 		const quat = new CANNON.Quaternion();
-		quat.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2); // X축 기준 90도 회전
+		quat.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
 		canShape.transformAllPoints(new CANNON.Vec3(), quat);
 		const {x, y, z} = this.modelOriginPosition
 		this.canBody = new CANNON.Body({
@@ -372,25 +305,110 @@ export default class Can
 			shape: canShape,
 			material: canMaterial
 		})
+
 		this.canBody.quaternion.setFromEuler(0, -Math.PI * 2 / 3, 0);
 		this.physics.world.addBody(this.tableBody)
 		this.physics.world.addBody(this.canBody)
 		this.physics.world.addBody(this.floorBody)
 		this.physics.world.addBody(this.chairBody)
+		this.physics.world.addBody(this.lockerBody)
 	}
-	isBodyStopped()
-	{
-		const velocity = this.canBody.velocity.length()
-		const angularVelocity = this.canBody.angularVelocity.length()
 
-		return velocity < 0.01 && angularVelocity < 0.01
-	}
-	resize()
+	/**
+	 * Reset Utils
+	 */
+	resetModelTransform()
 	{
-		if(this.isReady)
+		// can
+		const {x, y, z} = this.modelOriginPosition
+		this.model.position.set(x, y, z)
+		this.model.rotation.set(0, - Math.PI * 2 / 3, 0)
+		this.canBody.position.set(x, y, z)
+		this.canBody.quaternion.setFromEuler(0, -Math.PI * 2 / 3, 0);
+		this.modelShadow.visible = true
+
+		// gun
+		this.gun.model.visible = true
+		this.gun.model.position.set(
+			this.gun.modelOriginPosition.x,
+			this.gun.modelOriginPosition.y,
+			this.gun.modelOriginPosition.z,
+		)
+		this.gun.model.rotation.set(
+			this.gun.modelOriginRotation.x,
+			this.gun.modelOriginRotation.y,
+			this.gun.modelOriginRotation.z,
+		)
+		this.gun.modelShadow.visible = true
+	}
+	resetAssets()
+	{
+		// status
+		this.isReady = false
+		this.isShotted = false
+		this.isFocused = false
+
+		// camera
+		this.camera.instance.fov = 15
+		this.camera.instance.updateProjectionMatrix()
+		this.camera.controls.enabled = true
+		this.setStartCameraPosition()
+
+		// objects
+		this.pointer.instancedMesh.visible = true
+		this.resetModelTransform()
+
+
+		// html
+		this.canvas.classList.remove('canvas_scope')
+		this.utilityElement.style.display = 'flex'
+		this.missionBtnElement.innerHTML = "ACCEPT MISSION"
+		this.resetMissionComplete()
+		this.hideMissionBrief()
+
+		gsap.to(
+			this.scopeMaterial.uniforms.uSize,
+			{
+				value: this.sizes.aspectRatio + 1,
+				duration: 2,
+				ease: 'power2.inOut',
+				onComplete: () =>
+				{
+					this.scopeMaterial.uniforms.uSize.value = 0
+					this.scene.remove(this.scopeMesh)
+				}
+			}
+		)
+	}
+	resetMissionComplete()
+	{
+		this.missionCompleteElement.style.transform = `translate(-50%, 100%)`
+		setTimeout(() =>
 		{
-			this.scopeMaterial.uniforms.uAspectRatio.value = this.sizes.aspectRatio
-		}
+			this.missionCompleteElement.style.display = 'none'
+		}, 2000)
+	}
+
+	/**
+	 * Utils
+	 */
+	setStartCameraPosition()
+	{
+		const cameraPosition = pointerIndex[ 7 ].cameraPosition
+		const controlTarget = pointerIndex[ 7 ].controlTarget
+		this.pointer.moveCameraToTarget(cameraPosition, controlTarget)
+	}
+	showMissionBrief()
+	{
+		this.missionElement.style.display = 'block'
+		requestAnimationFrame(() =>
+		{
+			this.missionElement.classList.remove('mission-closed')
+		})
+	}
+	hideMissionBrief()
+	{
+		this.missionElement.classList.add('mission-closed')
 	}
 	setMissionComplete()
 	{
@@ -400,40 +418,25 @@ export default class Can
 			this.missionCompleteElement.style.transform = `translate(-50%, -200%)`
 		})
 	}
-	resetMissionComplete()
+	isBodyStopped()
 	{
-		this.missionCompleteElement.style.transform = `translate(-50%, 100%)`
-		setTimeout(() =>
-		{
-			this.missionCompleteElement.style.display = 'none'
-		}, 1000)
-	}
-	resetAssets()
-	{
-		this.isReady = false
-		this.camera.instance.fov = 15
-		this.camera.instance.updateProjectionMatrix()
-		this.camera.controls.enabled = true
-		this.isShotted = false
-		this.pointer.instancedMesh.visible = true
-		this.missionBtn.innerHTML = "ACCEPT MISSION"
-		this.canvas.classList.remove('canvas_scope')
-		this.isFocused = false
-		this.resetModelTransform()
-		this.startCameraPosition()
-		this.utilityElement.style.display = 'flex'
-		this.resetMissionComplete()
+		const velocity = this.canBody.velocity.length()
+		const angularVelocity = this.canBody.angularVelocity.length()
 
-		gsap.to(
-			this.scopeMaterial.uniforms.uSize,
-			{
-				value: this.sizes.aspectRatio + 1,
-				duration: 2,
-				ease: 'power2.inOut'
-			}
-		)
-		this.hideMissionBrief()
+		return velocity < 0.01 && angularVelocity < 0.01
 	}
+
+	/**
+	 * Resize & Update
+	 */
+	resize()
+	{
+		if(this.isReady)
+		{
+			this.scopeMaterial.uniforms.uAspectRatio.value = this.sizes.aspectRatio
+		}
+	}
+
 	update()
 	{
 		if(this.isReady)
@@ -441,7 +444,7 @@ export default class Can
 			if(this.isShotted)
 			{
 				if(this.isBodyStopped())
-					{
+				{
 					this.resetAssets()
 				}
 				else
@@ -454,14 +457,8 @@ export default class Can
 			{
 				this.updateRaycaster()
 			}
-
-
-			this.scopeMaterial.uniforms.uPointer.value = new THREE.Vector2(
-				this.raycaster.mouse.x,
-				this.raycaster.mouse.y
-			)
+			this.scopeMaterial.uniforms.uPointer.value = new THREE.Vector2( this.raycaster.mouse.x, this.raycaster.mouse.y )
 			this.scopeMaterial.uniforms.uTime.value = this.isFocused ? this.time.elapsed : 0
-
 		}
 	}
 }

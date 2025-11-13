@@ -18,6 +18,7 @@ export default class Poster
 		this.posterClsBtnElement = document.querySelector('#posterClsBtn')
 		this.posterContainer = document.querySelector('#posterContainer')
 		this.utilityGroup = document.querySelector('#utilityGroup')
+		this.missionELement = document.querySelector('#mission')
 		this.posterContainerHeight = this.posterContainer.clientHeight
 		this.posterScrollHeight = this.posterContainerHeight - this.sizes.height
 		this.bodyElement = document.body
@@ -129,6 +130,7 @@ export default class Poster
 		this.posterContainer.style.opacity = '1'
 		//this.posterContainer.style.backgroundColor = '#dedfd980'
 		this.utilityGroup.style.display = 'none'
+		this.missionELement.style.display = 'none'
 		this.hidePosterBtn()
 		setTimeout(() =>
 		{
@@ -159,6 +161,8 @@ export default class Poster
 		this.posterContainer.style.opacity = '0'
 		this.scene.instance.visible = true
 		this.utilityGroup.style.display = 'flex'
+		this.missionELement.style.display = 'block'
+
 		gsap.to(this.camera.instance.position, {
 			duration: this.movingTime,
 			x: 38,
