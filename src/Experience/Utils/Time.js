@@ -13,6 +13,7 @@ export default class Time extends EventEmitter
 			this.elapsed = 0
 			this.delta = 0.016
 			this.stats = new Stats()
+			this.stats.domElement.style.left = '50px'
 			this.stats.showPanel(0)
 			document.body.append(this.stats.dom)
 

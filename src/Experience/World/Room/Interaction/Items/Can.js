@@ -5,7 +5,6 @@ import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 import pointerIndex from '../../../../Data/pointerIndex.js'
 
-
 export default class Can
 {
 	constructor(_interactionObjects)
@@ -62,7 +61,6 @@ export default class Can
 			depthWrite: false,
 			side: THREE.DoubleSide,
 		})
-		this.modelGroup.add(this.planeMesh)
 	}
 
 	setMissionBrief()
@@ -109,33 +107,6 @@ export default class Can
 			}
 		})
 	}
-
-	/**
-	 * Step 1. ready
-	 */
-	startMission()
-	{
-		this.setStartCameraPosition()
-		this.camera.controls.enabled = false
-		this.pointer.instancedMesh.visible = false
-		this.posterBtnWrapElement.style.display = 'none'
-		this.posterBtnWrapElement.classList.remove('active')
-		setTimeout(() =>
-		{
-			this.isReady = true
-			this.isShotted = false
-			this.setPlayingCameraPosition()
-			this.setScope()
-		}, 2000)
-	}
-
-	setPlayingCameraPosition()
-	{
-		this.camera.instance.fov = 45
-		this.camera.instance.updateProjectionMatrix()
-		this.camera.instance.position.set(10.95210208983665, 5.533408998183908, 14.055720006103275)
-		this.camera.controls.target.set(1.037373571184411, -0.06867062842241968, 1.7896552928057428)
-	}
 	setScopeMesh()
 	{
 		const scopeGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
@@ -151,6 +122,7 @@ export default class Can
 			},
 			vertexShader: `
 				varying vec2 vUv;
+
 				void main()
 				{
 					vUv = uv;
@@ -180,9 +152,37 @@ export default class Can
 		})
 		this.scopeMesh = new THREE.Mesh( scopeGeometry, this.scopeMaterial )
 	}
+
+	/**
+	 * Step 1. ready
+	 */
+	startMission()
+	{
+		this.setStartCameraPosition()
+		this.camera.controls.enabled = false
+		this.pointer.instancedMesh.visible = false
+		this.posterBtnWrapElement.style.display = 'none'
+		this.posterBtnWrapElement.classList.remove('active')
+		setTimeout(() =>
+		{
+			this.isReady = true
+			this.isShotted = false
+			this.setPlayingCameraPosition()
+			this.setScope()
+		}, 2000)
+	}
+
+	setPlayingCameraPosition()
+	{
+		this.camera.instance.fov = 45
+		this.camera.instance.updateProjectionMatrix()
+		this.camera.instance.position.set(10.95210208983665, 5.533408998183908, 14.055720006103275)
+		this.camera.controls.target.set(1.037373571184411, -0.06867062842241968, 1.7896552928057428)
+	}
 	setScope()
 	{
 		this.canvas.classList.add('canvas_scope')
+		this.scopeMaterial.uniforms.uAspectRatio.value = this.sizes.aspectRatio
 		this.scene.add(this.scopeMesh)
 		gsap.to(
 			this.scopeMaterial.uniforms.uSize,

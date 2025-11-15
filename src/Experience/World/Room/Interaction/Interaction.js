@@ -95,5 +95,6 @@ export default class Interaction
 		this.poster.update()
 		this.memo.update()
 		this.can.update()
+		this.fireplace.update()
 	}
 }

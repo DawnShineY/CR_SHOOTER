@@ -17,6 +17,11 @@ export default [
 		type: 'texture',
 		path: '/texture/room/gunShadowOpacity.webp'
 	},
+	{
+		name: 'perlinTexture',
+		type: 'texture',
+		path: '/texture/room/perlin.png'
+	},
 
 	/**
 	 * LaptopScreen
