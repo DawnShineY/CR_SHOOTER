@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import { VideoTexture, MeshPhongMaterial, SRGBColorSpace, LinearMipMapLinearFilter } from 'three'
+import Experience from '@/Experience/Experience.js'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 
@@ -61,16 +61,16 @@ export default class TvScreen
 
 	setVideoTexture()
 	{
-		this.videoTexture = new THREE.VideoTexture( this.videoElement )
-		this.videoTexture.colorSpace = THREE.SRGBColorSpace
+		this.videoTexture = new VideoTexture( this.videoElement )
+		this.videoTexture.colorSpace = SRGBColorSpace
 		this.videoTexture.flipY = false
 		this.videoTexture.repeat.set(1.1, 1.4)
 		this.videoTexture.offset.x = - 0.05
 		this.videoTexture.offset.y = - 0.2
 		this.videoTexture.generateMipmaps = true
-		this.videoTexture.minFilter = THREE.LinearMipMapLinearFilter
+		this.videoTexture.minFilter = LinearMipMapLinearFilter
 
-		this.model.material = new THREE.MeshPhongMaterial(
+		this.model.material = new MeshPhongMaterial(
 			{
 				color: '#202020',
 				//map: this.videoTexture,

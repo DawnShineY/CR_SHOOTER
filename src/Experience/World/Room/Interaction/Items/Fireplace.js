@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import { PointLight, RepeatWrapping, PlaneGeometry, ShaderMaterial, DoubleSide, Uniform, Mesh } from 'three'
+import Experience from '@/Experience/Experience.js'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 
@@ -87,7 +87,7 @@ export default class Fireplace
 
 	setFire()
 	{
-		this.fireplaceLight = new THREE.PointLight('#c21e1e', 0, 1, 1)
+		this.fireplaceLight = new PointLight('#c21e1e', 0, 1, 1)
 		this.fireplaceLight.position.copy(this.fireplacePosition)
 		this.fireplaceLight.visible = false
 		this.modelGroup.add( this.fireplaceLight )
@@ -96,19 +96,19 @@ export default class Fireplace
 	setSmoke()
 	{
 		this.perlinTexture = this.resources.items.perlinTexture
-		this.perlinTexture.wrapS = THREE.RepeatWrapping
-		this.perlinTexture.wrapT = THREE.RepeatWrapping
+		this.perlinTexture.wrapS = RepeatWrapping
+		this.perlinTexture.wrapT = RepeatWrapping
 
-		const smokeGeometry = new THREE.PlaneGeometry(0.7, 2.1, 16, 48)
+		const smokeGeometry = new PlaneGeometry(0.7, 2.1, 16, 48)
 		smokeGeometry.translate(0, 1.05, 0)
-		this.smokeMaterial = new THREE.ShaderMaterial({
+		this.smokeMaterial = new ShaderMaterial({
 			transparent: true,
 			depthWrite: false,
-			side: THREE.DoubleSide,
+			side: DoubleSide,
 			uniforms: {
-				uTime: new THREE.Uniform(0),
-				uPerlinTexture: new THREE.Uniform(this.perlinTexture),
-				uOpacity: new THREE.Uniform(0)
+				uTime: new Uniform(0),
+				uPerlinTexture: new Uniform(this.perlinTexture),
+				uOpacity: new Uniform(0)
 			},
 			vertexShader: `
 				varying vec2 vUv;
@@ -178,7 +178,7 @@ export default class Fireplace
 			`
 		})
 
-		this.smokeMesh = new THREE.Mesh( smokeGeometry, this.smokeMaterial )
+		this.smokeMesh = new Mesh( smokeGeometry, this.smokeMaterial )
 		this.smokeMesh.position.set(-0.175086, 7.70239, -4.29974)
 		this.modelGroup.add(this.smokeMesh)
 		this.smokeMesh.visible = false

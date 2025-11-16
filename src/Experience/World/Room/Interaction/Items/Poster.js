@@ -1,5 +1,4 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import Experience from '@/Experience/Experience.js'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 
@@ -162,6 +161,10 @@ export default class Poster
 		this.scene.instance.visible = true
 		this.utilityGroup.style.display = 'flex'
 		this.missionELement.style.display = 'block'
+
+		const ticketEnvelope = document.getElementById('ticketEnvelope')
+		ticketEnvelope.classList.remove('ticket__envelope-open')
+
 
 		gsap.to(this.camera.instance.position, {
 			duration: this.movingTime,

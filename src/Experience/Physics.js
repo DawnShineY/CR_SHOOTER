@@ -1,5 +1,5 @@
 import CANNON from 'cannon'
-import Experience from './Experience'
+import Experience from '@/Experience/Experience.js'
 
 
 export default class Physics

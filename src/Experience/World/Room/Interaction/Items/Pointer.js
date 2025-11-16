@@ -1,8 +1,8 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
-import pointerIndex from '../../../../Data/pointerIndex.js'
+import { Color, Matrix4 } from 'three'
+import Experience from '@/Experience/Experience.js'
+import pointerIndex from '@/Experience/Data/pointerIndex.js'
+import EventEmitter from '@/Experience/Utils/EventEmitter.js'
 import gsap from 'gsap'
-import EventEmitter from '../../../../Utils/EventEmitter.js'
 
 export default class Pointer extends EventEmitter
 {
@@ -22,12 +22,12 @@ export default class Pointer extends EventEmitter
 		this.prevInstancedId = null
 		this.prevMouseIn = false
 		this.clickEvent = null
-		this.defaultColor = new THREE.Color( '#7e1e00' )
-		this.activeColor = new THREE.Color( '#ec4a38' )
-		this.matrix = new THREE.Matrix4()
+		this.defaultColor = new Color( '#7e1e00' )
+		this.activeColor = new Color( '#ec4a38' )
+		this.matrix = new Matrix4()
 		this.scaleAmount = 1.2
-		this.scaleMatrix = new THREE.Matrix4().makeScale( this.scaleAmount, this.scaleAmount, this.scaleAmount )
-		this.scaleDownMatrix = new THREE.Matrix4().makeScale( 1 / this.scaleAmount, 1 / this.scaleAmount, 1 / this.scaleAmount )
+		this.scaleMatrix = new Matrix4().makeScale( this.scaleAmount, this.scaleAmount, this.scaleAmount )
+		this.scaleDownMatrix = new Matrix4().makeScale( 1 / this.scaleAmount, 1 / this.scaleAmount, 1 / this.scaleAmount )
 
 		this.setDefaultColor()
 		this.updateRaycaster()

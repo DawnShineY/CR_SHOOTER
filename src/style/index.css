@@ -216,7 +216,7 @@
 .mission__img{
 	width: 158px;
 	height: 176px;
-	background: url("../../static/images/home/img_wanted.png") center no-repeat;
+	background: url("/images/home/img_wanted.png") center no-repeat;
 	background-size: auto 100%;
 	opacity: 0.8;
 }

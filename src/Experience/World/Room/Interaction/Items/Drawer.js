@@ -1,5 +1,4 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import Experience from '@/Experience/Experience.js'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 

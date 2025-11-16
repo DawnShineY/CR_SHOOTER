@@ -30,10 +30,8 @@ function setInteractionGroup(model, targetGroupName)
 	})
 
 	makeInteractionGroup( interactionObject, interactionGroup.children )
-	console.log( interactionObject )
 
 	return interactionObject
 }
 
 export default setInteractionGroup
-

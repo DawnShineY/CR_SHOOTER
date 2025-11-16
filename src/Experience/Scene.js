@@ -1,16 +1,15 @@
-import * as THREE from 'three'
+import { Scene, Group } from 'three'
 
-export default class Scene
+export default class SceneManger
 {
 	constructor()
 	{
-		this.instance = new THREE.Scene()
+		this.instance = new Scene()
 		this.setModelGroup()
-		console.log(this.modelGroup)
 	}
 	setModelGroup()
 	{
-		this.modelGroup = new THREE.Group()
+		this.modelGroup = new Group()
 		this.instance.add(this.modelGroup)
 	}
 }

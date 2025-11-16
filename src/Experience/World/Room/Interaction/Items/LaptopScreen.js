@@ -1,6 +1,6 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
-import setInteractionGroup from '../../../../Helpers/setInteractionGroup.js'
+import { WebGLRenderTarget, LinearMipMapLinearFilter, AdditiveBlending, MeshBasicMaterial, Scene, PerspectiveCamera, MeshMatcapMaterial, SRGBColorSpace } from 'three'
+import Experience from '@/Experience/Experience.js'
+import setInteractionGroup from '@/Experience/Helpers/setInteractionGroup.js'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 
@@ -82,18 +82,18 @@ export default class LaptopScreen
 	setRenderTargetTexture()
 	{
 		// WebGlRenderTarget
-		this.renderTarget = new THREE.WebGLRenderTarget(
+		this.renderTarget = new WebGLRenderTarget(
 			1024,
 			1024,
 			{
-				minFilter: THREE.LinearMipMapLinearFilter,
+				minFilter: LinearMipMapLinearFilter,
 				generateMipmaps: true,
 				samples: 2
 			}
 		)
 
 		// RenderTarget Texture
-		this.model.material = new THREE.MeshBasicMaterial({
+		this.model.material = new MeshBasicMaterial({
 			map: this.renderTarget.texture
 		})
 	}
@@ -101,13 +101,13 @@ export default class LaptopScreen
 	setLaptopModel()
 	{
 		// Scene, camera
-		this.scene = new THREE.Scene()
-		this.camera = new THREE.PerspectiveCamera( 45, 1, 0.1, 100 )
+		this.scene = new Scene()
+		this.camera = new PerspectiveCamera( 45, 1, 0.1, 100 )
 		this.camera.position.set( 0, 0, 3.5 )
 
 		// textures
 		this.matcapTexture = this.resources.items.laptopMatcapTexture
-		this.matcapTexture.colorSpace = THREE.SRGBColorSpace
+		this.matcapTexture.colorSpace = SRGBColorSpace
 		this.textEventTexture = this.resources.items.laptopEventTexture
 		this.textEventTexture.flipY = false
 		this.textMissionTexture = this.resources.items.laptopMissionTexture
@@ -118,17 +118,17 @@ export default class LaptopScreen
 		this.textAppearanceTexture.flipY = false
 
 		// Material
-		this.basicMatcapMaterial = new THREE.MeshMatcapMaterial(
+		this.basicMatcapMaterial = new MeshMatcapMaterial(
 			{
 				matcap: this.matcapTexture
 			}
 		)
-		this.textMatcapMaterial = new THREE.MeshMatcapMaterial(
+		this.textMatcapMaterial = new MeshMatcapMaterial(
 			{
 				matcap: this.matcapTexture,
 			}
 		)
-		this.sectionMaterial = new THREE.MeshBasicMaterial(
+		this.sectionMaterial = new MeshBasicMaterial(
 			{
 				color: '#000000',
 			}
@@ -140,7 +140,7 @@ export default class LaptopScreen
 			if(child.isLine)
 			{
 				child.material.color.set( '#2d961d' )
-				child.material.blending = THREE.AdditiveBlending
+				child.material.blending = AdditiveBlending
 				child.material.depthTest = false
 				child.material.transparent = true
 				child.material.opacity = 1

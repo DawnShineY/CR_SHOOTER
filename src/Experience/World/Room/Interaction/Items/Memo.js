@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import { Scene, Quaternion, Vector3, Group } from 'three'
+import Experience from '@/Experience/Experience.js'
 import { CSS3DObject, CSS3DRenderer, LineMaterial, OrbitControls, Wireframe, WireframeGeometry2 } from 'three/examples/jsm/Addons.js'
 import gsap from 'gsap'
 import Interaction from '../Interaction.js'
@@ -145,23 +145,23 @@ export default class Memo
 
 	setProfileCSS()
 	{
-		this.cssScene = new THREE.Scene()
+		this.cssScene = new Scene()
 		this.cssScene.position.set(0, 0, 0)
 
-		const qx = new THREE.Quaternion();
-		const qy = new THREE.Quaternion();
-		qx.setFromAxisAngle(new THREE.Vector3(1, 0, 0), - Math.PI * 0.25);
-		qy.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 0.25);
+		const qx = new Quaternion();
+		const qy = new Quaternion();
+		qx.setFromAxisAngle(new Vector3(1, 0, 0), - Math.PI * 0.25);
+		qy.setFromAxisAngle(new Vector3(0, 1, 0), Math.PI * 0.25);
 		this.cssScene.quaternion.multiplyQuaternions(qy, qx);
 
 		const scaleParameter = 0.003
 		this.cssScene.scale.set(scaleParameter, scaleParameter, scaleParameter)
 
-		this.profileGroup = new THREE.Group()
+		this.profileGroup = new Group()
 		this.cssScene.add(this.profileGroup)
 
-		this.topGroup = new THREE.Group()
-		this.bottomGroup = new THREE.Group()
+		this.topGroup = new Group()
+		this.bottomGroup = new Group()
 		this.profileGroup.add(this.topGroup, this.bottomGroup)
 
 		const profileTop = document.getElementById('profile_top')

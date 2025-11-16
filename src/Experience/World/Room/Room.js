@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from '../../Experience.js'
+import { Box3, Vector3 } from 'three'
+import Experience from '@/Experience/Experience.js'
 import Interaction from './Interaction/Interaction.js'
 
 export default class Room
@@ -17,8 +17,8 @@ export default class Room
 	}
 	setModel()
 	{
-		const boundingBox = new THREE.Box3().setFromObject( this.model )
-		const boundingBoxSize = new THREE.Vector3()
+		const boundingBox = new Box3().setFromObject( this.model )
+		const boundingBoxSize = new Vector3()
 		boundingBox.getSize( boundingBoxSize )
 		this.modelGroup.position.y -= boundingBoxSize.y * 0.4
 		this.modelGroup.add( this.model)

@@ -4,20 +4,18 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cinematic Room : SHOOTER</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
 	<!-- Default Css -->
-	<link rel="stylesheet" href="style/reset.css">
-	<link rel="stylesheet" href="style/default.css">
+	<link rel="stylesheet" href="/src/style/reset.css">
+	<link rel="stylesheet" href="/src/style/default.css">
 
 	<!-- Page Css -->
-	<link rel="stylesheet" href="style/profile.css">
-	<link rel="stylesheet" href="style/landing.css">
-	<link rel="stylesheet" href="style/index.css">
-	<link rel="stylesheet" href="style/poster.css">
-	<link rel="stylesheet" href="style/poster_mobile.css">
-
-	<script type="module" src="script.js"></script>
+	<link rel="stylesheet" href="/src/style/landing.css">
+	<link rel="stylesheet" href="/src/style/profile.css">
+	<link rel="stylesheet" href="/src/style/index.css">
+	<link rel="stylesheet" href="/src/style/poster.css">
+	<link rel="stylesheet" href="/src/style/poster_mobile.css">
 </head>
 <body data-theme="dayMode">
 	<!-- webgl canvas -->
@@ -37,7 +35,6 @@
 					</div>
 					<div class="landing__can"></div>
 				</div>
-
 				<div class="landing__rock_group">
 					<div class="landing__rock landing__rock-left"></div>
 					<div class="landing__rock landing__rock-right"></div>
@@ -177,10 +174,6 @@
 									<div class="profile__icon profile__icon-threejs"></div>
 									<div class="profile__icon_text">THREE.JS</div>
 								</div>
-								<!--<div class="profile__icon_wrap">
-									<div class="profile__icon profile__icon-storybook"></div>
-									<div class="profile__icon_text">STORY BOOK</div>
-								</div>-->
 								<div class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-xd"></div>
 									<div class="profile__icon_text">XD</div>
@@ -296,14 +289,9 @@
 			<div class="final__assets" id="finalAssets"></div>
 		</section>
 		<footer class="footer"></footer>
-		<radialGradient id="RadialGradient1">
-			<stop offset="0%" stop-color="red" />
-			<stop offset="100%" stop-color="blue" />
-		</radialGradient>
-		<script src="poster.js"></script>
 	</div>
 
-	<!-- camera initial potion button -->
+	<!-- Camera initial potion button -->
 	<div class="utility" id="utilityGroup">
 		<div class="utility__cam_reset_btn" id="cameraResetBtn"></div>
 		<div class="utility__theme_btn" id="themeToggleBtn">
@@ -311,7 +299,7 @@
 		</div>
 	</div>
 
-	<!-- poster show button -->
+	<!-- Poster show button -->
 	<div class="poster_btn_wrap" id="posterBtnWrap">
 		<div class="poster_btn" id="posterBtn" href="/poster.html">
 			<div class="poster_btn__title">Explore the Movie Scene</div>
@@ -320,7 +308,7 @@
 		<div class="poster_cls_btn" id="posterClsBtn"></div>
 	</div>
 
-	<!-- mission brief -->
+	<!-- Mission brief -->
 	<div class="mission mission-closed" id="mission">
 		<div class="mission__container">
 			<div class="mission__outer_box">
@@ -346,10 +334,10 @@
 		</div>
 	</div>
 
-	<!-- mission complete -->
+	<!-- Mission complete -->
 	<div class="mission_complete" id="missionComplete">MISSION COMPLETE!</div>
 
-	<!-- video texture -->
+	<!-- Video texture -->
 	<video
 		src="/video/clip.mp4"
 		id="video"
@@ -357,6 +345,7 @@
 		controls name="media" crossOrigin="anonymous" type="video/mp4">
 	</video>
 
-
+	<script type="module" src="/src/script.js"></script>
+	<script src="/src/poster.js"></script>
 </body>
 </html>

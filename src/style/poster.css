@@ -125,7 +125,7 @@
 	height: 124px;
 	margin: -66px auto 0;
 	border-radius: 50%;
-	background: #D4D5CF url("../../static/images/poster/img_ticket_sticker.png") center center no-repeat;
+	background: #D4D5CF url("/images/poster/img_ticket_sticker.png") center center no-repeat;
 	background-size: 100% 100%;
 	transform: rotateZ(8deg);
 	cursor: pointer;
@@ -217,7 +217,7 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 16px;
-	background: url('../../static/images/poster/img_paper_texture.jpg') no-repeat;
+	background: url('/images/poster/img_paper_texture.jpg') no-repeat;
 	background-size: cover;
 	mix-blend-mode: multiply;
 	filter: contrast(0.95) brightness(1.05);
@@ -393,7 +393,7 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: url('../../static/images/poster/img_paper_texture.jpg') left -10px center no-repeat;
+	background: url('/images/poster/img_paper_texture.jpg') left -10px center no-repeat;
 	background-size: 110% auto;
 	mix-blend-mode: multiply;
 	filter: contrast(0.95) brightness(1.07);
@@ -480,7 +480,7 @@
 	position: absolute;
 	width: 200px;
 	height: 250px;
-	background: #ECEEE7 url("../../static/images/poster/img_sprite_polaroid.png") no-repeat;
+	background: #ECEEE7 url("/images/poster/img_sprite_polaroid.png") no-repeat;
 	background-size: auto 100%;
 	box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.11);
 	cursor: pointer;
@@ -570,7 +570,7 @@
 	transform: translateX(-50%);
 	width: 120px;
 	height: 270px;
-	background: url("../../static/images/poster/img_arrow.png") center no-repeat;
+	background: url("/images/poster/img_arrow.png") center no-repeat;
 	background-size: 100% auto;
 	z-index: 1;
 }
@@ -652,7 +652,7 @@
 	left: 50%;
 	width: var(--bgSize);
 	height: var(--bgSize);
-	background: url("../../static/images/poster/img_sprite_assets.png") left center no-repeat;
+	background: url("/images/poster/img_sprite_assets.png") left center no-repeat;
 	background-size: auto var(--bgSize);
 	filter: drop-shadow(8px 8px 4px #00000011);
 	transform: translate(-50%, -50%) scale(0.6);
@@ -665,6 +665,6 @@
 
 .footer{
 	height: 280px;
-	background: #1F201B url("../../static/images/poster/img_gun_silhouette.png") left -20px bottom -40px no-repeat;
+	background: #1F201B url("/images/poster/img_gun_silhouette.png") left -20px bottom -40px no-repeat;
 	background-size: 680px auto;
 }

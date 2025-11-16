@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import { MeshBasicMaterial } from 'three'
+import Experience from '@/Experience/Experience.js'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 
@@ -80,7 +80,7 @@ export default class Gun
 		this.shadowOpacityTexture = this.resources.items.gunShadowOpacityTexture
 		this.shadowOpacityTexture.flipY = false
 
-		this.modelShadow.material = new THREE.MeshBasicMaterial({
+		this.modelShadow.material = new MeshBasicMaterial({
 			color: '#000000',
 			transparent: true,
 			alphaMap: this.shadowOpacityTexture

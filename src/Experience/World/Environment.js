@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from '../Experience.js'
+import { Color, AmbientLight, DirectionalLight }from 'three'
+import Experience from '@/Experience/Experience.js'
 import gsap from 'gsap'
 
 export default class Environment
@@ -33,10 +33,10 @@ export default class Environment
 		/**
 		 * Environment Lights
 		 */
-		this.scene.background = new THREE.Color(this.modeObject.bgDayColor)
-		this.ambientLight = new THREE.AmbientLight( '#ffffff', 0 )
+		this.scene.background = new Color(this.modeObject.bgDayColor)
+		this.ambientLight = new AmbientLight( '#ffffff', 0 )
 		this.scene.add( this.ambientLight )
-		this.directionalLight = new THREE.DirectionalLight( '#ffffff', 0 )
+		this.directionalLight = new DirectionalLight( '#ffffff', 0 )
 		this.directionalLight.position.set( 1, 2, 3 )
 		this.scene.add( this.directionalLight )
 	}
@@ -116,7 +116,7 @@ export default class Environment
 			'bgColor'
 		).onChange(value =>
 		{
-			this.scene.background = new THREE.Color(value)
+			this.scene.background = new Color(value)
 		})
 
 		/**

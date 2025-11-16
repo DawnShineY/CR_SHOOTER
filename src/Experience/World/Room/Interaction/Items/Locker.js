@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import { BufferGeometry, BufferAttribute, Points, ShaderMaterial, AdditiveBlending } from 'three'
+import Experience from '@/Experience//Experience.js'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
 
@@ -76,7 +76,7 @@ export default class Locker
 
 	setFireflies()
 	{
-		this.geometry = new THREE.BufferGeometry()
+		this.geometry = new BufferGeometry()
 		const count = 80
 		const positionArray = new Float32Array( count * 3 )
 		const colorArray = new Float32Array( count * 3 )
@@ -102,12 +102,12 @@ export default class Locker
 			scaleArray[i] = Math.random()
 		}
 
-		this.geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
-		this.geometry.setAttribute('aColor', new THREE.BufferAttribute(colorArray, 3))
-		this.geometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1))
+		this.geometry.setAttribute('position', new BufferAttribute(positionArray, 3))
+		this.geometry.setAttribute('aColor', new BufferAttribute(colorArray, 3))
+		this.geometry.setAttribute('aScale', new BufferAttribute(scaleArray, 1))
 
-		this.material = new THREE.ShaderMaterial({
-			blending: THREE.AdditiveBlending,
+		this.material = new ShaderMaterial({
+			blending: AdditiveBlending,
 			depthWrite: false,
 			transparent: true,
 			uniforms: {
@@ -119,8 +119,7 @@ export default class Locker
 			fragmentShader: this.setFragmentShaderProgram()
 		})
 
-		//this.material = new THREE.PointsMaterial({ size: 0.1, sizeAttenuation: true })
-		this.fireflies = new THREE.Points( this.geometry, this.material )
+		this.fireflies = new Points( this.geometry, this.material )
 		this.fireflies.position.set(-3.68, 2.5, -3.165)
 		this.fireflies.visible = false
 		this.modelGroup.add( this.fireflies )

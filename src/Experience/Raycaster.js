@@ -1,15 +1,15 @@
-import * as THREE from 'three'
-import Experience from './Experience';
+import { Raycaster, Vector2 } from 'three'
+import Experience from '@/Experience/Experience.js';
 
-export default class Raycaster{
+export default class RaycasterManager{
 	constructor()
 	{
 		this.experience = new Experience()
 		this.time = this.experience.time
 		this.sizes = this.experience.sizes
 		this.camera = this.experience.camera.instance
-		this.instance = new THREE.Raycaster()
-		this.mouse = new THREE.Vector2( -999, -999 )
+		this.instance = new Raycaster()
+		this.mouse = new Vector2( -999, -999 )
 		this.canvas = this.experience.canvas
 
 		this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)

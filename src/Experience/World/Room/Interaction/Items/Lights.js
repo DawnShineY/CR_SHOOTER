@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from "../../../../Experience"
+import { PointLight, SpotLight, Group } from 'three'
+import Experience from "@/Experience/Experience"
 import gsap from 'gsap'
 
 export default class Lights {
@@ -31,34 +31,32 @@ export default class Lights {
 	}
 	setLights()
 	{
-		this.mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({color: 'red'}))
-
-		this.candleLight1 = new THREE.PointLight('#ff7a5c', 3, 0.5, 0)
+		this.candleLight1 = new PointLight('#ff7a5c', 3, 0.5, 0)
 		this.candleLight1.position.copy(this.candle1Position)
 
-		this.candleLight2 = new THREE.PointLight('#ff7a5c', 3, 0.5, 0)
+		this.candleLight2 = new PointLight('#ff7a5c', 3, 0.5, 0)
 		this.candleLight2.position.copy(this.candle2Position)
 
-		this.standLight = new THREE.SpotLight('#ffceb0', 70, 1.5, Math.PI * 0.25, 1, 0.01)
+		this.standLight = new SpotLight('#ffceb0', 70, 1.5, Math.PI * 0.25, 1, 0.01)
 		this.standLight.position.copy(this.standPosition)
 		this.standLight.target.position.copy(this.standPosition)
 		this.standLight.target.position.y -= 3
 		this.standLight.target.position.z += 0.3
 
-		this.standLight2 = new THREE.SpotLight('#ffceb0', 100, 5, Math.PI * 0.25, 1, 1)
+		this.standLight2 = new SpotLight('#ffceb0', 100, 5, Math.PI * 0.25, 1, 1)
 		this.standLight2.position.copy(this.lightPosition)
 		this.standLight2.target.position.copy(this.lightPosition)
 		this.standLight2.target.position.x -= 1
 		this.standLight2.target.position.y -= 5
 		this.standLight2.target.position.z += 3
 
-		this.lampLight1 = new THREE.PointLight('#ffceb0', 5, 2, 1)
+		this.lampLight1 = new PointLight('#ffceb0', 5, 2, 1)
 		this.lampLight1.position.copy(this.lamp1Position)
 
-		this.lampLight2 = new THREE.PointLight('#ffceb0', 10, 2, 1)
+		this.lampLight2 = new PointLight('#ffceb0', 10, 2, 1)
 		this.lampLight2.position.copy(this.lamp2Position)
 
-		this.lightsGroup = new THREE.Group()
+		this.lightsGroup = new Group()
 		this.lightsGroup.add(
 			this.candleLight1, this.candleLight2,
 			this.standLight, this.standLight.target,

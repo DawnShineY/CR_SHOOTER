@@ -1,5 +1,5 @@
 import gsap from 'gsap'
-import Experience from '../../../../Experience.js'
+import Experience from '@/Experience/Experience.js'
 import Interaction from '../Interaction.js'
 
 export default class Calendar

@@ -1,9 +1,9 @@
-import * as THREE from 'three'
-import Experience from '../../../../Experience.js'
+import { MeshBasicMaterial, DoubleSide, PlaneGeometry, ShaderMaterial, Vector2, Mesh } from 'three'
+import Experience from '@/Experience/Experience.js'
+import pointerIndex from '@/Experience/Data/pointerIndex.js'
 import CANNON from 'cannon'
 import Interaction from '../Interaction.js'
 import gsap from 'gsap'
-import pointerIndex from '../../../../Data/pointerIndex.js'
 
 export default class Can
 {
@@ -54,12 +54,12 @@ export default class Can
 		this.shadowOpacityTexture = this.resources.items.canShadowOpacityTexture
 		this.shadowOpacityTexture.flipY = false
 
-		this.modelShadow.material = new THREE.MeshBasicMaterial({
+		this.modelShadow.material = new MeshBasicMaterial({
 			color: '#000000',
 			transparent: true,
 			alphaMap: this.shadowOpacityTexture,
 			depthWrite: false,
-			side: THREE.DoubleSide,
+			side: DoubleSide,
 		})
 	}
 
@@ -109,13 +109,13 @@ export default class Can
 	}
 	setScopeMesh()
 	{
-		const scopeGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
-		this.scopeMaterial = new THREE.ShaderMaterial({
+		const scopeGeometry = new PlaneGeometry(2, 2, 1, 1)
+		this.scopeMaterial = new ShaderMaterial({
 			transparent: true,
 			depthWrite: false,
 			uniforms: {
 				uAlphaMap: { value: this.shadowOpacityTexture},
-				uPointer: { value: new THREE.Vector2(1, 1)},
+				uPointer: { value: new Vector2(1, 1)},
 				uAspectRatio: { value: this.sizes.aspectRatio },
 				uSize: { value: 0 },
 				uTime: { value: 0 },
@@ -150,7 +150,7 @@ export default class Can
 				}
 			`
 		})
-		this.scopeMesh = new THREE.Mesh( scopeGeometry, this.scopeMaterial )
+		this.scopeMesh = new Mesh( scopeGeometry, this.scopeMaterial )
 	}
 
 	/**
@@ -457,7 +457,7 @@ export default class Can
 			{
 				this.updateRaycaster()
 			}
-			this.scopeMaterial.uniforms.uPointer.value = new THREE.Vector2( this.raycaster.mouse.x, this.raycaster.mouse.y )
+			this.scopeMaterial.uniforms.uPointer.value = new Vector2( this.raycaster.mouse.x, this.raycaster.mouse.y )
 			this.scopeMaterial.uniforms.uTime.value = this.isFocused ? this.time.elapsed : 0
 		}
 	}

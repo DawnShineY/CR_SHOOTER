@@ -1,4 +1,4 @@
-import Experience from '../../../Experience.js'
+import Experience from '@/Experience/Experience.js'
 import Calendar from './Items/Calendar.js'
 import Can from './Items/Can.js'
 import Drawer from './Items/Drawer.js'
@@ -11,8 +11,6 @@ import Pointer from './Items/Pointer.js'
 import Poster from './Items/Poster.js'
 import TvScreen from './Items/TvScreen.js'
 import Windbell from './Items/Windbell.js'
-
-import setInteractionGroup from '../../../Helpers/setInteractionGroup.js'
 import Lights from './Items/Lights.js'
 
 let instance = null
@@ -32,7 +30,6 @@ export default class Interaction
 		//this.roomInteractionObjects = setInteractionGroup(this.roomModel, 'InteractionGroup')
 		this.resources.setInteractionItems(this.roomModel, 'InteractionGroup')
 		this.roomInteractionObjects = this.resources.interactionItems['InteractionGroup']
-		console.log('test', this.resources.interactionItems)
 
 		this.activateInteractions()
 	}

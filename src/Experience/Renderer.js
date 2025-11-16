@@ -1,5 +1,5 @@
-import * as THREE from 'three'
-import Experience from './Experience.js'
+import { WebGLRenderer, SRGBColorSpace } from 'three'
+import Experience from '@/Experience/Experience.js'
 
 export default class Renderer
 {
@@ -15,13 +15,13 @@ export default class Renderer
 	}
 	setRenderer()
 	{
-		this.instance = new THREE.WebGLRenderer({
+		this.instance = new WebGLRenderer({
 			canvas: this.canvas,
 			antialias: true
 		})
 		this.instance.setSize( this.sizes.width, this.sizes.height )
 		this.instance.setPixelRatio( this.sizes.pixelRatio )
-		this.instance.outputColorSpace = THREE.SRGBColorSpace
+		this.instance.outputColorSpace = SRGBColorSpace
 	}
 	update()
 	{

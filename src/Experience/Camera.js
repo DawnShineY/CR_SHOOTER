@@ -1,6 +1,6 @@
-import * as THREE from 'three'
-import Experience from './Experience.js'
-import { OrbitControls } from 'three/examples/jsm/Addons.js'
+import { PerspectiveCamera, } from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import Experience from '@/Experience/Experience.js'
 
 export default class Camera
 {
@@ -26,7 +26,7 @@ export default class Camera
 	}
 	setInstance()
 	{
-		this.instance = new THREE.PerspectiveCamera( 15, this.sizes.aspectRatio, 1, 100 )
+		this.instance = new PerspectiveCamera( 15, this.sizes.aspectRatio, 1, 100 )
 		this.instance.position.set( 38, 13, 35 )
 		this.scene.add (this.instance )
 
