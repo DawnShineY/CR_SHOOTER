@@ -49,8 +49,6 @@ export default class Pointer extends EventEmitter
 	{
 		const intersection = this.raycaster.instance.intersectObject( this.instancedMesh )
 
-		//console.log(intersection.length)
-
 		if(intersection.length > 0)
 		{
 			const instancedId = intersection[ 0 ].instanceId

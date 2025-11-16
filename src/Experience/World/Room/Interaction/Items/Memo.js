@@ -129,8 +129,6 @@ export default class Memo
 			const moveX = cursorX - avatarWrapWidth / 2
 			const moveY = cursorY - avatarWrapHeight / 2
 
-			//console.log(moveX, moveY)
-
 			avatarElement.style.transform = `translate(${ -moveX }px, ${ -moveY} px) scale(2)`
 		})
 		avatarWrapElement.addEventListener('mouseout', () => {

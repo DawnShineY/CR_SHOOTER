@@ -264,6 +264,5 @@ export default class PosterPage
 	resize()
 	{
 		this.isMobile = this.sizes.isMobile
-		console.log(this.isMobile)
 	}
 }

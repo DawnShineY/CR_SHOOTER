@@ -106,14 +106,13 @@ const tick = () =>
 	const intersectObject = raycaster.intersectObjects([ mesh, plane ])
 	if(intersectObject.length > 0)
 	{
-		//console.log(intersectObject[0])
 		document.body.style.cursor = 'pointer'
 		if(intersectObject[0].object === plane)
 		{
 			control.enableZoom = false;
 		}
 	} else{
-		
+
 		document.body.style.cursor = 'default'
 		control.enableZoom = true;
 
