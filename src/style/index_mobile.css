@@ -1,0 +1,84 @@
+
+@media only screen and (max-width: 768px) {
+	/* Utility */
+	.utility{
+		right: 16px;
+	}
+
+	/* Poster Button */
+	.poster_btn_wrap{
+		bottom: 80px;
+	}
+	.poster_btn{
+		padding: 12px 36px;
+		font-size: 14px;
+	}
+	.poster_btn__title{
+		font-size: 19px;
+	}
+	.poster_cls_btn{
+		bottom: -54px;
+		transform: translateX(-50%) scale(0.8);
+	}
+
+	/* Mission */
+	.mission{
+		top: 8px;
+		left: 0;
+	}
+	.mission-closed{
+		transform: translateX(calc(-100% + 34px));
+	}
+	.mission__container{
+		background-color: transparent !important;
+		padding: 0;
+	}
+	.mission-closed .mission__container{
+		background-color: transparent !important;
+	}
+	.mission__box{
+		padding: 8px;
+		border: 1px solid var(--mainColor);
+	}
+	.mission__outer_box{
+		width: min-content;
+		padding: 8px;
+		background-color: #2e2a24d2;
+		border: 0;
+		transition: background-color 1s;
+	}
+	.mission-closed .mission__outer_box{
+		background-color: #AC451F;
+	}
+	.mission__title{
+		font-size: 14px;
+	}
+	.mission__text{
+		font-size: 13px;
+	}
+	.mission__img{
+		display: none;
+	}
+	.mission__btn{
+		height: 36px;
+		margin-top: 8px;
+		font-size: 18px;
+	}
+	.mission-closed .mission__toggle{
+		background-color: #AC451F;
+	}
+	.mission__toggle{
+		width: 34px;
+		height: 166px;
+		background-color: #2e2a24d2;
+		transition: background-color 1s;
+	}
+	.mission__toggle_wrap{
+		font-size: 15px;
+		transform: translate(-6px, -13px) rotate(90deg);
+	}
+	.mission_complete{
+		font-size: 24px;
+		letter-spacing: 0;
+	}
+}

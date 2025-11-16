@@ -5,7 +5,7 @@ import gsap from 'gsap'
 
 export default class Locker
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.lockerDoor
@@ -34,7 +34,7 @@ export default class Locker
 
 	setPointerEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		this.pointer.on('click', ( obj ) =>
 		{
 			if(obj === 'lockerDoor')
 			{
@@ -91,20 +91,20 @@ export default class Locker
 
 		for(let i = 0; i < count; i++)
 		{
-			positionArray[i * 3 + 0] = (Math.random() - 0.5) * 0.8
-			positionArray[i * 3 + 1] = (Math.random() - 0.5) * 2
-			positionArray[i * 3 + 2] = (Math.random() - 0.5) * 0.6
+			positionArray[ i * 3 + 0 ] = ( Math.random() - 0.5 ) * 0.8
+			positionArray[ i * 3 + 1 ] = ( Math.random() - 0.5 ) * 2
+			positionArray[ i * 3 + 2 ] = ( Math.random() - 0.5 ) * 0.6
 
-			colorArray[i * 3 + 0] = Math.random()
-			colorArray[i * 3 + 1] = Math.random()
-			colorArray[i * 3 + 2] = Math.random()
+			colorArray[ i * 3 + 0 ] = Math.random()
+			colorArray[ i * 3 + 1 ] = Math.random()
+			colorArray[ i * 3 + 2 ] = Math.random()
 
-			scaleArray[i] = Math.random()
+			scaleArray[ i ] = Math.random()
 		}
 
-		this.geometry.setAttribute('position', new BufferAttribute(positionArray, 3))
-		this.geometry.setAttribute('aColor', new BufferAttribute(colorArray, 3))
-		this.geometry.setAttribute('aScale', new BufferAttribute(scaleArray, 1))
+		this.geometry.setAttribute( 'position', new BufferAttribute( positionArray, 3 ) )
+		this.geometry.setAttribute( 'aColor', new BufferAttribute( colorArray, 3 ) )
+		this.geometry.setAttribute( 'aScale', new BufferAttribute( scaleArray, 1 ) )
 
 		this.material = new ShaderMaterial({
 			blending: AdditiveBlending,
@@ -120,7 +120,7 @@ export default class Locker
 		})
 
 		this.fireflies = new Points( this.geometry, this.material )
-		this.fireflies.position.set(-3.68, 2.5, -3.165)
+		this.fireflies.position.set( -3.68, 2.5, -3.165 )
 		this.fireflies.visible = false
 		this.modelGroup.add( this.fireflies )
 	}

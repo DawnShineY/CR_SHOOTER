@@ -2,7 +2,7 @@ import Experience from '@/Experience/Experience.js'
 
 export default class Windbell
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.windBellGroup

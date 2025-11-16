@@ -12,10 +12,3 @@ body{
 html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: none;
 }
-canvas{
-	position: fixed;
-	top: 0;
-}
-.canvas_scope{
-	cursor: url("/images/home/img_cursor_scope.png") 28 28, auto !important;
-}

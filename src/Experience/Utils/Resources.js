@@ -20,15 +20,15 @@ export default class Resources extends EventEmitter
 		this.startLoading()
 	}
 
-	setInteractionItems(model, targetGroupName)
+	setInteractionItems( model, targetGroupName )
 	{
-		if(this.interactionItems[targetGroupName])
+		if(this.interactionItems[ targetGroupName ])
 		{
 			console.warn( 'Item group name is already exist. Change the name' )
 		}
 		else{
-			const interactionObject = setInteractionGroup(model, targetGroupName)
-			this.interactionItems[targetGroupName] = interactionObject
+			const interactionObject = setInteractionGroup( model, targetGroupName )
+			this.interactionItems[ targetGroupName ] = interactionObject
 		}
 	}
 
@@ -86,6 +86,6 @@ export default class Resources extends EventEmitter
 	}
 	sourceLoaded( source, file )
 	{
-		this.items[source.name] = file
+		this.items[ source.name ] = file
 	}
 }

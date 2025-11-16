@@ -8,21 +8,25 @@
 
 	<!-- Default Css -->
 	<link rel="stylesheet" href="/src/style/reset.css">
+	<link rel="stylesheet" href="/src/style/font.css">
 	<link rel="stylesheet" href="/src/style/default.css">
+	<link rel="stylesheet" href="/src/style/animation.css">
 
 	<!-- Page Css -->
 	<link rel="stylesheet" href="/src/style/landing.css">
+	<link rel="stylesheet" href="/src/style/landing_mobile.css">
 	<link rel="stylesheet" href="/src/style/profile.css">
 	<link rel="stylesheet" href="/src/style/index.css">
+	<link rel="stylesheet" href="/src/style/index_mobile.css">
 	<link rel="stylesheet" href="/src/style/poster.css">
 	<link rel="stylesheet" href="/src/style/poster_mobile.css">
 </head>
 <body data-theme="dayMode">
 	<!-- webgl canvas -->
-	<canvas class="webgl" id="webgl"></canvas>
+	<canvas class="webgl_canvas" id="webglCanvas"></canvas>
 
 	<!-- Landing -->
-	<div class="landing">
+	<div class="landing" role="status">
 		<div class="landing__box">
 			<div class="landing__opening landing__opening-top"></div>
 			<div class="landing__opening landing__opening-bottom"></div>
@@ -45,27 +49,27 @@
 	</div>
 
 	<!-- Profile -->
-	<div style="display: none;" >
-		<div class="profile" id="profile_top">
-			<div class="profile__cls_btn" id="profileClsBtn"></div>
+	<article style="display: none;" >
+		<section class="profile" id="profile_top">
+			<button class="profile__cls_btn" id="profileClsBtn"></button>
 			<div class="profile__outer">
 				<div class="profile__front profile__front-top" >
-					<div class="profile__summary">Creative frontend developer specializing in 3D technologies,committed to building immersive and interactive user experiences</div>
+					<p class="profile__summary">Creative frontend developer specializing in 3D technologies,committed to building immersive and interactive user experiences</p>
 					<div class="profile__container">
-						<div class="profile__version">
+						<dl class="profile__version">
 							<div class="profile__version_row">
-								<div class="profile__version_tit">VERSION</div>
-								<div class="profile__version_text">1</div>
+								<dt class="profile__version_tit">VERSION</dt>
+								<dd class="profile__version_text">1</dd>
 							</div>
 							<div class="profile__version_row">
-								<div class="profile__version_tit">FIRST UPDATED</div>
-								<div class="profile__version_text">27.06.2024</div>
+								<dt class="profile__version_tit">FIRST UPDATED</dt>
+								<dd class="profile__version_text">27.06.2024</dd>
 							</div>
 							<div class="profile__version_row">
-								<div class="profile__version_tit">LATEST UPDATED</div>
-								<div class="profile__version_text">27.06.2024</div>
+								<dt class="profile__version_tit">LATEST UPDATED</dt>
+								<dd class="profile__version_text">27.06.2024</dd>
 							</div>
-						</div>
+						</dl>
 						<img class="profile__main_tit" src="/images/profile/text_profile.png" alt="PROFILE">
 						<div class="profile__key_info">
 							<div class="profile__avatar_frame">
@@ -74,55 +78,55 @@
 								</div>
 							</div>
 							<div class="profile__info">
-								<div class="profile__info_table">
+								<dl class="profile__info_table">
 									<div class="profile__info_row">
-										<div class="profile__info_tit">NAME</div>
-										<div class="profile__info_text">SEOYOUNG YOON</div>
+										<dt class="profile__info_tit">NAME</dt>
+										<dd class="profile__info_text">SEOYOUNG YOON</dd>
 									</div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">NICKNAME</div>
-										<div class="profile__info_text">DAWNSHINE</div>
+										<dt class="profile__info_tit">NICKNAME</dt>
+										<dd class="profile__info_text">DAWNSHINE</dd>
 									</div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">COUNTRY</div>
-										<div class="profile__info_text">REPUBLIC OF KOREA</div>
+										<dt class="profile__info_tit">COUNTRY</dt>
+										<dd class="profile__info_text">REPUBLIC OF KOREA</dd>
 									</div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">BIRTH Year</div>
-										<div class="profile__info_text">1995</div>
+										<dt class="profile__info_tit">BIRTH Year</dt>
+										<dd class="profile__info_text">1995</dd>
 									</div>
 									<div class="profile__info_line"></div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">ROLE</div>
-										<div class="profile__info_text">PUPLISHER | FRONTEND DEVELOPER</div>
+										<dt class="profile__info_tit">ROLE</dt>
+										<dd class="profile__info_text">PUPLISHER | FRONTEND DEVELOPER</dd>
 									</div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">CERTIFICATIONS</div>
-										<div class="profile__info_text">Engineer Information Processing</div>
+										<dt class="profile__info_tit">CERTIFICATIONS</dt>
+										<dd class="profile__info_text">Engineer Information Processing</dd>
 									</div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">EDUCATION</div>
-										<div class="profile__info_text">SAFFY 2th (2021~2022)</div>
+										<dt class="profile__info_tit">EDUCATION</dt>
+										<dd class="profile__info_text">SAFFY 2th (2021~2022)</dd>
 									</div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">AWARDS</div>
-										<div class="profile__info_text">sAFFY 1st grade (2021)</div>
+										<dt class="profile__info_tit">AWARDS</dt>
+										<dd class="profile__info_text">sAFFY 1st grade (2021)</dd>
 									</div>
 									<div class="profile__info_row">
-										<div class="profile__info_tit">Projects</div>
-										<div class="profile__info_text">
-											<a class="profile__info_link">THE ROOM OF MOVIE HERO (SHOOTER)</a>
-										</div>
+										<dt class="profile__info_tit">Projects</dt>
+										<dd class="profile__info_text">
+											<a href="" target="_blank" class="profile__info_link">Cinematic Room : SHOOTER</a>
+										</dd>
 									</div>
-								</div>
+								</dl>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="profile__back"></div>
 			</div>
-		</div>
-		<div class="profile" id="profile_bottom">
+		</section>
+		<section class="profile" id="profile_bottom">
 			<div class="profile__outer">
 				<div class="profile__front profile__front-bottom">
 					<div class="profile__social_buttons">
@@ -136,71 +140,71 @@
 					<div class="profile__container">
 						<div class="profile__sub_info">
 							<img class="profile__sub_tit" src="/images/profile/text_hobbies_and_favorites.png" alt="HOBBIES & FAVORITES">
-							<div class="profile__sub_icon profile__sub_icon-hobby">
-								<div class="profile__icon_wrap">
+							<ul class="profile__sub_icon profile__sub_icon-hobby">
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-drawing"></div>
-									<div class="profile__icon_text">DRAWING</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">DRAWING</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-pingpong"></div>
-									<div class="profile__icon_text">PING PONG</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">PING PONG</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-sweets"></div>
-									<div class="profile__icon_text">SWEETS</div>
-								</div>
-							</div>
+									<p class="profile__icon_text">SWEETS</p>
+								</li>
+							</ul>
 						</div>
 						<div class="profile__sub_info">
 							<img class="profile__sub_tit" src="/images/profile/text_skills.png" alt="SKILLS">
-							<div class="profile__sub_icon profile__sub_icon-skills">
-								<div class="profile__icon_wrap">
+							<ul class="profile__sub_icon profile__sub_icon-skills">
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-html5"></div>
-									<div class="profile__icon_text">HTML5</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">HTML5</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-css3"></div>
-									<div class="profile__icon_text">CSS3</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">CSS3</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-js"></div>
-									<div class="profile__icon_text">JS</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">JS</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-react"></div>
-									<div class="profile__icon_text">REACT</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">REACT</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-threejs"></div>
-									<div class="profile__icon_text">THREE.JS</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">THREE.JS</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-xd"></div>
-									<div class="profile__icon_text">XD</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">XD</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-blender"></div>
-									<div class="profile__icon_text">BLENDER</div>
-								</div>
-								<div class="profile__icon_wrap">
+									<p class="profile__icon_text">BLENDER</p>
+								</li>
+								<li class="profile__icon_wrap">
 									<div class="profile__icon profile__icon-figma"></div>
-									<div class="profile__icon_text">FIGMA</div>
-								</div>
-							</div>
+									<p class="profile__icon_text">FIGMA</p>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
 				<div class="profile__back"></div>
 			</div>
-		</div>
-	</div>
+		</section>
+	</article>
 
 	<!-- Poster Container -->
-	<div class="poster" id="posterContainer">
+	<article class="poster" id="posterContainer">
 		<section class="ticket">
-			<h1 class="poster__home">
+			<h2 class="poster__home">
 				<div class="poster__home_btn" id="posterHomeBtn"></div>
-			</h1>
+			</h2>
 			<img src="images/poster/img_text_inspired_by.png" alt="Inspired By" class="ticket__inspired">
 			<div class="ticket__envelope" id="ticketEnvelope">
 				<div class="ticket__envelope_top_wrap">
@@ -218,36 +222,36 @@
 						</div>
 						<div class="ticket__info_detail">
 							<img src="images/poster/img_ticket_title.png" alt="SHOOTER: FROM THE DIRECTOR OF 'TRAINING DAY'" class="ticket__title" />
-							<div class="ticket__info_genre">2007 American Action Thriller Film</div>
-							<div class="ticket__info_text_wrap">
+							<p class="ticket__info_genre">2007 American Action Thriller Film</p>
+							<dl class="ticket__info_text_wrap">
 								<div class="ticket__info_text">
-									<div class="ticket__info_text_title">Runtime</div>
-									<div class="ticket__info_text_content">2h 06min</div>
+									<dt class="ticket__info_text_title">Runtime</dt>
+									<dd class="ticket__info_text_content">2h 06min</dd>
 								</div>
 								<div class="ticket__info_text">
-									<div class="ticket__info_text_title">Tomatometer</div>
-									<div class="ticket__info_text_content">48%</div>
+									<dt class="ticket__info_text_title">Tomatometer</dt>
+									<dd class="ticket__info_text_content">48%</dd>
 								</div>
 								<div class="ticket__info_text">
-									<div class="ticket__info_text_title">Stars</div>
-									<div class="ticket__info_text_content">Mark Wahlberg</div>
+									<dt class="ticket__info_text_title">Stars</dt>
+									<dd class="ticket__info_text_content">Mark Wahlberg</dd>
 								</div>
 								<div class="ticket__info_text">
-									<div class="ticket__info_text_title">Audience Score</div>
-									<div class="ticket__info_text_content">80%</div>
+									<dt class="ticket__info_text_title">Audience Score</dt>
+									<dd class="ticket__info_text_content">80%</dd>
 								</div>
-							</div>
+							</dl>
 							<div class="ticket__hashtag_wrap">
-								<div class="ticket__hashtag">ACTION</div>
-								<div class="ticket__hashtag">THRILLER</div>
-								<div class="ticket__hashtag">GUN</div>
+								<p class="ticket__hashtag">ACTION</p>
+								<p class="ticket__hashtag">THRILLER</p>
+								<p class="ticket__hashtag">GUN</p>
 							</div>
 						</div>
 					</div>
 					<a href="https://embed.release-stage.netflix.com/title/70056430" target="_blank" class="ticket__barcode">
 						<div class="ticket__paper_texture"></div>
-						<div class="ticket__netflix">GO TO NETFLIX</div>
-						<div class="ticket__barcode_text">WHERE TO WATCH</div>
+						<p class="ticket__netflix">GO TO NETFLIX</p>
+						<p class="ticket__barcode_text">WHERE TO WATCH</p>
 						<img src="images/poster/img_barcode.png" alt="barcode" class="ticket__barcode_img">
 					</a>
 				</div>
@@ -255,13 +259,13 @@
 			</div>
 		</section>
 		<section class="board">
-			<div class="board__title_wrap">
+			<h2 class="board__title_wrap">
 				<div class="board__title_texture"></div>
 				<img src="images/poster/img_sub_title.png" alt="PROTAGONIST'S HIDEAWAY: movie set artifacts" class="board__title" id="boardTitle">
-			</div>
+			</h2>
 			<div class="board__area">
 				<div class="board__img_wrap" id="boardImgWrap">
-					<img src="images/poster/img_scene.png" alt="" class="board__reference_img">
+					<img src="images/poster/img_scene.png" alt="movie scene screenshot" class="board__reference_img">
 				</div>
 				<div class="board__polaroid_wrap" id="boardPolaroidWrap">
 					<div class="board__polaroid_img" data-polaroid="1"></div>
@@ -279,60 +283,60 @@
 					<div class="board__polaroid_img" data-polaroid="13"></div>
 				</div>
 			</div>
-			<div class="board__arrow" ></div>
+			<div class="board__arrow"></div>
 		</section>
 		<section class="final" id="final">
-			<div class="final__photo" id="finalPhoto">
+			<h2 class="final__photo" id="finalPhoto">
 				<img src="images/poster/img_final_polaroid.png" alt="Final Rendering Result" class="final__photo_img">
-				<div class="final__photo_btn" id="finalPhotoBtn">Go Back To Experience</div>
-			</div>
+				<button class="final__photo_btn" id="finalPhotoBtn">Go Back To Experience</button>
+			</h2>
 			<div class="final__assets" id="finalAssets"></div>
 		</section>
 		<footer class="footer"></footer>
-	</div>
+	</article>
 
 	<!-- Camera initial potion button -->
-	<div class="utility" id="utilityGroup">
-		<div class="utility__cam_reset_btn" id="cameraResetBtn"></div>
-		<div class="utility__theme_btn" id="themeToggleBtn">
+	<section class="utility" id="utilityGroup">
+		<button class="utility__cam_reset_btn" id="cameraResetBtn"></button>
+		<button class="utility__theme_btn" id="themeToggleBtn">
 			<svg class="utility__theme_icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 50"><path d="M38 41.1s.1-7.8-8.1-8.7c-8.2-.8-7.5-10.2-7.5-10.2h-1L20.3 21V0h-.7v21l-1.1 1.3h-.7s-1.3 10-8.4 10.8-7.4 8-7.4 8h12.8c.4 2.5 2.5 4.5 5.1 4.5s4.8-1.9 5.1-4.5z"/></svg>
-		</div>
-	</div>
+		</button>
+	</section>
 
 	<!-- Poster show button -->
-	<div class="poster_btn_wrap" id="posterBtnWrap">
-		<div class="poster_btn" id="posterBtn" href="/poster.html">
-			<div class="poster_btn__title">Explore the Movie Scene</div>
-			<div>See how the space unfolds in 3D</div>
-		</div>
-		<div class="poster_cls_btn" id="posterClsBtn"></div>
-	</div>
+	<section class="poster_btn_wrap" id="posterBtnWrap">
+		<button class="poster_btn" id="posterBtn" href="/poster.html">
+			<p class="poster_btn__title">Explore the Movie Scene</p>
+			<p>See how the space unfolds in 3D</p>
+		</button>
+		<button class="poster_cls_btn" id="posterClsBtn"></button>
+	</section>
 
 	<!-- Mission brief -->
-	<div class="mission mission-closed" id="mission">
+	<article class="mission mission-closed" id="mission">
 		<div class="mission__container">
 			<div class="mission__outer_box">
 				<div class="mission__box">
-					<div class="mission__contents">
-						<div class="mission__title">NAME</div>
-						<div class="mission__text">CANNED SUSPECT (a.k.a "Dinty Moore")</div>
-						<div class="mission__title">OBJECTIVE</div>
-						<div class="mission__text">Locate and eliminate the target.</div>
-						<div class="mission__title">INSTRUCTIONS</div>
-						<div class="mission__text">1. Align your cursor to acquire the target.<br/>2. Pull the trigger (click) to neutralize.</div>
-					</div>
+					<dl class="mission__contents">
+						<dt class="mission__title">NAME</dt>
+						<dd class="mission__text">CANNED SUSPECT (a.k.a "Dinty Moore")</dd>
+						<dt class="mission__title">OBJECTIVE</dt>
+						<dd class="mission__text">Locate and eliminate the target.</dd>
+						<dt class="mission__title">INSTRUCTIONS</dt>
+						<dd class="mission__text">1. Align your cursor to acquire the target.<br/>2. Pull the trigger (click) to neutralize.</dd>
+					</dl>
 					<div class="mission__img"></div>
 				</div>
-				<div class="mission__btn" id="missionBtn">ACCEPT MISSION</div>
+				<button class="mission__btn" id="missionBtn">ACCEPT MISSION</button>
 			</div>
-			<div class="mission__toggle" id="missionToggleBtn">
+			<button class="mission__toggle" id="missionToggleBtn">
 				<div class="mission__toggle_wrap">
 					<div class="mission__toggle_arrow"></div>
 					MISSION BRIEF
 				</div>
-			</div>
+			</button>
 		</div>
-	</div>
+	</article>
 
 	<!-- Mission complete -->
 	<div class="mission_complete" id="missionComplete">MISSION COMPLETE!</div>
@@ -346,6 +350,6 @@
 	</video>
 
 	<script type="module" src="/src/script.js"></script>
-	<script src="/src/poster.js"></script>
+	<!--<script src="/src/poster.js"></script>-->
 </body>
 </html>

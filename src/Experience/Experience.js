@@ -10,14 +10,6 @@ import Scene from '@/Experience/Scene.js'
 import Landing from '@/Experience/Landing.js'
 import Physics from '@/Experience/Physics.js'
 
-function isMobileDevice() {
-  const userAgent = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  const screen = window.innerWidth <= 768;
-
-  return userAgent || (touch && screen);
-}
-
 let instance = null
 
 export default class Experience
@@ -31,7 +23,6 @@ export default class Experience
 		instance = this
 
 		window.experience = this
-		this.isMobile = isMobileDevice()
 
 		// Options
 		this.canvas = _canvas
@@ -47,11 +38,11 @@ export default class Experience
 		this.raycaster = new Raycaster()
 		this.physics = new Physics()
 
-		this.time.on('tick', () =>
+		this.time.on( 'tick', () =>
 		{
 			this.update()
 		})
-		this.sizes.on('resize', () =>
+		this.sizes.on( 'resize', () =>
 		{
 			this.resize()
 		})

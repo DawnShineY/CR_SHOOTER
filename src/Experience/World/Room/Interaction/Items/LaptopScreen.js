@@ -6,7 +6,7 @@ import gsap from 'gsap'
 
 export default class LaptopScreen
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.laptopScreen
@@ -22,7 +22,7 @@ export default class LaptopScreen
 		this.laptopScreenModel = this.resources.items.laptopScreenModel.scene // laptop screen inner model
 
 		this.prevLaptopTextBoxObject = null
-		this.laptopInteractionObjects = setInteractionGroup(this.laptopScreenModel, 'InteractionGroup')
+		this.laptopInteractionObjects = setInteractionGroup( this.laptopScreenModel, 'InteractionGroup' )
 
 		this.setRenderTargetTexture()
 		this.setLaptopModel()
@@ -43,7 +43,7 @@ export default class LaptopScreen
 
 	setPointerEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		this.pointer.on('click', ( obj ) =>
 		{
 			if(obj === 'laptop')
 			{
@@ -57,14 +57,12 @@ export default class LaptopScreen
 						ease: 'power2.inOut'
 					}
 				)
-
-				return
 			}
 		})
 	}
 	resetPointerEvent()
 	{
-		this.pointer.on('reset', (obj) =>
+		this.pointer.on('reset', () =>
 		{
 			this.isActive = false
 			gsap.to(

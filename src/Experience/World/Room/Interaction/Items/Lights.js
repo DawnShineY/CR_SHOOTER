@@ -3,15 +3,10 @@ import Experience from "@/Experience/Experience"
 import gsap from 'gsap'
 
 export default class Lights {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.group = this.interactionObjects.lightsPositionGroup
-		this.experience = new Experience()
-		this.debug = this.experience.debug
-		this.resources = this.experience.resources
-		this.modelGroup = this.experience.scene.modelGroup
-
 		this.candle1Position = this.group.candle1Position.position
 		this.candle2Position = this.group.candle2Position.position
 		this.fireplacePosition = this.group.fireplacePosition.position
@@ -20,41 +15,46 @@ export default class Lights {
 		this.lightPosition = this.group.lightPosition.position
 		this.standPosition = this.group.standPosition.position
 
-		this.themeElement = document.querySelector('[data-theme]')
-		this.switchElement = document.querySelector('#themeToggleBtn')
-		const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
+		this.experience = new Experience()
+		this.debug = this.experience.debug
+		this.resources = this.experience.resources
+		this.modelGroup = this.experience.scene.modelGroup
+
+		this.themeElement = document.querySelector( '[data-theme]' )
+		this.switchElement = document.querySelector( '#themeToggleBtn' )
+		this.isDayMode = this.themeElement.getAttribute( 'data-theme' ) === 'dayMode'
 		this.hideLightsGroup = null
 
 		this.setLights()
 		this.setToggleTheme()
-		this.turnLights( !isDayMode )
+		this.turnLights( !this.isDayMode )
 	}
 	setLights()
 	{
-		this.candleLight1 = new PointLight('#ff7a5c', 3, 0.5, 0)
-		this.candleLight1.position.copy(this.candle1Position)
+		this.candleLight1 = new PointLight( '#ff7a5c', 3, 0.5, 0 )
+		this.candleLight1.position.copy( this.candle1Position )
 
-		this.candleLight2 = new PointLight('#ff7a5c', 3, 0.5, 0)
-		this.candleLight2.position.copy(this.candle2Position)
+		this.candleLight2 = new PointLight( '#ff7a5c', 3, 0.5, 0 )
+		this.candleLight2.position.copy( this.candle2Position )
 
-		this.standLight = new SpotLight('#ffceb0', 70, 1.5, Math.PI * 0.25, 1, 0.01)
-		this.standLight.position.copy(this.standPosition)
-		this.standLight.target.position.copy(this.standPosition)
+		this.standLight = new SpotLight( '#ffceb0', 70, 1.5, Math.PI * 0.25, 1, 0.01 )
+		this.standLight.position.copy( this.standPosition )
+		this.standLight.target.position.copy( this.standPosition )
 		this.standLight.target.position.y -= 3
 		this.standLight.target.position.z += 0.3
 
-		this.standLight2 = new SpotLight('#ffceb0', 100, 5, Math.PI * 0.25, 1, 1)
-		this.standLight2.position.copy(this.lightPosition)
-		this.standLight2.target.position.copy(this.lightPosition)
+		this.standLight2 = new SpotLight( '#ffceb0', 100, 5, Math.PI * 0.25, 1, 1 )
+		this.standLight2.position.copy( this.lightPosition )
+		this.standLight2.target.position.copy( this.lightPosition )
 		this.standLight2.target.position.x -= 1
 		this.standLight2.target.position.y -= 5
 		this.standLight2.target.position.z += 3
 
-		this.lampLight1 = new PointLight('#ffceb0', 5, 2, 1)
-		this.lampLight1.position.copy(this.lamp1Position)
+		this.lampLight1 = new PointLight( '#ffceb0', 5, 2, 1 )
+		this.lampLight1.position.copy( this.lamp1Position )
 
-		this.lampLight2 = new PointLight('#ffceb0', 10, 2, 1)
-		this.lampLight2.position.copy(this.lamp2Position)
+		this.lampLight2 = new PointLight( '#ffceb0', 10, 2, 1 )
+		this.lampLight2.position.copy( this.lamp2Position )
 
 		this.lightsGroup = new Group()
 		this.lightsGroup.add(
@@ -66,26 +66,22 @@ export default class Lights {
 		this.modelGroup.add( this.lightsGroup )
 	}
 	setToggleTheme() {
-		this.switchElement.addEventListener('click', (e) =>
+		this.switchElement.addEventListener('click', () =>
 		{
-			const control = this.experience.camera.controls.target
-			const camera = this.experience.camera.instance.position
-			console.log(camera.x, camera.y, camera.z, control.x, control.y, control.z)
-
-			const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
-			if(isDayMode)
+			this.isDayMode = this.themeElement.getAttribute( 'data-theme' ) === 'dayMode'
+			if(this.isDayMode)
 			{
-				this.themeElement.setAttribute('data-theme', 'nightMode')
+				this.themeElement.setAttribute( 'data-theme', 'nightMode' )
 			}
 			else
 			{
-				this.themeElement.setAttribute('data-theme', 'dayMode')
+				this.themeElement.setAttribute( 'data-theme', 'dayMode' )
 			}
-			this.turnLights(isDayMode)
+			this.turnLights( this.isDayMode )
 		})
 	}
 
-	setLightIntensity(object, intensity)
+	setLightIntensity( object, intensity )
 	{
 		gsap.to(object, {
 			intensity,

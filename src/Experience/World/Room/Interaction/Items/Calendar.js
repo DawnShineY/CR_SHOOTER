@@ -4,7 +4,7 @@ import Interaction from '../Interaction.js'
 
 export default class Calendar
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.experience = new Experience()
 		this.intersectObjects = _interactionObjects
@@ -25,7 +25,7 @@ export default class Calendar
 
 	setPointerEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		this.pointer.on('click', ( obj ) =>
 		{
 			if(obj === 'calendar')
 			{
@@ -71,7 +71,7 @@ export default class Calendar
 	}
 	resetPointerEvent()
 	{
-		this.pointer.on('reset', (obj) =>
+		this.pointer.on('reset', () =>
 		{
 			gsap.to(
 				this.dayMesh.material.map.offset,

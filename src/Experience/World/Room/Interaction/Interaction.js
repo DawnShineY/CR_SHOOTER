@@ -12,8 +12,10 @@ import Poster from './Items/Poster.js'
 import TvScreen from './Items/TvScreen.js'
 import Windbell from './Items/Windbell.js'
 import Lights from './Items/Lights.js'
+import PosterPage from './Items/PosterPage.js'
 
 let instance = null
+
 export default class Interaction
 {
 	constructor()
@@ -27,9 +29,8 @@ export default class Interaction
 		this.resources = this.experience.resources
 		this.roomModel = this.resources.items.roomModel.scene
 		this.pointerInstancedMesh = null
-		//this.roomInteractionObjects = setInteractionGroup(this.roomModel, 'InteractionGroup')
-		this.resources.setInteractionItems(this.roomModel, 'InteractionGroup')
-		this.roomInteractionObjects = this.resources.interactionItems['InteractionGroup']
+		this.resources.setInteractionItems( this.roomModel, 'InteractionGroup' )
+		this.roomInteractionObjects = this.resources.interactionItems[ 'InteractionGroup' ]
 
 		this.activateInteractions()
 	}
@@ -68,6 +69,7 @@ export default class Interaction
 
 		// Poster
 		this.poster = new Poster( this.roomInteractionObjects )
+		this.posterPage = new PosterPage()
 
 		// TvScreen
 		this.tvScreen = new TvScreen( this.roomInteractionObjects )
@@ -80,6 +82,7 @@ export default class Interaction
 	{
 		this.memo.resize()
 		this.poster.resize()
+		this.posterPage.resize()
 		this.locker.resize()
 		this.can.resize()
 	}

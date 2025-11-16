@@ -9,9 +9,9 @@ export default class Environment
 		this.experience = new Experience()
 		this.scene = this.experience.scene.instance
 		this.debug = this.experience.debug
-		this.switchElement = document.querySelector('#themeToggleBtn')
-		this.themeElement = document.querySelector('[data-theme]')
-		const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
+		this.switchElement = document.querySelector( '#themeToggleBtn' )
+		this.themeElement = document.querySelector( '[data-theme]' )
+		this.isDayMode = this.themeElement.getAttribute( 'data-theme' ) === 'dayMode'
 
 		this.modeObject = {
 			bgCurrentColor: '#958a75',
@@ -20,7 +20,7 @@ export default class Environment
 		}
 
 		this.setDefaultLight()
-		this.changeThemeMode(isDayMode)
+		this.changeThemeMode( this.isDayMode )
 		this.setToggleTheme()
 
 		if(this.debug.active) {
@@ -58,37 +58,37 @@ export default class Environment
 	{
 		this.switchElement.addEventListener('click', (e) =>
 		{
-			const isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
-			this.changeThemeMode( !isDayMode )
+			this.isDayMode = this.themeElement.getAttribute('data-theme') === 'dayMode'
+			this.changeThemeMode( !this.isDayMode )
 		})
 	}
 
 	setDayMode()
 	{
-		this.changeSceneBgColor(this.modeObject.bgDayColor)
-		this.changeLightIntensity(this.ambientLight, 2)
-		this.changeLightIntensity(this.directionalLight, 4.5)
+		this.changeSceneBgColor( this.modeObject.bgDayColor )
+		this.changeLightIntensity( this.ambientLight, 2 )
+		this.changeLightIntensity( this.directionalLight, 4.5 )
 	}
 
 	setNightMode()
 	{
-		this.changeSceneBgColor(this.modeObject.bgNightColor)
-		this.changeLightIntensity(this.ambientLight, 1)
-		this.changeLightIntensity(this.directionalLight, 1.5)
+		this.changeSceneBgColor( this.modeObject.bgNightColor )
+		this.changeLightIntensity( this.ambientLight, 1 )
+		this.changeLightIntensity( this.directionalLight, 1.5 )
 	}
 
-	changeSceneBgColor(color)
+	changeSceneBgColor( color )
 	{
 		gsap.to(this.modeObject, {
 			bgCurrentColor: color,
 			duration: 1,
 			ease: 'power2.inOut',
 			onUpdate: () => {
-				this.scene.background.set(this.modeObject.bgCurrentColor)
+				this.scene.background.set( this.modeObject.bgCurrentColor )
 			}
 		})
 	}
-	changeLightIntensity(obj, intensity)
+	changeLightIntensity( obj, intensity )
 	{
 		gsap.to(obj, {
 			intensity,
@@ -99,9 +99,9 @@ export default class Environment
 
 	setDebug()
 	{
-		this.debugFolder = this.debug.ui.addFolder('Environment Light')
+		this.debugFolder = this.debug.ui.addFolder( 'Environment Light' )
 
-		/** Day/Night Mode */
+		/** Day / Night Mode */
 		this.debugObject =
 		{
 			bgColor: this.modeObject.bgDayColor,
@@ -116,15 +116,15 @@ export default class Environment
 			'bgColor'
 		).onChange(value =>
 		{
-			this.scene.background = new Color(value)
+			this.scene.background = new Color( value )
 		})
 
 		/**
 		 * Add Light Parameters
 		 */
-		this.debugFolder.addColor(this.ambientLight, 'color').name('Ambient Light Color')
-		this.debugFolder.add(this.ambientLight, 'intensity').name('Ambient intensity').min(0).max(10).step(0.01)
-		this.debugFolder.addColor(this.directionalLight, 'color').name('directional Light Color')
-		this.debugFolder.add(this.directionalLight, 'intensity').name('directional intensity').min(0).max(10).step(0.01)
+		this.debugFolder.addColor( this.ambientLight, 'color' ).name( 'Ambient Light Color' )
+		this.debugFolder.add( this.ambientLight, 'intensity' ).name( 'Ambient intensity' ).min(0).max(10).step(0.01)
+		this.debugFolder.addColor( this.directionalLight, 'color' ).name( 'directional Light Color' )
+		this.debugFolder.add( this.directionalLight, 'intensity' ).name( 'directional intensity' ).min(0).max(10).step(0.01)
 	}
 }

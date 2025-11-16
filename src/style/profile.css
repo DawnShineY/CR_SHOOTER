@@ -23,7 +23,6 @@
 	transform-style: preserve-3d;
 	transition: 1s;
 }
-
 .profile__back{
 	position: absolute;
 	top: 0;
@@ -36,7 +35,6 @@
 	-webkit-backface-visibility: hidden;
 	pointer-events: auto;
 	cursor: default;
-
 }
 .profile__front{
 	position: absolute;
@@ -51,7 +49,6 @@
 	-webkit-backface-visibility: hidden;
 	z-index: 1; /* key point*/
 }
-
 .profile__front-top{
 	padding-top: 35px;
 }
@@ -296,8 +293,6 @@
 .profile__icon-figma{
 	background-position: -480px 0;
 }
-
-
 .profile__icon_text{
 	margin-top: 12px;
 	font-size: 13px;

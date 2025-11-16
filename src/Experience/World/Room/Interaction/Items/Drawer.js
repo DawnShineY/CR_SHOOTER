@@ -4,7 +4,7 @@ import gsap from 'gsap'
 
 export default class Drawer
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.drawer
@@ -18,14 +18,14 @@ export default class Drawer
 		this.resetPointerEvent()
 
 		if(this.debug.active) {
-			this.debugFolder = this.debug.ui.addFolder('drawer')
+			this.debugFolder = this.debug.ui.addFolder( 'drawer' )
 			this.debugFolder.add(this.model.position, 'x').name('서랍').min(-3.4015002250671387).max(-2.8).step(0.01)
 		}
 	}
 
 	setPointerEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		this.pointer.on('click', ( obj ) =>
 		{
 			if(obj === 'drawer')
 			{
@@ -43,7 +43,7 @@ export default class Drawer
 	}
 	resetPointerEvent()
 	{
-		this.pointer.on('reset', (obj) =>
+		this.pointer.on('reset', () =>
 		{
 			gsap.to(
 				this.model.position,

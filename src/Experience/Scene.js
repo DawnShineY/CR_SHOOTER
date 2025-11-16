@@ -10,6 +10,6 @@ export default class SceneManger
 	setModelGroup()
 	{
 		this.modelGroup = new Group()
-		this.instance.add(this.modelGroup)
+		this.instance.add( this.modelGroup )
 	}
 }

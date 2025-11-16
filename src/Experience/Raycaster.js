@@ -11,9 +11,9 @@ export default class RaycasterManager{
 		this.instance = new Raycaster()
 		this.mouse = new Vector2( -999, -999 )
 		this.canvas = this.experience.canvas
+		this.isMobile = this.sizes.isMobile
 
-		this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-		this.eventType = this.isMobile ? 'click' : 'mousemove'
+		this.eventType = this.isMobile ? 'pointerup' : 'mousemove'
 
 		this.setMouse()
 	}
@@ -23,6 +23,7 @@ export default class RaycasterManager{
 		this.canvas.addEventListener(this.eventType, ( event ) =>
 		{
 			event.preventDefault()
+
 			this.mouse.x = event.clientX / this.sizes.width * 2 - 1
 			this.mouse.y = - ( event.clientY / this.sizes.height ) * 2 + 1
 		}, {

@@ -13,15 +13,17 @@ export default class Poster
 		this.timeDelta = this.experience.time.delta
 
 		this.isPosterPageActive = false
-		this.posterBtnWrapElement = document.querySelector('#posterBtnWrap')
-		this.posterClsBtnElement = document.querySelector('#posterClsBtn')
-		this.posterContainer = document.querySelector('#posterContainer')
-		this.utilityGroup = document.querySelector('#utilityGroup')
-		this.missionELement = document.querySelector('#mission')
+		this.posterBtnWrapElement = document.querySelector( '#posterBtnWrap' )
+		this.posterClsBtnElement = document.querySelector( '#posterClsBtn' )
+		this.posterContainer = document.querySelector( '#posterContainer' )
+		this.utilityGroup = document.querySelector( '#utilityGroup' )
+		this.missionELement = document.querySelector( '#mission' )
+		this.ticketEnvelope = document.getElementById( 'ticketEnvelope' )
+
 		this.posterContainerHeight = this.posterContainer.clientHeight
 		this.posterScrollHeight = this.posterContainerHeight - this.sizes.height
 		this.bodyElement = document.body
-		this.bodyElement.style.height = `${this.posterContainerHeight}px`
+		this.bodyElement.style.height = `${ this.posterContainerHeight }px`
 		this.posterScrollY = 0
 		this.posterCurrentY = 0
 		this.movingTime = 1.5
@@ -38,21 +40,21 @@ export default class Poster
 	}
 	setPointerEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		this.pointer.on( 'click', ( obj ) =>
 		{
 			if(obj === 'poster')
 			{
 				this.posterBtnWrapElement.style.display = 'block'
 				setTimeout(() =>
 				{
-					this.posterBtnWrapElement.classList.add('active')
+					this.posterBtnWrapElement.classList.add( 'active' )
 				}, 0)
 			}
 		})
 	}
 	resetPointerEvent()
 	{
-		this.pointer.on('reset', () =>
+		this.pointer.on( 'reset', () =>
 		{
 			this.hidePosterBtn()
 		})
@@ -63,8 +65,8 @@ export default class Poster
 	 */
 	setPosterBtnClickEvent()
 	{
-		this.posterBtn = document.querySelector('#posterBtn')
-		this.posterBtn.addEventListener('click', () =>
+		this.posterBtn = document.querySelector( '#posterBtn' )
+		this.posterBtn.addEventListener( 'click', () =>
 		{
 			this.camera.controls.enabled = false
 			this.camera.resetControlLimits()
@@ -93,18 +95,18 @@ export default class Poster
 				this.scene.instance.visible = false
 			}, this.movingTime * 1000)
 
-			this.showPosterPage(this.movingTime)
+			this.showPosterPage( this.movingTime )
 		})
 	}
 	setCloseBtnClickEvent()
 	{
-		this.posterClsBtnElement.addEventListener('click', () =>{
+		this.posterClsBtnElement.addEventListener( 'click', () =>{
 			this.hidePosterBtn()
 		})
 	}
 	hidePosterBtn()
 	{
-		this.posterBtnWrapElement.classList.remove('active')
+		this.posterBtnWrapElement.classList.remove( 'active' )
 		setTimeout(() =>
 		{
 			this.posterBtnWrapElement.style.display = 'none'
@@ -116,18 +118,17 @@ export default class Poster
 	 */
 	setPosterScrollEvent()
 	{
-		window.addEventListener('scroll', (e) =>
+		window.addEventListener( 'scroll', (e) =>
 		{
 			this.posterScrollY = window.scrollY
 		}, { passive: false })
 	}
 	showPosterPage()
 	{
-		this.timeDelta = Math.min(this.experience.time.delta, 0.03)
-		this.posterContainer.style.setProperty('--movingTime', `${this.movingTime}s`)
+		this.timeDelta = Math.min( this.experience.time.delta, 0.03 )
+		this.posterContainer.style.setProperty( '--movingTime', `${ this.movingTime }s` )
 		this.posterContainer.style.transform = 'translateY(0)'
 		this.posterContainer.style.opacity = '1'
-		//this.posterContainer.style.backgroundColor = '#dedfd980'
 		this.utilityGroup.style.display = 'none'
 		this.missionELement.style.display = 'none'
 		this.hidePosterBtn()
@@ -135,19 +136,19 @@ export default class Poster
 		{
 			this.bodyElement.style.overflow = 'auto'
 			this.isPosterPageActive = true
-			this.posterContainer.style.setProperty('--movingTime', `0s`)
+			this.posterContainer.style.setProperty( '--movingTime', `0s` )
 		}, this.movingTime * 1000)
 	}
 	setHidePosterPage()
 	{
-		const hideButtonTop = document.querySelector('#posterHomeBtn')
-		hideButtonTop.addEventListener('click', () =>
+		const hideButtonTop = document.querySelector( '#posterHomeBtn' )
+		hideButtonTop.addEventListener( 'click', () =>
 		{
 			this.hidePosterPage()
 		})
 
-		const hideButtonBottom = document.querySelector('#finalPhotoBtn')
-		hideButtonBottom.addEventListener('click', () =>
+		const hideButtonBottom = document.querySelector( '#finalPhotoBtn' )
+		hideButtonBottom.addEventListener( 'click', () =>
 		{
 			this.hidePosterPage()
 		})
@@ -156,15 +157,16 @@ export default class Poster
 	hidePosterPage()
 	{
 		this.isPosterPageActive = false
-		this.posterContainer.style.setProperty('--movingTime', `0.5s`)
+		this.posterContainer.style.setProperty( '--movingTime', `0.5s` )
 		this.posterContainer.style.opacity = '0'
 		this.scene.instance.visible = true
 		this.utilityGroup.style.display = 'flex'
 		this.missionELement.style.display = 'block'
-
-		const ticketEnvelope = document.getElementById('ticketEnvelope')
-		ticketEnvelope.classList.remove('ticket__envelope-open')
-
+		this.bodyElement.style.overflow = 'hidden'
+		this.posterScrollY = 0
+		this.posterCurrentY = 0
+		window.scrollTo({top: 0})
+		this.ticketEnvelope.classList.remove( 'ticket__envelope-open' )
 
 		gsap.to(this.camera.instance.position, {
 			duration: this.movingTime,
@@ -178,10 +180,7 @@ export default class Poster
 			y: 0,
 			z: 0,
 		})
-		this.bodyElement.style.overflow = 'hidden'
-		window.scrollTo({top: 0})
-		this.posterScrollY = 0
-		this.posterCurrentY = 0
+
 		setTimeout(() =>
 		{
 			this.posterContainer.style.transform = `translateY(100vh)`
@@ -191,14 +190,14 @@ export default class Poster
 	}
 	scrollAnimation()
 	{
-		this.posterCurrentY += (this.posterScrollY - this.posterCurrentY) * this.timeDelta * 4
+		this.posterCurrentY += ( this.posterScrollY - this.posterCurrentY ) * this.timeDelta * 4
 		if(this.posterCurrentY < 1) this.posterCurrentY = 0
-		this.posterContainer.style.transform = `translateY(${-this.posterCurrentY}px)`
+		this.posterContainer.style.transform = `translateY(${ -this.posterCurrentY }px)`
 	}
 	resize()
 	{
 		this.posterContainerHeight = this.posterContainer.clientHeight
-		this.bodyElement.style.height = `${this.posterContainerHeight}px`
+		this.bodyElement.style.height = `${ this.posterContainerHeight }px`
 	}
 	update()
 	{

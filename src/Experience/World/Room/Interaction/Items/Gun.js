@@ -5,12 +5,12 @@ import gsap from 'gsap'
 
 export default class Gun
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.gun
 		this.modelShadow = this.interactionObjects.gunShadow
-		this.modelOriginPosition = {...this.model.position}
+		this.modelOriginPosition = { ...this.model.position }
 		this.modelOriginRotation = {
 			x: this.model.rotation.x,
 			y: this.model.rotation.y,

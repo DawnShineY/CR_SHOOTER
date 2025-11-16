@@ -6,7 +6,7 @@ import gsap from 'gsap'
 
 export default class Pointer extends EventEmitter
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		super()
 
@@ -17,7 +17,7 @@ export default class Pointer extends EventEmitter
 		this.camera = this.experience.camera
 		this.raycaster = this.experience.raycaster
 		this.canvas = this.experience.canvas
-		this.isMobile = this.experience.isMobile
+		this.isMobile = this.experience.sizes.isMobile
 
 		this.prevInstancedId = null
 		this.prevMouseIn = false
@@ -59,19 +59,19 @@ export default class Pointer extends EventEmitter
 				this.resetPointer()
 			}
 
-			this.setPointer(instancedId)
+			this.setPointer( instancedId )
 			this.canvas.style.cursor = 'pointer'
 		}
 		else
 		{
-			if( this.prevInstancedId == null ) return
+			if(this.prevInstancedId == null) return
 
 			this.resetPointer()
 			this.canvas.style.cursor = 'default'
 		}
 	}
 
-	setPointer = (instancedId) => {
+	setPointer = ( instancedId ) => {
 		// Color
 		this.instancedMesh.setColorAt( instancedId, this.activeColor )
 		this.instancedMesh.instanceColor.needsUpdate = true
@@ -92,7 +92,7 @@ export default class Pointer extends EventEmitter
 			}
 			else
 			{
-				this.canvas.addEventListener( 'click', this.clickEvent, { passive: false } )
+				this.canvas.addEventListener( 'click', this.clickEvent, { once: true } )
 			}
 		}
 
@@ -111,10 +111,6 @@ export default class Pointer extends EventEmitter
 			this.matrix.multiply( this.scaleDownMatrix )
 			this.instancedMesh.setMatrixAt( this.prevInstancedId, this.matrix )
 			this.instancedMesh.instanceMatrix.needsUpdate = true
-
-			// Remove click event
-			if (!this.isMobile)
-			this.canvas.removeEventListener( 'click', this.clickEvent, { passive: false } )
 		}
 
 		this.prevMouseIn = false
@@ -123,7 +119,7 @@ export default class Pointer extends EventEmitter
 
 	focusCamera = ( index ) =>
 	{
-		return (event) =>
+		return ( event ) =>
 		{
 			if(event){
 				event.preventDefault()
@@ -131,22 +127,20 @@ export default class Pointer extends EventEmitter
 			const pointerName = pointerIndex[ index ].name
 			const cameraPosition = pointerIndex[ index ].cameraPosition
 			const controlTarget = pointerIndex[ index ].controlTarget
-			//this.camera.instance.position.set( ...pointerIndex[ index ].cameraPosition )
-			//this.camera.controls.target.set( ...pointerIndex[ index ].controlTarget )
-			this.moveCameraToTarget(cameraPosition, controlTarget)
 
-			this.trigger('click', [pointerName])
+			this.moveCameraToTarget( cameraPosition, controlTarget )
+			this.trigger('click', [ pointerName ])
 		}
 	}
 
-	moveCameraToTarget([camPosX, camPosY, camPosZ], [conTarX, conTarY, conTarZ], duration=1) {
-		gsap.to(this.camera.instance.position, {
+	moveCameraToTarget( [ camPosX, camPosY, camPosZ ], [ conTarX, conTarY, conTarZ ], duration = 1 ) {
+		gsap.to( this.camera.instance.position, {
 				duration,
 				x: camPosX,
 				y: camPosY,
 				z: camPosZ,
 		})
-		gsap.to(this.camera.controls.target, {
+		gsap.to( this.camera.controls.target, {
 			duration,
 			x: conTarX,
 			y: conTarY,
@@ -155,9 +149,10 @@ export default class Pointer extends EventEmitter
 	}
 
 	setResetCamera() {
-		const resetBtn = document.querySelector('#cameraResetBtn')
-		resetBtn.addEventListener('click', () => {
-			this.moveCameraToTarget([38, 13, 35], [0, 0, 0])
+		const resetBtn = document.querySelector( '#cameraResetBtn' )
+
+		resetBtn.addEventListener( 'click', () => {
+			this.moveCameraToTarget([ 38, 13, 35 ], [ 0, 0, 0 ])
 			this.trigger('reset')
 		})
 	}

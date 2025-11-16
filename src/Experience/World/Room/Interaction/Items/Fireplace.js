@@ -5,7 +5,7 @@ import gsap from 'gsap'
 
 export default class Fireplace
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.group = this.interactionObjects.lightsPositionGroup
@@ -33,7 +33,7 @@ export default class Fireplace
 
 	setPointerEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		this.pointer.on('click', ( obj ) =>
 		{
 			if(obj === 'fireplace')
 			{
@@ -87,8 +87,8 @@ export default class Fireplace
 
 	setFire()
 	{
-		this.fireplaceLight = new PointLight('#c21e1e', 0, 1, 1)
-		this.fireplaceLight.position.copy(this.fireplacePosition)
+		this.fireplaceLight = new PointLight( '#c21e1e', 0, 1, 1 )
+		this.fireplaceLight.position.copy( this.fireplacePosition )
 		this.fireplaceLight.visible = false
 		this.modelGroup.add( this.fireplaceLight )
 	}
@@ -99,15 +99,15 @@ export default class Fireplace
 		this.perlinTexture.wrapS = RepeatWrapping
 		this.perlinTexture.wrapT = RepeatWrapping
 
-		const smokeGeometry = new PlaneGeometry(0.7, 2.1, 16, 48)
-		smokeGeometry.translate(0, 1.05, 0)
+		const smokeGeometry = new PlaneGeometry( 0.7, 2.1, 16, 48 )
+		smokeGeometry.translate( 0, 1.05, 0 )
 		this.smokeMaterial = new ShaderMaterial({
 			transparent: true,
 			depthWrite: false,
 			side: DoubleSide,
 			uniforms: {
 				uTime: new Uniform(0),
-				uPerlinTexture: new Uniform(this.perlinTexture),
+				uPerlinTexture: new Uniform( this.perlinTexture ),
 				uOpacity: new Uniform(0)
 			},
 			vertexShader: `
@@ -179,8 +179,8 @@ export default class Fireplace
 		})
 
 		this.smokeMesh = new Mesh( smokeGeometry, this.smokeMaterial )
-		this.smokeMesh.position.set(-0.175086, 7.70239, -4.29974)
-		this.modelGroup.add(this.smokeMesh)
+		this.smokeMesh.position.set( -0.175086, 7.70239, -4.29974 )
+		this.modelGroup.add( this.smokeMesh )
 		this.smokeMesh.visible = false
 	}
 
@@ -188,5 +188,4 @@ export default class Fireplace
 	{
 		this.smokeMaterial.uniforms.uTime.value = this.time.elapsed
 	}
-
 }

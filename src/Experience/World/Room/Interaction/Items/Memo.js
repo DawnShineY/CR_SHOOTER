@@ -6,7 +6,7 @@ import Interaction from '../Interaction.js'
 
 export default class Memo
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.interactionObjects = _interactionObjects
 		this.model = this.interactionObjects.memo
@@ -14,6 +14,7 @@ export default class Memo
 		this.experience = new Experience()
 		this.renderer = this.experience.renderer
 		this.sizes = this.experience.sizes
+		this.isMobile = this.sizes.isMobile
 		this.camera = this.experience.camera
 		this.canvas = this.experience.canvas
 		this.raycaster = this.experience.raycaster
@@ -34,9 +35,8 @@ export default class Memo
 		 * 이력서
 		 */
 		this.setProfileCSS()
-		//this.addAvatarEvent()
-		this.css3dRenderingEvent = this.setOpenProfileMemo.bind(this)
-		this.mouseMoveEvent = this.setMouseMoveEvent.bind(this)
+		this.css3dRenderingEvent = this.setOpenProfileMemo.bind( this )
+		this.mouseMoveEvent = this.setMouseMoveEvent.bind( this )
 	}
 
 	/**
@@ -51,18 +51,22 @@ export default class Memo
 			{
 				y: 0.15,
 				duration: 1,
-				//ease: 'power2.inOut',
 				repeat: -1,
 				yoyo: true,
 				yoyoEase: 'power2.inOut'
 			}
 		).pause()
 
-		this.pointer.on('click', (obj) =>
+		this.pointer.on('click', ( obj ) =>
 		{
 			if(obj === 'drawer')
 			{
 				this.isDrawerOpened = true
+				if(this.isMobile)
+				{
+					this.raycaster.mouse.x = -999
+					this.raycaster.mouse.y = -999
+				}
 				this.modelRotationTimeLine.play()
 			}
 		})
@@ -70,7 +74,6 @@ export default class Memo
 		this.pointer.on('reset', ()=>{
 			this.isDrawerOpened = false
 			this.modelRotationTimeLine.pause()
-
 		})
 	}
 
@@ -82,8 +85,15 @@ export default class Memo
 		{
 			if(!this.prevMouseIn)
 			{
-				this.canvas.addEventListener( 'click', this.css3dRenderingEvent )
-				this.canvas.style.cursor = 'pointer'
+				if(this.isMobile)
+				{
+					this.css3dRenderingEvent()
+				}
+				else
+				{
+					this.canvas.addEventListener( 'click', this.css3dRenderingEvent )
+					this.canvas.style.cursor = 'pointer'
+				}
 			}
 			this.prevMouseIn = true
 		}
@@ -104,14 +114,14 @@ export default class Memo
 	 */
 	addAvatarEvent()
 	{
-		const avatarFrameElement = document.querySelector('.profile__avatar_frame')
-		const avatarWrapElement = document.querySelector('.profile__avatar_wrap')
-		const avatarElement = document.querySelector('.profile__avatar')
+		const avatarFrameElement = document.querySelector( '.profile__avatar_frame' )
+		const avatarWrapElement = document.querySelector( '.profile__avatar_wrap' )
+		const avatarElement = document.querySelector( '.profile__avatar' )
 
 		const avatarWrapWidth = avatarWrapElement.clientWidth
 		const avatarWrapHeight = avatarWrapElement.clientHeight
 
-		avatarWrapElement.addEventListener('mousemove', (e) => {
+		avatarWrapElement.addEventListener( 'mousemove', ( e ) => {
 			const avatarWrapRect = avatarWrapElement.getBoundingClientRect()
 			const cursorX = e.clientX - avatarWrapRect.left
 			const cursorY = e.clientY - avatarWrapRect.top
@@ -121,8 +131,7 @@ export default class Memo
 
 			//console.log(moveX, moveY)
 
-			avatarElement.style.transform = `translate(${-moveX}px, ${-moveY}px) scale(2)`
-
+			avatarElement.style.transform = `translate(${ -moveX }px, ${ -moveY} px) scale(2)`
 		})
 		avatarWrapElement.addEventListener('mouseout', () => {
 			avatarElement.style.transition = 'transform 0.3s'
@@ -133,14 +142,14 @@ export default class Memo
 	setCSS3DRenderer()
 	{
 		this.cssRenderer = new CSS3DRenderer()
-		this.cssRenderer.setSize(this.sizes.width, this.sizes.height)
+		this.cssRenderer.setSize( this.sizes.width, this.sizes.height )
 		this.cssCanvas = this.cssRenderer.domElement
 		this.cssCanvas.style.position = 'fixed'
 		this.cssCanvas.style.top = 0
 		this.cssCanvas.style.zIndex = 1
 		this.cssCanvas.style.opacity = 0
 		this.cssCanvas.style.pointerEvents = 'none'
-		document.body.appendChild(this.cssCanvas)
+		document.body.appendChild( this.cssCanvas )
 	}
 
 	setProfileCSS()
@@ -155,17 +164,17 @@ export default class Memo
 		this.cssScene.quaternion.multiplyQuaternions(qy, qx);
 
 		const scaleParameter = 0.003
-		this.cssScene.scale.set(scaleParameter, scaleParameter, scaleParameter)
+		this.cssScene.scale.set( scaleParameter, scaleParameter, scaleParameter )
 
 		this.profileGroup = new Group()
-		this.cssScene.add(this.profileGroup)
+		this.cssScene.add( this.profileGroup )
 
 		this.topGroup = new Group()
 		this.bottomGroup = new Group()
-		this.profileGroup.add(this.topGroup, this.bottomGroup)
+		this.profileGroup.add( this.topGroup, this.bottomGroup )
 
-		const profileTop = document.getElementById('profile_top')
-		const profileBottom = document.getElementById('profile_bottom')
+		const profileTop = document.getElementById( 'profile_top' )
+		const profileBottom = document.getElementById( 'profile_bottom' )
 
 		this.profileTopObject = new CSS3DObject( profileTop )
 		this.profileTopObject.position.y = 250
@@ -203,8 +212,8 @@ export default class Memo
 
 	setCloseProfileMemo()
 	{
-		const clsBtnElement = document.querySelector('#profileClsBtn')
-		clsBtnElement.addEventListener('click', () =>
+		const clsBtnElement = document.querySelector( '#profileClsBtn' )
+		clsBtnElement.addEventListener( 'click', () =>
 		{
 			this.camera.controls.enabled = true
 			this.cssCanvas.style.pointerEvents = 'none'
@@ -226,7 +235,7 @@ export default class Memo
 
 	profileMemoOpenAni()
 	{
-		gsap.to(this.camera.instance.position,
+		gsap.to( this.camera.instance.position,
 			{
 				x: 17.94746799558896,
 				y: 19.53944692395215,
@@ -236,7 +245,7 @@ export default class Memo
 				ease: 'power2.inOut'
 			}
 		)
-		gsap.to(this.camera.controls.target,
+		gsap.to( this.camera.controls.target,
 			{
 				x: -0.36585217079070365,
 				y: 0.6930266926821083,
@@ -254,7 +263,6 @@ export default class Memo
 				{
 					x: Math.PI * 0.1,
 					duration: 1,
-					//delay: 1,
 					ease: 'power2.inOut'
 				}
 			)
@@ -263,7 +271,6 @@ export default class Memo
 				{
 					y: 1,
 					duration: 1,
-					//delay: 1,
 					ease: 'power2.inOut'
 				}
 			)
@@ -275,7 +282,6 @@ export default class Memo
 					y: scaleParameter,
 					z: scaleParameter,
 					duration: 1,
-					//delay: 1,
 					ease: 'power2.inOut'
 				}
 			)

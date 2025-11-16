@@ -1,7 +1,9 @@
-:root{
-	--rotateFactor: 135deg;
-	--scaleFactor: 0.7;
+@property --deg {
+  syntax: '<angle>';     /* <angle>, <number>, <length> 등 가능 */
+  inherits: false;
+  initial-value: 135deg;
 }
+
 .poster{
 	--movingTime: 0s;
 	position: fixed;
@@ -40,6 +42,8 @@
 	opacity: 1;
 }
 .ticket{
+	--rotateFactor: 135deg;
+	--scaleFactor: 0.7;
 	position: relative;
 	width: 100%;
 	min-height: calc(100vh + 60px);
@@ -49,19 +53,6 @@
 	justify-content: center;
 	background-image: linear-gradient(to bottom, transparent, #DEDFD9 50vh);
 }
-/*.ticket__back_btn{
-	position: absolute;
-	top: 50px;
-	left: 50%;
-	transform: translateX(-50%);
-	font-size: 16px;
-	color: #ffffff36;
-	cursor: pointer;
-	transition: color 0.3s;
-}
-.ticket__back_btn:hover{
-	color: #ffffff86;
-}*/
 .ticket__inspired{
 	width: 600px;
 	height: auto;
@@ -71,7 +62,6 @@
 [data-theme="nightMode"] .ticket__inspired{
 	filter: brightness(0.8);
 }
-
 .ticket__envelope{
 	position: relative;
 	width: 956px;
@@ -81,7 +71,6 @@
 	transform-style: preserve-3d;
 	perspective: 9999px;
 }
-
 .ticket__envelope-open .ticket__envelope_top_wrap{
 	transition-delay: 0s;
 	transform: rotateX(var(--rotateFactor));
@@ -95,16 +84,10 @@
 	transform-origin: top;
 	transition-delay: 0.3s;
 }
-@property --deg {
-  syntax: '<angle>';     /* <angle>, <number>, <length> 등 가능 */
-  inherits: false;
-  initial-value: 135deg;
-}
 .ticket__envelope-open .ticket__envelope_top{
 	--deg: 0deg;
 	transition-delay: 0.3s;
 }
-
 .ticket__envelope_top{
 	width: 100%;
 	height: 300px;
@@ -148,50 +131,7 @@
 	transition: transform 0.7s ease-in, --deg 1s;
 	transform-origin: bottom;
 }
-@keyframes stickerRotation {
-	0%{
-		transform: translateY(var(--transY)) rotateZ(0deg);
-	}
-	100%{
-		transform: translateY(var(--transY)) rotateZ(6deg);
-	}
-}
-@keyframes scale-easeOutElastic {
-	0% {
-		transform: translateX(-50%) scale(calc(0.65));
-	}
-	100% {
-		transform: translateX(-50%) scale(calc(1 * var(--scaleFactor)));
-	}
-}
-
-@keyframes test {
-	0%{
-		transform: translateX(0);
-	}
-	100%{
-		transform: translateX(100px);
-	}
-}
-.anitest{
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	width: 300px;
-	aspect-ratio: 1;
-	background-color: red;
-	z-index: 100;
-	transition: transform 1s ease-in;
-}
-
-.anitest.add{
-	animation: test 1s ease-in forwards;
-}
-
 .ticket__envelope-open .ticket__paper{
-	/*transform: translateX(-50%) scale(1);*/
-	/*transition: transform 0.65s 7s cubic-bezier(.36,0,.66,-0.56);*/
 	animation: scale-easeOutElastic 1.2s 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 	will-change: transform;
 }
@@ -369,12 +309,10 @@
 .ticket__close:hover{
 	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' viewBox='0 0 24 24'%3e%3cg fill='%23a3a59f'%3e%3cpath d='M12 24C5.4 24 0 18.6 0 12S5.4 0 12 0s12 5.4 12 12-5.4 12-12 12m0-22C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2'/%3e%3cpath d='m13.4 12 4.5-4.5c.4-.4.4-1 0-1.4s-1-.4-1.4 0L12 10.6 7.5 6.1c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4.5 4.5-4.5 4.5c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l4.5-4.5 4.5 4.5c.2.2.5.3.7.3s.5-.1.7-.3c.4-.4.4-1 0-1.4z'/%3e%3c/g%3e%3c/svg%3e");
 }
-
 .board{
 	padding-bottom: 96px;
 	background: linear-gradient(to right, #B9BBB2 1px, transparent 1px) repeat, linear-gradient(to bottom, #B9BBB2 1px, transparent 1px) repeat, #9FA291;
 	background-size: 30px 100%, 100% 30px;
-
 }
 .board__title_wrap{
 	position: relative;
@@ -447,21 +385,6 @@
 	height: 10px;
 	border-radius: 50%;
 	background-color: #ee9c04;
-}
-@keyframes dotAni {
-	0%{
-		transform: scale(0);
-	}
-	45% {
-		transform: scale(0.7);
-	}
-	66% {
-		transform: scale(0.6);
-	}
-	100%{
-		transform: scale(1);
-		opacity: 0;
-	}
 }
 .board__reference_img{
 	display: block;
@@ -630,21 +553,6 @@
 .final__photo:hover .final__photo_btn{
 	background-size: 100% 100%;
 }
-
-@keyframes fading {
-	0%{
-		opacity: 0;
-	}
-	30%{
-		opacity: 0.9;
-	}
-	70%{
-		opacity: 0.9;
-	}
-	100%{
-		opacity: 0;
-	}
-}
 .final__assets{
 	--bgSize: 300px;
 	position: absolute;
@@ -662,7 +570,6 @@
 .final__assets-fadein{
 	animation: fading 1s ease-in-out forwards;
 }
-
 .footer{
 	height: 280px;
 	background: #1F201B url("/images/poster/img_gun_silhouette.png") left -20px bottom -40px no-repeat;

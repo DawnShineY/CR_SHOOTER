@@ -5,7 +5,7 @@ import gsap from 'gsap'
 
 export default class TvScreen
 {
-	constructor(_interactionObjects)
+	constructor( _interactionObjects )
 	{
 		this.experience = new Experience()
 		this.interactionObjects = _interactionObjects
@@ -22,11 +22,11 @@ export default class TvScreen
 
 	setPointerEvent()
 	{
-		this.pointer.on('click', (obj) =>
+		this.pointer.on( 'click', ( obj ) =>
 		{
 			if(obj === 'tv')
 			{
-				this.model.material.color.set('#E1E1E1')
+				this.model.material.color.set( '#E1E1E1' )
 				this.model.material.map = this.videoTexture
 				this.model.material.needsUpdate = true
 				this.videoElement.play()
@@ -46,7 +46,7 @@ export default class TvScreen
 	{
 		this.pointer.on('reset', () =>
 		{
-			this.model.material.color.set('#202020')
+			this.model.material.color.set( '#202020' )
 			this.model.material.map = null
 			this.model.material.needsUpdate = true
 			this.videoElement.pause()
@@ -56,7 +56,7 @@ export default class TvScreen
 
 	setVideoElement()
 	{
-		this.videoElement = document.getElementById('video')
+		this.videoElement = document.getElementById( 'video' )
 	}
 
 	setVideoTexture()
@@ -73,7 +73,6 @@ export default class TvScreen
 		this.model.material = new MeshPhongMaterial(
 			{
 				color: '#202020',
-				//map: this.videoTexture,
 				shininess: 100,
 				specular: '#505050',
 				emissive: '#171717'

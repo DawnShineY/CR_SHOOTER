@@ -1,8 +1,4 @@
 @media only screen and (max-width: 768px) {
-	:root{
-		--rotateFactor: 135deg;
-		--scaleFactor: 0.9
-	}
 	.poster__home{
 		top: 12px;
 	}
@@ -11,6 +7,8 @@
 		height: 38px;
 	}
 	.ticket{
+		--rotateFactor: 135deg;
+		--scaleFactor: 0.9
 		height: calc(100vh);
 		min-height: auto;
 		overflow-x: hidden;
@@ -209,17 +207,14 @@
 	.board__polaroid_img:nth-child(13){
 		z-index: 1;
 	}
-	.final{
-		padding-top: 64px;
-	}
-
 	.board__arrow{
 		width: 60px;
 		height: 135px;
 		transform: translate(-50%, -20px);
 	}
-
-
+	.final{
+		padding-top: 64px;
+	}
 	.final__photo_img{
 		width: 300px;
 	}
