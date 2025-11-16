@@ -49,6 +49,8 @@ export default class Pointer extends EventEmitter
 	{
 		const intersection = this.raycaster.instance.intersectObject( this.instancedMesh )
 
+		//console.log(intersection.length)
+
 		if(intersection.length > 0)
 		{
 			const instancedId = intersection[ 0 ].instanceId
@@ -66,6 +68,7 @@ export default class Pointer extends EventEmitter
 		{
 			if(this.prevInstancedId == null) return
 
+			this.canvas.removeEventListener( 'click', this.clickEvent, { once: true } )
 			this.resetPointer()
 			this.canvas.style.cursor = 'default'
 		}
