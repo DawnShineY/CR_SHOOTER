@@ -68,6 +68,11 @@
 	height: 23px;
 	background: linear-gradient(to bottom, #d87c5bcb, transparent);
 	clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
+	transition: opacity 0.3s;
+}
+[data-theme="nightMode"] .utility__theme_btn::before{
+	opacity: 0;
+	pointer-events: none;
 }
 
 /* Poster Button */
@@ -241,6 +246,9 @@
 	transform: translate(-6px, -93px) rotate(90deg);
 	transform-origin: top right;
 	letter-spacing: 1.5px;
+}
+.mission__toggle_wrap::after{
+	content: "MISSION BRIEF";
 }
 .mission__toggle_btn{
 	display: flex;

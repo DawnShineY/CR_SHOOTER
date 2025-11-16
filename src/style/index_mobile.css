@@ -23,8 +23,12 @@
 
 	/* Mission */
 	.mission{
+		--bgColor: #AC451F;
 		top: 8px;
 		left: 0;
+	}
+	[data-theme="nightMode"] .mission{
+		--bgColor: #753118
 	}
 	.mission-closed{
 		transform: translateX(calc(-100% + 34px));
@@ -38,7 +42,7 @@
 	}
 	.mission__box{
 		padding: 8px;
-		border: 1px solid var(--mainColor);
+		border: 1px solid #c7c2bca6;
 	}
 	.mission__outer_box{
 		width: min-content;
@@ -48,7 +52,7 @@
 		transition: background-color 1s;
 	}
 	.mission-closed .mission__outer_box{
-		background-color: #AC451F;
+		/*background-color: var(--bgColor);*/
 	}
 	.mission__title{
 		font-size: 14px;
@@ -65,17 +69,19 @@
 		font-size: 18px;
 	}
 	.mission-closed .mission__toggle{
-		background-color: #AC451F;
+		background-color: var(--bgColor);
+		opacity: 0.7;
 	}
 	.mission__toggle{
 		width: 34px;
-		height: 166px;
+		height: 150px;
+		border-bottom-right-radius: 17px;
 		background-color: #2e2a24d2;
 		transition: background-color 1s;
 	}
 	.mission__toggle_wrap{
-		font-size: 15px;
-		transform: translate(-6px, -13px) rotate(90deg);
+		font-size: 13px;
+		transform: translate(-9px, -13px) rotate(90deg);
 	}
 	.mission_complete{
 		font-size: 24px;
