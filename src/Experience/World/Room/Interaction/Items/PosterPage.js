@@ -7,7 +7,7 @@ export default class PosterPage
 	{
 		this.experience = new Experience()
 		this.sizes = this.experience.sizes
-		this.isMobile = this.sizes.isMobile
+		this.isMobile = this.sizes.isMobile || this.sizes.width <= 768
 
 		this.setTicketEnvelope()
 		this.setBoard()
@@ -129,7 +129,6 @@ export default class PosterPage
 	{
 		let slideDirection = -1
 		let zIndex = 1
-		let isWaiting = false
 		let prevTarget = null
 
 		boardPolaroidWrap.addEventListener( 'click', (e) => {
@@ -146,10 +145,10 @@ export default class PosterPage
 
 				prevTarget = target
 
-				e.target.addEventListener( 'transitionend', (e) => {
-					if ( e.propertyName !== 'transform' ) return
+				e.target.addEventListener( 'transitionend', (e) =>
+				{
+					if ( e.propertyName !== 'transform' || !this.isMobile ) return
 
-					isWaiting = false
 					zIndex -= 1
 					e.target.style.zIndex = zIndex
 					e.target.style.transition = 'opacity 1s'
@@ -260,9 +259,22 @@ export default class PosterPage
 			finalAssets.classList.remove('final__assets-fadein')
 		})
 	}
+	removePolaroidStyle()
+	{
+		const polaroidImageElements = document.querySelectorAll('.board__polaroid_img')
+		polaroidImageElements.forEach((el) =>
+		{
+			el.removeAttribute('style')
+		})
+	}
 
 	resize()
 	{
-		this.isMobile = this.sizes.isMobile
+		this.isMobile = this.sizes.isMobile || this.sizes.width <= 768
+		if( this.sizes.width > 768 )
+		{
+			this.removePolaroidStyle()
+		}
+
 	}
 }
