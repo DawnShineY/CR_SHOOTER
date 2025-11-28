@@ -151,8 +151,9 @@ export default class Pointer extends EventEmitter
 
 	setResetCamera() {
 		const resetBtn = document.querySelector( '#cameraResetBtn' )
-
 		resetBtn.addEventListener( 'click', () => {
+			console.log(this.camera.instance.position)
+			console.log(this.camera.controls.target)
 			this.moveCameraToTarget([ 38, 13, 35 ], [ 0, 0, 0 ])
 			this.trigger('reset')
 		})

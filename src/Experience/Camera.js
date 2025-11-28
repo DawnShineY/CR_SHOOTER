@@ -55,7 +55,7 @@ export default class Camera
 	}
 	setPanLimit()
 	{
-		const xRange = 3
+		const xRange = 4
 		const yRange = 5
 		const zRange = 2
 		const t = this.controls.target;
